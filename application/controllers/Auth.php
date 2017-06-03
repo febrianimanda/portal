@@ -50,10 +50,11 @@ class Auth extends CI_Controller {
 	}
 
 	public function do_login() {
-		$this->form_validation->set_rules('email', 'Email', 'trim|xss_clean');
-		$this->form_validation->set_rules('password', 'Password', 'trim|xss_clean');
+		$this->form_validation->set_rules('email', 'Email', 'trim|required');
+		$this->form_validation->set_rules('password', 'Password', 'trim|required');
 
 		if( $this->form_validation->run() == false) {
+			echo isset($this->session->userdata['logged_in']);
 			if(isset($this->session->userdata['logged_in'])) {
 				# redirect success page
 				redirect(base_url('dashboard'));
@@ -61,15 +62,37 @@ class Auth extends CI_Controller {
 			# back to login
 			redirect('auth/', 'refresh');
 		}
-
+		
 		$data = array(
 			'email'			=> $this->input->post('email'),
-			'password'	=> $this->input->post('password')
+			'password'	=> MD5($this->input->post('password'))
 		);
+		$success = $this->auth_model->login_validation($data);
+		
+		if($success) {
+			$user = $this->auth_model->read_user_information($data['email']);
+			$session_data = array(
+				'email'	=> $user[0]->email,
+				'role'	=> $user[0]->role
+			);
+			$this->session->set_userdata('logged_in', $session_data);
+			if($user[0]->role < 3) { 
+				redirect('/dashboard');
+			} else if ($user[0]-> role == 3) {
+				#redirect peserta
+			} else {
+				#something is wrong in here
+				redirect('/auth');
+			}
+		} else {
+			# error login
+			redirect('/auth');
+		}
 	}
 
 	public function logout() {
-		$sess_array = array('email'=>'');
-		$this->session->unset_userdata('logged_in', $sess_arrays);
+		$this->session->unset_userdata('logged_in');
+		$this->session->sess_destroy();
+		redirect('/auth', 'refresh');
 	}
 }

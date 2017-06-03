@@ -3,7 +3,7 @@
 		<div class="col-md-12" style="padding-top: 10%;">
 			<h1 class="text-center">Selamat Datang!</h1>
 			<div class="well col-md-3 col-centered">
-				<form action="<?= base_url('auth/do_login') ?>">
+				<form action="<?= base_url('auth/do_login') ?>" method="post">
 					<div class="form-group">
 						<label for="">Email</label>
 						<input name="email" type="email" required placeholder="Email Anda" class="form-control">
