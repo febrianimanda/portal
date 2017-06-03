@@ -76,10 +76,11 @@ class Auth extends CI_Controller {
 				'role'	=> $user[0]->role
 			);
 			$this->session->set_userdata('logged_in', $session_data);
-			if($user[0]->role < 3) { 
-				redirect('/dashboard');
-			} else if ($user[0]-> role == 3) {
+			if($user[0]->role == 0 ) { 
 				#redirect peserta
+			} else if ($user[0]-> role >= 1 && $user[0]-> role <= 3) {
+				#redirect admin
+				redirect('/dashboard');
 			} else {
 				#something is wrong in here
 				redirect('/auth');
