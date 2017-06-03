@@ -21,7 +21,8 @@ class Migration_Add_user extends CI_Migration {
 			),
 			'role' => array(
 				'type'				=> 'int',
-				'constraint'	=> 1
+				'constraint'	=> 1,
+				'default'			=> 3
 			),
 			'date_created' => array(
 				'type'		=> 'timestamp',
