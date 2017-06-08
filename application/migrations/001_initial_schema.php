@@ -25,12 +25,14 @@ class Migration_Initial_schema extends CI_Migration {
 				'constraint'	=> 1,
 				'default'			=> 3
 			),
-			'date_created' => array(
-				'type'		=> 'timestamp',
-			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'NOW()'
+				'on update'	=> 'current_timestamp',
+				'default'		=> 0
+			),
+			'date_created' => array(
+				'type'					=> 'timestamp',
+				'default'				=> 'current_timestamp'
 			),
 			'is_deleted' => array(
 				'type'				=> 'int',
@@ -57,12 +59,14 @@ class Migration_Initial_schema extends CI_Migration {
 				'type'				=> 'int',
 				'constraint'	=> 4,
 			),
-			'date_created' => array(
-				'type'	=> 'timestamp',
-			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'NOW()'
+				'on update'	=> 'current_timestamp',
+				'default'		=> 0
+			),
+			'date_created' => array(
+				'type'					=> 'timestamp',
+				'default'				=> 'current_timestamp'
 			),
 			'is_deleted' => array(
 				'type'				=> 'int',
@@ -93,12 +97,14 @@ class Migration_Initial_schema extends CI_Migration {
 				'type'				=> 'int',
 				'constraint'	=> 5,
 			),
-			'date_created' => array(
-				'type'	=> 'timestamp',
-			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'NOW()'
+				'on update'	=> 'current_timestamp',
+				'default'		=> 0
+			),
+			'date_created' => array(
+				'type'					=> 'timestamp',
+				'default'				=> 'current_timestamp'
 			),
 			'is_deleted' => array(
 				'type'				=> 'int',
@@ -125,12 +131,14 @@ class Migration_Initial_schema extends CI_Migration {
 				'type'				=> 'int',
 				'constraint'	=> 4,
 			),
-			'date_created' => array(
-				'type'		=> 'timestamp',
-			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'NOW()'
+				'on update'	=> 'current_timestamp',
+				'default'		=> 0
+			),
+			'date_created' => array(
+				'type'					=> 'timestamp',
+				'default'				=> 'current_timestamp'
 			),
 			'is_deleted' => array(
 				'type'				=> 'int',
@@ -157,12 +165,14 @@ class Migration_Initial_schema extends CI_Migration {
 				'type'				=> 'int',
 				'constraint'	=> 4,
 			),
-			'date_created' => array(
-				'type'		=> 'timestamp',
-			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'NOW()'
+				'on update'	=> 'current_timestamp',
+				'default'		=> 0
+			),
+			'date_created' => array(
+				'type'					=> 'timestamp',
+				'default'				=> 'current_timestamp'
 			),
 			'is_deleted' => array(
 				'type'				=> 'int',
@@ -195,12 +205,14 @@ class Migration_Initial_schema extends CI_Migration {
 				'type'				=> 'int',
 				'constraint'	=> 4,
 			),
-			'date_created' => array(
-				'type'		=> 'timestamp',
-			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'NOW()'
+				'on update'	=> 'current_timestamp',
+				'default'		=> 0
+			),
+			'date_created' => array(
+				'type'					=> 'timestamp',
+				'default'				=> 'current_timestamp'
 			),
 			'is_deleted' => array(
 				'type'				=> 'int',
@@ -228,12 +240,14 @@ class Migration_Initial_schema extends CI_Migration {
 				'type'				=> 'int',
 				'constraint'	=> 4,
 			),
-			'date_created' => array(
-				'type'		=> 'timestamp',
-			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'NOW()'
+				'on update'	=> 'current_timestamp',
+				'default'		=> 0
+			),
+			'date_created' => array(
+				'type'					=> 'timestamp',
+				'default'				=> 'current_timestamp'
 			),
 			'is_deleted' => array(
 				'type'				=> 'int',
@@ -343,12 +357,14 @@ class Migration_Initial_schema extends CI_Migration {
 				'type'				=> 'varchar',
 				'constraint'	=> 20
 			),
-			'date_created' => array(
-				'type'		=> 'timestamp',
-			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'NOW()'
+				'on update'	=> 'current_timestamp',
+				'default'		=> 0
+			),
+			'date_created' => array(
+				'type'					=> 'timestamp',
+				'default'				=> 'current_timestamp'
 			),
 			'is_deleted' => array(
 				'type'				=> 'int',
@@ -402,12 +418,14 @@ class Migration_Initial_schema extends CI_Migration {
 			'alasan' => array(
 				'type'	=> 'text',
 			),
-			'date_created' => array(
-				'type'	=> 'timestamp',
-			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'NOW()'
+				'on update'	=> 'current_timestamp',
+				'default'		=> 0
+			),
+			'date_created' => array(
+				'type'					=> 'timestamp',
+				'default'				=> 'current_timestamp'
 			),
 			'is_deleted' => array(
 				'type'				=> 'int',
@@ -442,12 +460,12 @@ class Migration_Initial_schema extends CI_Migration {
 				'type'				=> 'varchar',
 				'constraint'	=> 50
 			),
-			'date_created' => array(
-				'type'	=> 'timestamp',
-			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'NOW()'
+			),
+			'date_created' => array(
+				'type'					=> 'timestamp',
+				'default'				=> 'current_timestamp'
 			),
 			'is_deleted' => array(
 				'type'				=> 'int',
@@ -501,12 +519,14 @@ class Migration_Initial_schema extends CI_Migration {
 				'type'				=> 'varchar',
 				'constraint'	=> 200,
 			),
-			'date_created' => array(
-				'type'	=> 'timestamp',
-			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'NOW()'
+				'on update'	=> 'current_timestamp',
+				'default'		=> 0
+			),
+			'date_created' => array(
+				'type'					=> 'timestamp',
+				'default'				=> 'current_timestamp'
 			),
 			'is_deleted' => array(
 				'type'				=> 'int',
@@ -532,12 +552,14 @@ class Migration_Initial_schema extends CI_Migration {
 			'konten' => array(
 				'type'	=> 'text',
 			),
-			'date_created' => array(
-				'type'	=> 'timestamp',
-			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'NOW()'
+				'on update'	=> 'current_timestamp',
+				'default'		=> 0
+			),
+			'date_created' => array(
+				'type'					=> 'timestamp',
+				'default'				=> 'current_timestamp'
 			),
 			'is_deleted' => array(
 				'type'				=> 'int',
@@ -577,12 +599,14 @@ class Migration_Initial_schema extends CI_Migration {
 				'constraint'		=> 3,
 				'null'				=> TRUE
 			),
-			'date_created' => array(
-				'type'		=> 'timestamp',
-			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'NOW()'
+				'on update'	=> 'current_timestamp',
+				'default'		=> 0
+			),
+			'date_created' => array(
+				'type'					=> 'timestamp',
+				'default'				=> 'current_timestamp'
 			),
 			'is_deleted' => array(
 				'type'				=> 'int',
@@ -629,12 +653,14 @@ class Migration_Initial_schema extends CI_Migration {
 				'type'				=> 'int',
 				'constraint'	=> 3
 			),
-			'date_created' => array(
-				'type'	=> 'timestamp',
-			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'NOW()'
+				'on update'	=> 'current_timestamp',
+				'default'		=> 0
+			),
+			'date_created' => array(
+				'type'					=> 'timestamp',
+				'default'				=> 'current_timestamp'
 			),
 			'is_deleted' => array(
 				'type'				=> 'int',
@@ -644,6 +670,33 @@ class Migration_Initial_schema extends CI_Migration {
 		));
 		$this->dbforge->create_table('penilaian');
 		# ==== ==== ==== ==== ==== ==== ==== ==== ====
+		$this->dbforge->add_field(array(
+			'token_id' => array(
+				'type'						=> 'int',
+				'constraint'			=> 5,
+				'unsgined'				=> TRUE,
+				'auto_increment'	=> TRUE
+			),
+			'user_id' => array(
+				'type'				=> 'int',
+				'constraint'	=> 5,
+			),
+			'is_expired' => array(
+				'type'		=> 'boolean',
+				'default'	=> FALSE
+			),
+			'date_updated' => array(
+				'type'			=> 'timestamp',
+				'on update'	=> 'current_timestamp',
+				'default'		=> 0
+			),
+			'date_created' => array(
+				'type'					=> 'timestamp',
+				'default'				=> 'current_timestamp'
+			),
+		));
+		$this->dbforge->add_key('token_id', TRUE);
+		$this->dbforge->create_table('token');
 	}
 
 	public function down() {
@@ -659,6 +712,7 @@ class Migration_Initial_schema extends CI_Migration {
 		$this->dbforge->drop_table('agama');
 		$this->dbforge->drop_table('rekruter');
 		$this->dbforge->drop_table('peserta');
+		$this->dbforge->drop_table('token');
 		$this->dbforge->drop_table('user');
 	}
 
