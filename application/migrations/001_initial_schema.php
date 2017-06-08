@@ -27,8 +27,6 @@ class Migration_Initial_schema extends CI_Migration {
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'current_timestamp',
-				'default'		=> 0
 			),
 			'date_created' => array(
 				'type'					=> 'timestamp',
@@ -61,8 +59,6 @@ class Migration_Initial_schema extends CI_Migration {
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'current_timestamp',
-				'default'		=> 0
 			),
 			'date_created' => array(
 				'type'					=> 'timestamp',
@@ -99,8 +95,6 @@ class Migration_Initial_schema extends CI_Migration {
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'current_timestamp',
-				'default'		=> 0
 			),
 			'date_created' => array(
 				'type'					=> 'timestamp',
@@ -133,8 +127,6 @@ class Migration_Initial_schema extends CI_Migration {
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'current_timestamp',
-				'default'		=> 0
 			),
 			'date_created' => array(
 				'type'					=> 'timestamp',
@@ -167,8 +159,6 @@ class Migration_Initial_schema extends CI_Migration {
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'current_timestamp',
-				'default'		=> 0
 			),
 			'date_created' => array(
 				'type'					=> 'timestamp',
@@ -207,8 +197,6 @@ class Migration_Initial_schema extends CI_Migration {
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'current_timestamp',
-				'default'		=> 0
 			),
 			'date_created' => array(
 				'type'					=> 'timestamp',
@@ -242,8 +230,6 @@ class Migration_Initial_schema extends CI_Migration {
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'current_timestamp',
-				'default'		=> 0
 			),
 			'date_created' => array(
 				'type'					=> 'timestamp',
@@ -359,8 +345,6 @@ class Migration_Initial_schema extends CI_Migration {
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'current_timestamp',
-				'default'		=> 0
 			),
 			'date_created' => array(
 				'type'					=> 'timestamp',
@@ -420,8 +404,6 @@ class Migration_Initial_schema extends CI_Migration {
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'current_timestamp',
-				'default'		=> 0
 			),
 			'date_created' => array(
 				'type'					=> 'timestamp',
@@ -521,8 +503,6 @@ class Migration_Initial_schema extends CI_Migration {
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'current_timestamp',
-				'default'		=> 0
 			),
 			'date_created' => array(
 				'type'					=> 'timestamp',
@@ -554,8 +534,6 @@ class Migration_Initial_schema extends CI_Migration {
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'current_timestamp',
-				'default'		=> 0
 			),
 			'date_created' => array(
 				'type'					=> 'timestamp',
@@ -601,8 +579,6 @@ class Migration_Initial_schema extends CI_Migration {
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'current_timestamp',
-				'default'		=> 0
 			),
 			'date_created' => array(
 				'type'					=> 'timestamp',
@@ -655,8 +631,6 @@ class Migration_Initial_schema extends CI_Migration {
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'current_timestamp',
-				'default'		=> 0
 			),
 			'date_created' => array(
 				'type'					=> 'timestamp',
@@ -687,8 +661,6 @@ class Migration_Initial_schema extends CI_Migration {
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
-				'on update'	=> 'current_timestamp',
-				'default'		=> 0
 			),
 			'date_created' => array(
 				'type'					=> 'timestamp',
