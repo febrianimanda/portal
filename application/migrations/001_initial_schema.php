@@ -25,6 +25,11 @@ class Migration_Initial_schema extends CI_Migration {
 				'constraint'	=> 1,
 				'default'			=> 3
 			),
+			'jalur' => array(
+				'type'				=> 'varchar',
+				'constraint'	=> 30,
+				'default'			=> NULL
+			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
 			),
