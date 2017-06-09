@@ -655,6 +655,10 @@ class Migration_Initial_schema extends CI_Migration {
 				'type'				=> 'int',
 				'constraint'	=> 5,
 			),
+			'token' => array(
+				'type'			=> 'varchar',
+				'costraint'	=> 255,
+			),
 			'is_expired' => array(
 				'type'		=> 'boolean',
 				'default'	=> FALSE
