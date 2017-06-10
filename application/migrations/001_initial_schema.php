@@ -61,6 +61,7 @@ class Migration_Initial_schema extends CI_Migration {
 			'jumlah' => array(
 				'type'				=> 'int',
 				'constraint'	=> 4,
+				'default'			=> 0
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
@@ -86,10 +87,6 @@ class Migration_Initial_schema extends CI_Migration {
 				'unsgined'				=> TRUE,
 				'auto_increment'	=> TRUE
 			),
-			'type'	=> array(
-				'type'				=> 'varchar',
-				'constraint'	=> 50,
-			),
 			'keterangan' => array(
 				'type'				=> 'varchar',
 				'constraint'	=> 50,
@@ -97,6 +94,7 @@ class Migration_Initial_schema extends CI_Migration {
 			'jumlah' => array(
 				'type'				=> 'int',
 				'constraint'	=> 5,
+				'default'			=> 0
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
@@ -129,6 +127,7 @@ class Migration_Initial_schema extends CI_Migration {
 			'jumlah' => array(
 				'type'				=> 'int',
 				'constraint'	=> 4,
+				'default'			=> 0
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
@@ -161,6 +160,7 @@ class Migration_Initial_schema extends CI_Migration {
 			'jumlah' => array(
 				'type'				=> 'int',
 				'constraint'	=> 4,
+				'jumlah'			=> 0
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
@@ -199,6 +199,7 @@ class Migration_Initial_schema extends CI_Migration {
 			'jumlah' => array(
 				'type'				=> 'int',
 				'constraint'	=> 4,
+				'jumlah'			=> 0
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
@@ -224,14 +225,19 @@ class Migration_Initial_schema extends CI_Migration {
 				'unsgined'				=> TRUE,
 				'auto_increment'	=> TRUE
 			),
+			'key' => array(
+				'type'				=> 'varchar',
+				'constraint'	=> 2
+				'unique'			=> TRUE
+			)
 			'nama_provinsi'	=> array(
 				'type'				=> 'varchar',
 				'constraint'	=> 50,
-				'unique'			=> TRUE
 			),
 			'jumlah' => array(
 				'type'				=> 'int',
 				'constraint'	=> 4,
+				'default'			=> 0
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
@@ -300,6 +306,10 @@ class Migration_Initial_schema extends CI_Migration {
 				'type'				=> 'varchar',
 				'constraint'	=> 20
 			),
+			'hobi' => array(
+				'type'				=> 'varchar',
+				'constraint'	=> 255
+			),
 			'emergency_number' => array(
 				'type'				=> 'varchar',
 				'constraint'	=> 20
@@ -330,24 +340,32 @@ class Migration_Initial_schema extends CI_Migration {
 			),
 			'profpic_path' => array(
 				'type'				=> 'varchar',
-				'constraint'	=> 50
+				'constraint'	=> 100
 			),
 			'fb' => array(
 				'type'				=> 'varchar',
-				'constraint'	=> 20
+				'constraint'	=> 70
 			),
 			'line' => array(
 				'type'				=> 'varchar',
-				'constraint'	=> 20
+				'constraint'	=> 30
 			),
 			'twitter' => array(
 				'type'				=> 'varchar',
-				'constraint'	=> 20
+				'constraint'	=> 70
 			),
 			'instagram' => array(
 				'type'				=> 'varchar',
+				'constraint'	=> 70
+			),
+			'blog' => array(
+				'type'				=> 'varchar',
 				'constraint'	=> 20
 			),
+			'biodata_singkat' => array(
+				'type'				=> 'varchar',
+				'constraint'	=> 160
+			)
 			'date_updated' => array(
 				'type'			=> 'timestamp',
 			),
@@ -649,6 +667,7 @@ class Migration_Initial_schema extends CI_Migration {
 		));
 		$this->dbforge->create_table('penilaian');
 		# ==== ==== ==== ==== ==== ==== ==== ==== ====
+		# == Table Token == 
 		$this->dbforge->add_field(array(
 			'token_id' => array(
 				'type'						=> 'int',
@@ -667,6 +686,42 @@ class Migration_Initial_schema extends CI_Migration {
 			'is_expired' => array(
 				'type'				=> 'int',
 				'constraint'	=> 1,
+				'default'			=> 0,
+			),
+			'date_updated' => array(
+				'type'			=> 'timestamp',
+			),
+			'date_created' => array(
+				'type'					=> 'timestamp',
+				'default'				=> 'current_timestamp'
+			),
+		));
+		$this->dbforge->add_key('token_id', TRUE);
+		$this->dbforge->create_table('token');
+		# ==== ==== ==== ==== ==== ==== ==== ==== ====
+		# == Table Jalur == 
+		$this->dbforge->add_field(array(
+			'jalur_id' => array(
+				'type'						=> 'int',
+				'constraint'			=> 5,
+				'unsgined'				=> TRUE,
+				'auto_increment'	=> TRUE
+			),
+			'key' => array(
+				'type'				=> 'varchar',
+				'constraint'	=> 20,
+			),
+			'details' => array(
+				'type'				=> 'varchar',
+				'constraint'	=> 50,
+			),
+			'percentage' => array(
+				'type'				=> 'int',
+				'constraint'	=> 2,
+			),
+			'jumlah' => array(
+				'type'				=> 'int',
+				'constraint'	=> 4,
 				'default'			=> 0,
 			),
 			'date_updated' => array(
