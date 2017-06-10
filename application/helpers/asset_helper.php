@@ -4,7 +4,7 @@
 if ( ! function_exists('css_url')){
   function css_url($uri = ''){
     $CI =& get_instance();
-    return base_url()."asset/css/".$uri;
+    return base_url()."asset/css/".$uri.".css";
   }
 }
 
@@ -12,7 +12,7 @@ if ( ! function_exists('css_url')){
 if ( ! function_exists('js_url')){
   function js_url($uri = ''){
     $CI =& get_instance();
-    return base_url()."asset/js/".$uri;
+    return base_url()."asset/js/".$uri.".js";
   }
 }
 
@@ -40,7 +40,7 @@ if(!function_exists('header_css_file')){
     $str = '';
     $ci =& get_instance();
     if(sizeof($files) > 0){
-      foreach($file_js AS $file) {
+      foreach($files AS $file) {
         $str .= '<link rel="stylesheet" href="'.css_url($file).'" type="text/css" />'."\n";
       }
     }
@@ -49,7 +49,7 @@ if(!function_exists('header_css_file')){
 }
 
 // output: local css tags load using URL
-if(!function_exists('css_url')){
+if(!function_exists('header_css_url')){
   function header_css_url($urls=[]){
     $str = '';
     $ci =& get_instance();
@@ -82,7 +82,7 @@ if(!function_exists('footer_js_file')){
     $str = '';
     $ci =& get_instance();
     if(sizeof($files) > 0){
-      foreach($file_js AS $file) {
+      foreach($files AS $file) {
         $str .= '<script type="text/javascript" src="'.js_url($file).'"></script>'."\n";
       }
     }
