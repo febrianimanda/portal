@@ -96,7 +96,7 @@ class Migration_Initial_data extends CI_Migration {
 			array('key' => 'SN', 'nama_provinsi' => 'Sulawesi Selatan'),
 			array('key' => 'ST', 'nama_provinsi' => 'Sulawesi Tengah'),
 			array('key' => 'SG', 'nama_provinsi' => 'Sulawesi Tenggara'),
-			array('key' => 'SU', 'nama_provinsi' => 'Sulawesi Utara'),
+			array('key' => 'SA', 'nama_provinsi' => 'Sulawesi Utara'),
 			array('key' => 'SB', 'nama_provinsi' => 'Sumatera Barat'),
 			array('key' => 'SS', 'nama_provinsi' => 'Sumatera Selatan'),
 			array('key' => 'SU', 'nama_provinsi' => 'Sumatera Utara'),

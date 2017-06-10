@@ -227,9 +227,9 @@ class Migration_Initial_schema extends CI_Migration {
 			),
 			'key' => array(
 				'type'				=> 'varchar',
-				'constraint'	=> 2
+				'constraint'	=> 2,
 				'unique'			=> TRUE
-			)
+			),
 			'nama_provinsi'	=> array(
 				'type'				=> 'varchar',
 				'constraint'	=> 50,
@@ -365,7 +365,7 @@ class Migration_Initial_schema extends CI_Migration {
 			'biodata_singkat' => array(
 				'type'				=> 'varchar',
 				'constraint'	=> 160
-			)
+			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
 			),
@@ -732,8 +732,8 @@ class Migration_Initial_schema extends CI_Migration {
 				'default'				=> 'current_timestamp'
 			),
 		));
-		$this->dbforge->add_key('token_id', TRUE);
-		$this->dbforge->create_table('token');
+		$this->dbforge->add_key('jalur_id', TRUE);
+		$this->dbforge->create_table('jalur');
 	}
 
 	public function down() {

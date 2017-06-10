@@ -10,9 +10,10 @@ class Migrate extends CI_Controller {
 			if($this->migration->current() === FALSE) {
 				show_error($this->migration->error_string());
 			} else {
-				$this->load->view('template/header');
-				$this->load->view('success',array('job'=>'Migrasi'));
-				$this->load->view('template/footer');
+				$data['job'] = 'Migrasi';
+				$data['title'] = 'Migration';
+				$data['content'] = $this->load->view('success');
+				$this->load->view('template/full-template',$data);
 			}
 		} else {
 			redirect('/not_found','refresh');
