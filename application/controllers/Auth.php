@@ -89,9 +89,19 @@ class Auth extends CI_Controller {
 	}
 
 	public function registration() {
+		// Load Model
+		$this->load->model('agama_model');
+		$this->load->model('jalur_model');
+		$this->load->model('provinsi_model');
+
+		// setup page variable
+		$data_page['agama'] = $this->agama_model->read_all_agama()->result();
+		$data_page['jalur'] = $this->jalur_model->read_all_jalur()->result();
+		$data_page['provinsi'] = $this->provinsi_model->read_all_provinsi()->result();
+
 		// Setup Page Content
 		$data['title'] = "Form Pendaftaran";
-		$data['content'] = $this->load->view('auth/signup');
+		$data['content'] = $this->load->view('auth/signup', $data_page);
 
 		// Setup Page Dynamic CSS and JS
 		$data['header_css_file'] = ['bootstrap-tagsinput'];
@@ -102,21 +112,40 @@ class Auth extends CI_Controller {
 	}
 
 	public function do_registration() {
-		$this->form_validation->set_rules('email', 'Email', 'trim|required');
-		$this->form_validation->set_rules('password', 'Password', 'trim|required');
+		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[user.email]', array(
+				'valid_email'		=> 'Email anda %s tidak valid.',
+				'is_unique'			=> 'Email %s sudah terdaftar.',
+			)
+		);
+		$this->form_validation->set_rules('password', 'Password', 'required');	
+		$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]');
 
 		if( $this->form_validation->run() == false) {
 			# back to login
-			echo validation_errors();
+			print validation_errors();
+			die();
 			// redirect('auth/registration', 'refresh');
 		}
 
-		$data = array(
-			'email'			=> $this->input->post('email'),
-			'password'	=> MD5($this->input->post('password'))
+
+		$data_user = array(
+			'email' 		=> $_POST['email'],
+			'password'	=> $_POST['password'],
+			'jalur'			=> $_POST['jalur']
 		);
 
-		$result = $this->auth_model->insert_registration($data);
+		print_r($_POST);
+		print "<br>";
+		unset($_POST['email'], $_POST['password'], $_POST['jalur'], $_POST['passconf']);
+		print_r($data_user);
+		print "<br>";
+		print_r($_POST);
+
+		die();
+
+		$_POST['password'] = MD5($this->input->post('password'));
+
+		$result = $this->auth_model->insert_registration($this->input->post());
 		if($result) {
 			# success create new user
 			echo "User berhasil disimpan";
