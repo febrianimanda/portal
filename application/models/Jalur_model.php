@@ -7,6 +7,7 @@ class Jalur_model extends CI_Model {
 
 	public function read_all_jalur() {
 		$this->db->select('jalur_id, key, details, percentage, jumlah');
+		$this->db->where('is_deleted',0);
 		$query = $this->db->get($this->table);
 		return $query;
 	}

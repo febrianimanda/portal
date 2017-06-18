@@ -93,11 +93,13 @@ class Auth extends CI_Controller {
 		$this->load->model('agama_model');
 		$this->load->model('jalur_model');
 		$this->load->model('provinsi_model');
+		$this->load->model('info_model');
 
 		// setup page variable
 		$data_page['agama'] = $this->agama_model->read_all_agama()->result();
 		$data_page['jalur'] = $this->jalur_model->read_all_jalur()->result();
 		$data_page['provinsi'] = $this->provinsi_model->read_all_provinsi()->result();
+		$data_page['info'] = $this->info_model->read_all_info()->result();
 
 		// Setup Page Content
 		$data['title'] = "Form Pendaftaran";
@@ -112,9 +114,16 @@ class Auth extends CI_Controller {
 	}
 
 	public function do_registration() {
+		$this->load->model('peserta_model');
+		$this->load->model('jalur_model');
+		$this->load->model('provinsi_model');
+		$this->load->model('info_model');
+		$this->load->model('institusi_model');
+		$this->load->model('agama_model');
+
 		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[user.email]', array(
-				'valid_email'		=> 'Email anda %s tidak valid.',
-				'is_unique'			=> 'Email %s sudah terdaftar.',
+				'valid_email'		=> 'Email yang anda masukkan tidak valid.',
+				'is_unique'			=> 'Email sudah terdaftar.',
 			)
 		);
 		$this->form_validation->set_rules('password', 'Password', 'required');	
@@ -126,33 +135,60 @@ class Auth extends CI_Controller {
 			die();
 			// redirect('auth/registration', 'refresh');
 		}
+		
+		// encrypt password
+		$_POST['password'] = MD5($this->input->post('password'));
 
-
+		// data for user table
 		$data_user = array(
 			'email' 		=> $_POST['email'],
 			'password'	=> $_POST['password'],
 			'jalur'			=> $_POST['jalur']
 		);
+		$data_info = $_POST['info_fim'];
+		$_POST['info_fim'] = implode(',', $data_info);
+		// data for peserta table
+		unset($_POST['password'], $_POST['jalur'], $_POST['passconf']);
 
-		print_r($_POST);
-		print "<br>";
-		unset($_POST['email'], $_POST['password'], $_POST['jalur'], $_POST['passconf']);
-		print_r($data_user);
-		print "<br>";
-		print_r($_POST);
+		$result = $this->auth_model->insert_registration($data_user);
+		$result2 = $this->peserta_model->insert_peserta($this->input->post());
 
-		die();
+		if($result and $result2) {
+			# Update another records after successfull saving
+			# Update Jumlah Jalur
+			$this->jalur_model->update_jumlah($this->input->post('jalur'));
+			
+			# Update jumlah provinsi
+			$prov = $this->provinsi_model->read_provinsi('nama_provinsi', $this->input->post('provinsi'))->result();
+			$this->provinsi_model->update_jumlah($prov[0]->key);
 
-		$_POST['password'] = MD5($this->input->post('password'));
+			# Add or Update Institusi table
+			$ins_exist = $this->institusi_model->is_exist($this->input->post('institusi'));
+			if(!$ins_exist) {
+				# adding new institusi record
+				$data_institusi = array('nama_institusi' => $this->input->post('institusi'), 'jumlah' => 1);
+				$this->institusi_model->insert_institusi($data_institusi);
+			} else {
+				# increasing jumlah
+				$ins_id = $this->institusi_model->read_institusi_id('nama_institusi', $this->input->post('institusi'));
+				$this->institusi_model->update_jumlah($ins_id);
+			}
 
-		$result = $this->auth_model->insert_registration($this->input->post());
-		if($result) {
+			# Update jumlah agama
+			$this->agama_model->update_jumlah('agama', $_POST['agama']);
+
+			# Update jumlah informasi fim
+			foreach ($data_info as $info) {
+				$this->info_model->update_jumlah('keterangan', $info);
+			}
 			# success create new user
 			echo "User berhasil disimpan";
 		} else {
 			# failed to register because email exist
 			echo "User gagal disimpan";
 		}
+
+
 	}
 
 	public function do_login() {

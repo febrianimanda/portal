@@ -7,12 +7,13 @@ class Provinsi_model extends CI_Model {
 
 	public function read_all_provinsi() {
 		$this->db->select('provinsi_id, key, nama_provinsi, jumlah');
+		$this->db->where('is_deleted',0);
 		$query = $this->db->get($this->table);
 		return $query;
 	}
 
-	public function read_provinsi($key) {
-		$this->db->where('key', $key);
+	public function read_provinsi($key, $value) {
+		$this->db->where($key, $value);
 		$query = $this->db->get($this->table, 1);
 		return $query;
 	}

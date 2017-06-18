@@ -70,7 +70,7 @@
 									<select name="provinsi" class="form-control">
 										<option disabled selected value>Pilih Provinsi</option>
 										<?php foreach ($provinsi as $row): ?>
-											<option value="<?= $row->key ?>"><?= $row->nama_provinsi ?></option>
+											<option value="<?= $row->nama_provinsi ?>"><?= $row->nama_provinsi ?></option>
 										<?php endforeach ?>
 									</select>
 								</div>
@@ -134,7 +134,7 @@
 									<select name="agama" id="" class="form-control">
 										<option disabled selected value>Pilih Agama</option>
 										<?php foreach ($agama as $row): ?>
-											<option value="<?= $row->agama_id ?>"><?= $row->agama ?></option>
+											<option value="<?= $row->agama ?>"><?= $row->agama ?></option>
 										<?php endforeach; ?>
 									</select>
 								</div>
@@ -210,11 +210,28 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-12">
-								<div class="checkbox">
-								  <label><input type="checkbox">Dengan ini saya menyatakan bahwa data yang saya berikan diatas adalah benar</label>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Tau Informasi FIM <span class="text-danger">*</span></label>
+									<?php foreach ($info as $row): ?>
+										<div class="checkbox">
+										  <label>
+										    <input type="checkbox" name="info_fim[]" value="<?= $row->keterangan ?>"> <?= $row->keterangan ?>
+										  </label>
+										</div>
+									<?php endforeach ?>
 								</div>
-								<input type="submit" class="btn btn-primary">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Persetujuan <span class="text-danger">*</span></label>
+									<div class="checkbox">
+									  <label><input type="checkbox">Dengan ini saya menyatakan bahwa data yang saya berikan diatas adalah benar</label>
+									</div>
+									<input type="submit" class="btn btn-primary">
+								</div>
 							</div>
 						</div>
 					</form>
