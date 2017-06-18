@@ -120,7 +120,7 @@ class Migration_Initial_schema extends CI_Migration {
 				'unsgined'				=> TRUE,
 				'auto_increment'	=> TRUE
 			),
-			'nama_instutusi' => array(
+			'nama_institusi' => array(
 				'type'				=> 'varchar',
 				'constraint'	=> 50,
 			),
@@ -695,6 +695,11 @@ class Migration_Initial_schema extends CI_Migration {
 				'type'					=> 'timestamp',
 				'default'				=> 'current_timestamp'
 			),
+			'is_deleted' => array(
+				'type'				=> 'int',
+				'constraint'	=> 1,
+				'default'			=> 0
+			),
 		));
 		$this->dbforge->add_key('token_id', TRUE);
 		$this->dbforge->create_table('token');
@@ -730,6 +735,11 @@ class Migration_Initial_schema extends CI_Migration {
 			'date_created' => array(
 				'type'					=> 'timestamp',
 				'default'				=> 'current_timestamp'
+			),
+			'is_deleted' => array(
+				'type'				=> 'int',
+				'constraint'	=> 1,
+				'default'			=> 0
 			),
 		));
 		$this->dbforge->add_key('jalur_id', TRUE);

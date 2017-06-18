@@ -8,7 +8,9 @@ class Migration_Initial_data extends CI_Migration {
 			array('keterangan' => 'Alumni FIM'),
 			array('keterangan' => 'Keluarga'),
 			array('keterangan' => 'Teman'),
-			array('keterangan' => 'Social Media FIM'),
+			array('keterangan' => 'Social Media'),
+			array('keterangan' => 'Media Cetak'),
+			array('keterangan' => 'Lainnya'),
 		);
 
 		// Inisialisasi Data Tabel Agama, Berdasarkan refensi agama di Indonesia yang tertulis di https://id.wikipedia.org/wiki/Agama
