@@ -5,6 +5,8 @@
 	<title><?= $title ?> | Portal FIM</title>
 	<!-- Bootstrap Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 	<!-- Dynamic CSS Style -->
 	<?php if(isset($header_css_file)): ?>
 	<?= header_css_file($header_css_file); ?>
@@ -13,11 +15,13 @@
 	<?= header_css_url($header_css_url); ?>
 	<?php endif; ?>
 	<!-- Our CSS Style -->
-	<link rel="stylesheet" href="<?= css_url('styles') ?>" />
+	<link rel="stylesheet" href="<?= css_url('styles.css') ?>" />
+	<!-- Font Awesome -->
+	<script src="https://use.fontawesome.com/d11888fc05.js"></script>
 </head>
 <body>
 	<div class="fluid-container">
-		<?php $content; ?>
+		<?php echo $content; ?>
 	</div>
 	<!-- Jquery Latest Compiled and Minified JS -->
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
