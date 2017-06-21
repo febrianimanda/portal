@@ -13,9 +13,9 @@ class Auth extends CI_Controller {
 
 	public function index() {
 		$data['title'] = "Login";
-		$data['content'] = $this->load->view('auth/login');
+		$data['content'] = $this->load->view('auth/login', '', true);
 		
-		$this->load->view('template/full-template');
+		$this->load->view('template/full-template', $data);
 	}
 
 	public function forgot() {
@@ -103,7 +103,7 @@ class Auth extends CI_Controller {
 
 		// Setup Page Content
 		$data['title'] = "Form Pendaftaran";
-		$data['content'] = $this->load->view('auth/signup', $data_page);
+		$data['content'] = $this->load->view('auth/signup', $data_page, true);
 
 		// Setup Page Dynamic CSS and JS
 		$data['header_css_file'] = ['bootstrap-tagsinput'];

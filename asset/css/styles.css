@@ -1,6 +1,65 @@
+.profil-background {
+  background: url(../images/bg-profil.jpg) no-repeat;
+  background-size: cover;
+  padding-top: 80px;
+  padding-bottom: 20px;
+  color: #fff;
+}
+.profil-background h1 {
+  color: #fff;
+}
+
+.profil-img {
+  height: 175px;
+  width: 175px;
+  border: 1px solid #fafafa;
+  border-radius: 3px;
+  position: absolute;
+  top: 10px;
+}
+.profil-socmed {
+  font-size: 24px;
+}
+
+.profil-socmed a {
+  color: #fff;
+  cursor: pointer;
+}
+
+.profil-socmed a:hover {
+  color: #ff0000;
+}
+
+.profil-content {
+  margin-top: 45px;
+}
+
+.profil-row {
+  margin-bottom: 20px;
+}
+
+.profil-pencapaian {
+  margin-bottom: 10px;
+}
+
+.floating-label {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 14px;
+}
+
 .col-centered {
 	float: none;
 	margin: auto;
+}
+
+.title-color {
+  color: #ff0000;
+}
+
+.content-color {
+  color: #545454;
 }
 
 /* overwrite bootstrap-tagsinput */
@@ -17,4 +76,12 @@
   max-width: 100%;
   line-height: 22px;
   cursor: text;
+}
+
+h1, h2, h3 {
+  color: #ff0000;
+}
+
+hr {
+  margin-top: 0;
 }

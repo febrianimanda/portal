@@ -16,7 +16,7 @@
 						<button class="btn btn-primary form-control">Submit</button>
 					</div>
 					<div class="text-center">
-						<a href="auth/registration">Belum Punya Akun?</a>
+						<a href="<?= site_url('auth/registration') ?>">Belum Punya Akun?</a>
 					</div>
 				</form>
 			</div>

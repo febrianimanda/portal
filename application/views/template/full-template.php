@@ -7,6 +7,8 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="<?= css_url('font-awesome.min') ?>">
 	<!-- Dynamic CSS Style -->
 	<?php if(isset($header_css_file)): ?>
 	<?= header_css_file($header_css_file); ?>
@@ -15,9 +17,7 @@
 	<?= header_css_url($header_css_url); ?>
 	<?php endif; ?>
 	<!-- Our CSS Style -->
-	<link rel="stylesheet" href="<?= css_url('styles.css') ?>" />
-	<!-- Font Awesome -->
-	<script src="https://use.fontawesome.com/d11888fc05.js"></script>
+	<link rel="stylesheet" href="<?= css_url('styles') ?>" />
 </head>
 <body>
 	<div class="fluid-container">
