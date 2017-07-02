@@ -1,19 +1,3 @@
-<div class="profil-background">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-2 col-md-offset-1">
-				<img src="<?= img_url('ava-men.png') ?>" alt="profile" class="profil-img">
-			</div>
-			<div class="col-md-8">
-				<h1>Febrian Imanda Effendy</h1>
-				<h4><i class="fa fa-map-marker" aria-hidden="true"></i> Bandung, Jawa Barat</h4>
-				<div class="profil-socmed">
-					<a href="#"><i class="fa fa-facebook-square" alt="facebook" aria-hidden="true"></i></a> <a href="#"><i class="fa fa-twitter-square" aria-hidden="true"></i></a> <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a> <a href="#"><i class="fa fa-share-alt-square" aria-hidden="true"></i></a>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
 <div class="container profil-content">
 	<div class="row">
 		<div class="col-md-3 col-md-offset-1">
@@ -89,14 +73,16 @@
 			<!-- Essay Section -->
 			<div class="row profil-row">
 				<div class="col-md-12">
-					<h3>Essay</h3><hr>
+					<h3>Essay <a href="#" class="btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-pencil"></i> Ubah</a></h3>
+					<hr>
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam felis nulla, accumsan at massa ac, lacinia fringilla leo. Suspendisse id enim vitae velit molestie mollis. Sed nunc libero, egestas quis turpis mattis, viverra suscipit enim. Nullam nec rhoncus nunc. Fusce sed urna finibus, semper tortor vitae, posuere arcu. Fusce odio elit, pretium nec mollis in, accumsan id metus. Vestibulum quis tortor vel tellus ultrices commodo eget nec augue. Vestibulum eu ultricies est, sed ornare ex. Quisque et nulla eu quam finibus iaculis a nec turpis. Curabitur in elementum sapien. Donec ullamcorper tempor porttitor. Maecenas tincidunt mollis tempus. Phasellus elementum rutrum consectetur. Mauris vehicula tortor eget elit egestas interdum. Etiam vel ipsum ipsum. Suspendisse eleifend ligula sed metus ultricies semper.</p>
 				</div>
 			</div>
 			<!-- Pencapaian Section -->
 			<div class="row profil-row">
 				<div class="col-md-12">
-					<h3>Pencapaian</h3><hr>
+					<h3>Pencapaian <a href="#" class="btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-pencil"></i> Ubah</a></h3>
+					<hr>
 					<div class="row profil-pencapaian">
 						<div class="col-md-12">
 							<span class="floating-label label label-info">Nasional</span>
@@ -118,7 +104,8 @@
 			<!-- Project Section -->
 			<div class="row profil-row">
 				<div class="col-md-12">
-					<h3>Project</h3><hr>
+					<h3>Project <a href="#" class="btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-pencil"></i> Ubah</a></h3>
+					<hr>
 					<div class="row">
 						<div class="col-md-12">
 							<span class="floating-label label label-info">Pendidikan</span>
