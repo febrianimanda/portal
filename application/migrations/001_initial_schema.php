@@ -16,6 +16,11 @@ class Migration_Initial_schema extends CI_Migration {
 				'constraint'	=> 50,
 				'unique'			=> TRUE
 			),
+			'username' => array(
+				'type'				=> 'varchar',
+				'constraint'	=> 50,
+				'unique'			=> TRUE
+			),
 			'password' => array(
 				'type'				=> 'varchar',
 				'constraint'	=> 50,
