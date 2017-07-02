@@ -13,10 +13,10 @@
 						<input name="password" required type="password" class="form-control" placeholder="Password Anda">
 					</div>
 					<div class="form-group text-center">
-						<button class="btn btn-primary form-control">Submit</button>
+						<button class="btn btn-profil-primary form-control">Submit</button>
 					</div>
 					<div class="text-center">
-						<a href="<?= site_url('auth/registration') ?>">Belum Punya Akun?</a>
+						Belum Punya Akun ? <a href="<?= site_url('auth/registration') ?>">Daftar Sekarang</a>
 					</div>
 				</form>
 			</div>

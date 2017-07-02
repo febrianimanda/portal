@@ -196,7 +196,6 @@ class Auth extends CI_Controller {
 		$this->form_validation->set_rules('password', 'Password', 'trim|required');
 
 		if( $this->form_validation->run() == false) {
-			echo isset($this->session->userdata['logged_in']);
 			if(isset($this->session->userdata['logged_in'])) {
 				# redirect success page
 				redirect(base_url('dashboard'));
@@ -214,13 +213,15 @@ class Auth extends CI_Controller {
 		if($success) {
 			$user = $this->auth_model->read_user_information($data['email']);
 			$session_data = array(
-				'email'	=> $user[0]->email,
-				'role'	=> $user[0]->role
+				'email'			=> $user[0]->email,
+				'username'	=> $user[0]->username,
+				'role'			=> $user[0]->role,
 			);
 			$this->session->set_userdata('logged_in', $session_data);
-			if($user[0]->role == 0 ) { 
+			if($session_data['role'] == 0 ) { 
 				#redirect peserta
-			} else if ($user[0]-> role >= 1 && $user[0]-> role <= 3) {
+				redirect('/kandidat');
+			} else if ($session_data['role'] >= 1 && $session_data['role'] <= 3) {
 				#redirect admin
 				redirect('/dashboard');
 			} else {
@@ -231,7 +232,7 @@ class Auth extends CI_Controller {
 			# error login
 			redirect('/auth');
 		}
-	  }
+	}
 
 	public function logout() {
 		$this->session->unset_userdata('logged_in');

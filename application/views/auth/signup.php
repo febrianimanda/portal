@@ -9,9 +9,9 @@
 					<form action="<?= base_url('auth/do_registration') ?>" method="post">
 						<div class="row">
 							<div class="col-md-12">
-								<h3>Informasi Akun</h3><hr/>
+								<h3>Informasi Dasar</h3><hr/>
 							</div>
-							<div class="col-md-12">
+							<div class="col-md-6">
 								<div class="form-group">
 									<label>Jalur Masuk <span class="text-danger">*</span></label>
 									<select name="jalur" required class="form-control">
@@ -24,13 +24,19 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label for="">Nama Lengkap <span class="text-danger">*</span></label>
+									<label>Nama Lengkap <span class="text-danger">*</span></label>
 									<input type="text" required name="fullname" placeholder="Nama Lengkap Anda" class="form-control">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label for="">Email <span class="text-danger">*</span></label>
+									<label>Username <span class="text-danger">*</span></label>
+									<input type="email" required name="username" placeholder="Masukkan Username untuk akun anda" class="form-control">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Email <span class="text-danger">*</span></label>
 									<input type="email" required name="email" placeholder="Email Anda" class="form-control">
 								</div>
 							</div>
@@ -38,13 +44,13 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
-									<label for="">Password <span class="text-danger">*</span></label>
+									<label>Password <span class="text-danger">*</span></label>
 									<input name="password" required type="password" class="form-control" placeholder="Password Anda">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label for="">Konfirmasi Password <span class="text-danger">*</span></label>
+									<label>Konfirmasi Password <span class="text-danger">*</span></label>
 									<input name="passconf" required type="password" class="form-control" placeholder="Konfirmasi Password Anda">
 								</div>
 							</div>
@@ -52,13 +58,13 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
-									<label for="">No. Handphone <span class="text-danger">*</span></label>
+									<label>No. Handphone <span class="text-danger">*</span></label>
 									<input name="handphone" required type="number" class="form-control" placeholder="No. Handphone Anda yang aktif">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label for="">No. Darurat Yang Dapat Dihubungi <span class="text-danger">*</span></label>
+									<label>No. Darurat Yang Dapat Dihubungi <span class="text-danger">*</span></label>
 									<input name="emergency_number" required type="number" class="form-control" placeholder="Bisa Nomor teman terdekat Anda atau Orang Tua Anda">
 								</div>
 							</div>
@@ -71,7 +77,7 @@
 										<option disabled selected value>Pilih Provinsi</option>
 										<?php foreach ($provinsi as $row): ?>
 											<option value="<?= $row->nama_provinsi ?>"><?= $row->nama_provinsi ?></option>
-										<?php endforeach ?>
+										<?php endforeach; ?>
 									</select>
 								</div>
 							</div>
@@ -230,7 +236,7 @@
 									<div class="checkbox">
 									  <label><input type="checkbox">Dengan ini saya menyatakan bahwa data yang saya berikan diatas adalah benar</label>
 									</div>
-									<input type="submit" class="btn btn-primary">
+									<input type="submit" class="btn btn-profil-primary" value="Simpan">
 								</div>
 							</div>
 						</div>
