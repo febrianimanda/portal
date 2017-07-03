@@ -11,8 +11,14 @@ class Peserta_model extends CI_Model {
 		return $query;
 	}
 
-	public function read_peserta($email) {
+	public function read_peserta_by_email($email) {
 		$this->db->where('email', $email);
+		$query = $this->db->get($this->table, 1);
+		return $query;
+	}
+
+	public function read_peserta_by_username($username) {
+		$this->db->where('username', $username);
 		$query = $this->db->get($this->table, 1);
 		return $query;
 	}
