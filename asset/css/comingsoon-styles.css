@@ -1,0 +1,68 @@
+html{
+	min-height: 100%;
+	position: relative;
+}
+body{
+	height: 100%;
+}
+.fluid-container{
+	width: 100%;
+}
+.maxheight{
+	height: 100%;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+}
+.leftside {
+	background-color: #20222B;
+	color: #fff;
+	left: 0;
+}
+.leftside .leftcontent {
+	margin-top: 45%;
+	margin-left: 10%;
+}
+.rightside {
+	background-color: #fff;
+	left: 50%;
+	color: #20222B;
+}
+
+.rightside .rightcontent {
+	margin-top: 45%;
+}
+
+@media(max-width: 768px){
+	.maxheight{
+		position: relative;
+	}
+	.row{
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.leftside, .rightside{
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.rightside{
+		left: auto;
+		margin-top: 25%;
+		margin-bottom: 15%;
+	}
+	.rightside .rightcontent{
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+	.rightside .rightcontent img{
+		max-width: 90%;
+	}
+	.leftside{
+		padding-top: 25%;
+		padding-bottom: 25%;
+		padding-left: 10%;
+	}
+	.leftside .leftcontent {
+		margin-top: 0;
+	}
+}
