@@ -114,6 +114,7 @@ class Auth extends CI_Controller {
 	}
 
 	public function do_registration() {
+		// Load Model
 		$this->load->model('peserta_model');
 		$this->load->model('jalur_model');
 		$this->load->model('provinsi_model');
@@ -211,13 +212,15 @@ class Auth extends CI_Controller {
 		$success = $this->auth_model->login_validation($data);
 		
 		if($success) {
-			$user = $this->auth_model->read_user_information($data['email']);
+			$user = $this->auth_model->read_user_information($data['email'])->result_array();
 			$session_data = array(
-				'email'			=> $user[0]->email,
-				'username'	=> $user[0]->username,
-				'role'			=> $user[0]->role,
+				'email'			=> $user[0]['email'],
+				'username'	=> $user[0]['username'],
+				'role'			=> $user[0]['role'],
+				'jalur'			=> $user[0]['jalur'],
+				'logged_in'	=> true,
 			);
-			$this->session->set_userdata('logged_in', $session_data);
+			$this->session->set_userdata($session_data);
 			if($session_data['role'] == 0 ) { 
 				#redirect peserta
 				redirect('/kandidat');
