@@ -1,3 +1,8 @@
+<?php
+	if(!isset($this->session->userdata('logged_in'))) {
+		redirect('auth/', 'refresh');
+	}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

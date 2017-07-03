@@ -1,3 +1,12 @@
+<?php
+	if($this->uri->segment(1) == "kandidat" and $this->uri->segment(2) != "profil") {
+		if(!$this->session->userdata('logged_in')) {
+			# back to login
+			$this->session->set_flashdata ('alert','Silahkan login terlebih dahulu');
+			redirect('auth/', 'refresh');
+		}
+	}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,7 +46,7 @@
 					<li><a href="<?= site_url('kandidat/profil/') ?>">Profilku</a></li>
 					<li><a href="#">List Kandidat</a></li>
 					<li><a href="#">Pengumuman</a></li>
-					<li><a href="#">Sign Out</a></li>
+					<li><a href="#">Logout</a></li>
 				</ul>
 			</div>
 		</div>
@@ -54,7 +63,7 @@
 						<h4><i class="fa fa-map-marker" aria-hidden="true"></i> Bandung, Jawa Barat</h4>
 						<div class="profil-socmed">
 							<?php if($this->uri->segment(2) != "pengaturan"): ?>
-								<a href="#"><i class="fa fa-facebook-square" alt="facebook" aria-hidden="true"></i></a> <a href="#"><i class="fa fa-twitter-square" aria-hidden="true"></i></a> <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a> <a href="#"><i class="fa fa-share-alt-square" aria-hidden="true"></i></a>
+								<a href="<?= $socmed['fb'] ?>"><i class="fa fa-facebook-square" alt="facebook" aria-hidden="true"></i></a> <a href="http://<?= $socmed['twitter'] ?>"><i class="fa fa-twitter-square" aria-hidden="true"></i></a> <a href="http://<?= $socmed['ig'] ?>"><i class="fa fa-instagram" aria-hidden="true"></i></a> <a href="http://<?= $socmed['blog'] ?>"><i class="fa fa-share-alt-square" aria-hidden="true"></i></a>
 							<?php else: ?>
 								<a href="<?=site_url('kandidat/profil')?>" class="btn btn-profil-flat">Kembali ke profil</a>
 							<?php endif; ?>
