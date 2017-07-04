@@ -7,6 +7,9 @@
 					<a href="<?= site_url('kandidat/pengaturan/dasar') ?>">Dasar</a>
 				</li>
 				<li role="presentation">
+					<a href="<?= site_url('kandidat/pengaturan/rekomendasi') ?>">Rekomendasi</a>
+				</li>
+				<li role="presentation">
 					<a href="<?= site_url('kandidat/pengaturan/essay') ?>">Essay</a>
 				</li>
 				<li role="presentation">
@@ -35,19 +38,19 @@
 							</div>
 							<div class="col-md-12">
 								<div class="form-group">
-									<label>Password Lama</label>
+									<label>Password Lama <span class="text-danger">*</span></label>
 									<input type="text" name="penanggung_jawab" required class="form-control" placeholder="Tulis password lama anda jika ingin mengganti password">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Password Baru</label>
+									<label>Password Baru <span class="text-danger">*</span></label>
 									<input type="text" name="penanggung_jawab" required class="form-control" placeholder="Tulis password baru anda">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Konfirmasi Password Baru</label>
+									<label>Konfirmasi Password Baru <span class="text-danger">*</span></label>
 									<input type="text" name="penanggung_jawab" required class="form-control" placeholder="Tulis ulang password baru anda">
 								</div>
 							</div>

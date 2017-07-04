@@ -7,6 +7,9 @@
 					<a href="<?= site_url('kandidat/pengaturan/dasar') ?>">Dasar</a>
 				</li>
 				<li role="presentation">
+					<a href="<?= site_url('kandidat/pengaturan/rekomendasi') ?>">Rekomendasi</a>
+				</li>
+				<li role="presentation">
 					<a href="<?= site_url('kandidat/pengaturan/essay') ?>">Essay</a>
 				</li>
 				<li role="presentation" class="active">
@@ -32,43 +35,43 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Nama Aktivitas / Pencapaian</label>
+									<label>Nama Aktivitas / Pencapaian <span class="text-danger">*</span></label>
 									<input type="text" name="aktivitas" required class="form-control" placeholder="Sebutkan nama dari aktivitas / pencapaian ini">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Waktu / Durasi</label>
+									<label>Waktu / Durasi <span class="text-danger">*</span></label>
 									<input type="text" name="profpic" required class="form-control" placeholder="Kapan atau lama durasi kegiatan / pencapaian ini berlangsung">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Cakupan Wilayah</label>
+									<label>Cakupan Wilayah <span class="text-danger">*</span></label>
 									<input type="text" name="profpic" required class="form-control" placeholder="Seberapa besar skala kegiatan / pencapaian ini">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Peran</label>
+									<label>Peran <span class="text-danger">*</span></label>
 									<input type="text" name="profpic" required class="form-control" placeholder="Tulis peran anda">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Penyelenggara</label>
+									<label>Penyelenggara <span class="text-danger">*</span></label>
 									<input type="text" name="profpic" required class="form-control" placeholder="Pihak penyelenggara kegiatan atau pencapaian ini">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Narahubung Penyelenggara kegiatan</label>
+									<label>Narahubung Penyelenggara kegiatan <span class="text-danger">*</span></label>
 									<input type="text" name="profpic" required class="form-control" placeholder="Narahubung yang dapat mempertanggungjawabkan">
 								</div>
 							</div>
 							<div class="col-md-12">
 								<div class="form-group">
-									<label>Alasan mengapa pencapaian ini merupakan yang terbaik buat anda</label>
+									<label>Alasan mengapa pencapaian ini merupakan yang terbaik buat anda <span class="text-danger">*</span></label>
 									<textarea name="alamat" required class="form-control" rows="3" placeholder="Berikan alasan penguat anda"></textarea>
 								</div>
 							</div>

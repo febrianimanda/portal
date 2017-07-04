@@ -7,6 +7,9 @@
 					<a href="<?= site_url('kandidat/pengaturan/dasar') ?>">Dasar</a>
 				</li>
 				<li role="presentation">
+					<a href="<?= site_url('kandidat/pengaturan/rekomendasi') ?>">Rekomendasi</a>
+				</li>
+				<li role="presentation">
 					<a href="<?= site_url('kandidat/pengaturan/essay') ?>">Essay</a>
 				</li>
 				<li role="presentation">
@@ -29,49 +32,49 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Nama Project</label>
+									<label>Nama Project <span class="text-danger">*</span></label>
 									<input type="text" name="nama_project" required class="form-control" placeholder="Sebutkan Nama project ini">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Penanggung Jawab Project</label>
+									<label>Penanggung Jawab Project <span class="text-danger">*</span></label>
 									<input type="text" name="penanggung_jawab" required class="form-control" placeholder="Siapa Penanggung Jawab dari Project ini">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Peran di Project</label>
+									<label>Peran di Project <span class="text-danger">*</span></label>
 									<input type="text" name="peran" required class="form-control" placeholder="Tulis Peran anda">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Jenis Project</label>
+									<label>Jenis Project <span class="text-danger">*</span></label>
 									<input type="text" name="jenis" required class="form-control" placeholder="Tulis jenis project ini">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Lokasi Project</label>
+									<label>Lokasi Project <span class="text-danger">*</span></label>
 									<input type="text" name="lokasi" required class="form-control" placeholder="Tulis lokasi project ini berada">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Kenapa Project ini Penting ?</label>
+									<label>Kenapa Project ini Penting ? <span class="text-danger">*</span></label>
 									<input type="text" name="alasan_penting" required class="form-control" placeholder="Alasan project ini penting">
 								</div>
 							</div>
 							<div class="col-md-12">
 								<div class="form-group">
-									<label>Apa saja yang dilakukan ?</label>
+									<label>Apa saja yang dilakukan ? <span class="text-danger">*</span></label>
 									<textarea rows="3" name="kegiatan" required class="form-control" placeholder="Apa saja kegiatan yang akan dilakukan dalam project ini"></textarea>
 								</div>
 							</div>
 							<div class="col-md-12">
 								<div class="form-group">
-									<label>Bagaimana FIM bisa meningkatkan nilai manfaat project ini</label>
+									<label>Bagaimana FIM bisa meningkatkan nilai manfaat project ini <span class="text-danger">*</span></label>
 									<textarea name="support_fim" required class="form-control" rows="3" placeholder="Bagaimana FIM bisa memberikan dukungan untuk meningkatkan nilai manfaat project ini"></textarea>
 								</div>
 							</div>

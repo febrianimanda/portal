@@ -56,11 +56,11 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-2 col-md-offset-1">
-						<img src="<?= base_url('profpics_upload/'.$profpic) ?>" alt="profile" class="profil-img">
+						<img src="<?= base_url('profpics_upload/'.$header_info["profpic"]) ?>" alt="profile" class="profil-img">
 					</div>
 					<div class="col-md-8">
-						<h1>Febrian Imanda Effendy</h1>
-						<h4><i class="fa fa-map-marker" aria-hidden="true"></i> Bandung, Jawa Barat</h4>
+						<h1><?= $header_info['name'] ?></h1>
+						<h4><i class="fa fa-map-marker" aria-hidden="true"></i> <?= $header_info['kota'] ?>, <?= $header_info['provinsi'] ?></h4>
 						<div class="profil-socmed">
 							<?php if($this->uri->segment(2) != "pengaturan"): ?>
 								<a href="<?= $socmed['fb'] ?>"><i class="fa fa-facebook-square" alt="facebook" aria-hidden="true"></i></a>

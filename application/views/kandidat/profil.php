@@ -84,7 +84,7 @@
 				<div class="col-md-12">
 					<h3>Essay 
 						<?php if($is_me): ?>
-							<a href="<?= site_url('profil/pengaturan/essay') ?>" class="btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-pencil"></i> Ubah</a>
+							<a href="<?= site_url('kandidat/pengaturan/essay') ?>" class="btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-pencil"></i> Ubah</a>
 						<?php endif; ?>
 						</h3>
 					<hr>
@@ -96,7 +96,7 @@
 				<div class="col-md-12">
 					<h3>Pencapaian 
 					<?php if($is_me): ?>
-						<a href="<?= site_url('profil/pengaturan/pencapaian') ?>" class="btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-pencil"></i> Ubah</a>
+						<a href="<?= site_url('kandidat/pengaturan/pencapaian') ?>" class="btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-pencil"></i> Ubah</a>
 					<?php endif; ?>
 					</h3>
 					<hr>

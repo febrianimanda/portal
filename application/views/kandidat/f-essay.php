@@ -6,6 +6,9 @@
 				<li role="presentation">
 					<a href="<?= site_url('kandidat/pengaturan/dasar') ?>">Dasar</a>
 				</li>
+				<li role="presentation">
+					<a href="<?= site_url('kandidat/pengaturan/rekomendasi') ?>">Rekomendasi</a>
+				</li>
 				<li role="presentation" class="active">
 					<a href="<?= site_url('kandidat/pengaturan/essay') ?>">Essay</a>
 				</li>
@@ -24,13 +27,13 @@
 		<div class="col-md-8">
 			<div class="row profil-row">
 				<div class="col-md-12">
-					<h3>Pencapaian</h3><hr>
+					<h3>Essay</h3><hr>
 					<form action="#" method="post">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
-									<label>Foto Profil</label>
-									<input type="file" name="profpic" accept="image/*" required class="form-control">
+									<label>Essay dengan tema ... <span class="text-danger">*</span></label>
+									<textarea name="isi" rows="3" class="form-control" placeholder="Tulis essay anda disini"></textarea>
 								</div>
 							</div>
 							
