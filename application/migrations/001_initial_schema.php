@@ -262,7 +262,7 @@ class Migration_Initial_schema extends CI_Migration {
 		# ==== ==== ==== ==== ==== ==== ==== ==== ====
 		# == Table Peserta == 
 		$this->dbforge->add_field(array(
-			'id_peserta'	=> array(
+			'peserta_id'	=> array(
 				'type'						=> 'int',
 				'constraint'			=> 5,
 				'unsgined'				=> TRUE,
@@ -389,7 +389,7 @@ class Migration_Initial_schema extends CI_Migration {
 				'default'			=> 0
 			),
 		));
-		$this->dbforge->add_key('id_peserta', TRUE);
+		$this->dbforge->add_key('peserta_id', TRUE);
 		$this->dbforge->create_table('peserta');
 		# ==== ==== ==== ==== ==== ==== ==== ==== ====
 		# == Table Pencapaian == 
@@ -400,7 +400,7 @@ class Migration_Initial_schema extends CI_Migration {
 				'unsgined'				=> TRUE,
 				'auto_increment'	=> TRUE
 			),
-			'id_peserta'	=> array(
+			'peserta_id'	=> array(
 				'type'				=> 'int',
 				'constraint'	=> 5,
 			),
@@ -459,7 +459,7 @@ class Migration_Initial_schema extends CI_Migration {
 				'unsgined'				=> TRUE,
 				'auto_increment'	=> TRUE
 			),
-			'id_peserta'	=> array(
+			'peserta_id'	=> array(
 				'type'				=> 'int',
 				'constraint'	=> 5,
 			),
@@ -499,7 +499,7 @@ class Migration_Initial_schema extends CI_Migration {
 				'unsgined'				=> TRUE,
 				'auto_increment'	=> TRUE
 			),
-			'id_peserta'	=> array(
+			'peserta_id'	=> array(
 				'type'				=> 'int',
 				'constraint'	=> 5,
 			),
@@ -558,7 +558,7 @@ class Migration_Initial_schema extends CI_Migration {
 				'unsgined'				=> TRUE,
 				'auto_increment'	=> TRUE
 			),
-			'id_peserta'	=> array(
+			'peserta_id'	=> array(
 				'type'				=> 'int',
 				'constraint'	=> 5,
 			),
@@ -605,7 +605,7 @@ class Migration_Initial_schema extends CI_Migration {
 				'type'				=> 'varchar',
 				'constraint'	=> 50,
 			),
-			'id_koor_rekruter' => array(
+			'koor_id' => array(
 				'type'				=> 'int',
 				'constraint'		=> 3,
 				'null'				=> TRUE
@@ -628,11 +628,11 @@ class Migration_Initial_schema extends CI_Migration {
 		# ==== ==== ==== ==== ==== ==== ==== ==== ====
 		# == Table Penilaian == 
 		$this->dbforge->add_field(array(
-			'id_peserta'	=> array(
+			'peserta_id'	=> array(
 				'type'				=> 'int',
 				'constraint'	=> 5,
 			),
-			'id_rekruter_ditugaskan'	=> array(
+			'rekruter_id'	=> array(
 				'type'				=> 'int',
 				'constraint'	=> 3,
 			),
@@ -653,10 +653,6 @@ class Migration_Initial_schema extends CI_Migration {
 			),
 			'kepo_rekruter' => array(
 				'type'	=> 'text',
-			),
-			'id_rekruter_penilai' => array(
-				'type'				=> 'int',
-				'constraint'	=> 3
 			),
 			'updated_by' => array(
 				'type'				=> 'int',
