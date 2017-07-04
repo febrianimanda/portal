@@ -56,16 +56,19 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-2 col-md-offset-1">
-						<img src="<?= img_url('ava-men.png') ?>" alt="profile" class="profil-img">
+						<img src="<?= base_url('profpics_upload/'.$profpic) ?>" alt="profile" class="profil-img">
 					</div>
 					<div class="col-md-8">
 						<h1>Febrian Imanda Effendy</h1>
 						<h4><i class="fa fa-map-marker" aria-hidden="true"></i> Bandung, Jawa Barat</h4>
 						<div class="profil-socmed">
 							<?php if($this->uri->segment(2) != "pengaturan"): ?>
-								<a href="<?= $socmed['fb'] ?>"><i class="fa fa-facebook-square" alt="facebook" aria-hidden="true"></i></a> <a href="http://<?= $socmed['twitter'] ?>"><i class="fa fa-twitter-square" aria-hidden="true"></i></a> <a href="http://<?= $socmed['ig'] ?>"><i class="fa fa-instagram" aria-hidden="true"></i></a> <a href="http://<?= $socmed['blog'] ?>"><i class="fa fa-share-alt-square" aria-hidden="true"></i></a>
+								<a href="<?= $socmed['fb'] ?>"><i class="fa fa-facebook-square" alt="facebook" aria-hidden="true"></i></a>
+								<a href="http://<?= $socmed['twitter'] ?>"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
+								<a href="http://<?= $socmed['ig'] ?>"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+								<a href="http://<?= $socmed['blog'] ?>"><i class="fa fa-share-alt-square" aria-hidden="true"></i></a>
 							<?php else: ?>
-								<a href="<?=site_url('kandidat/profil')?>" class="btn btn-profil-flat">Kembali ke profil</a>
+								<a href="<?=site_url('kandidat')?>" class="btn btn-profil-flat">Kembali ke profil</a>
 							<?php endif; ?>
 						</div>
 					</div>

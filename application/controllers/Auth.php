@@ -197,6 +197,8 @@ class Auth extends CI_Controller {
 	}
 
 	public function do_login() {
+		$this->load->model('peserta_model');
+
 		$this->form_validation->set_rules('email', 'Email', 'trim|required');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required');
 
@@ -217,6 +219,7 @@ class Auth extends CI_Controller {
 		
 		if($success) {
 			$user = $this->auth_model->read_user_information($data['email'])->result_array();
+			$idpeserta = $this->peserta_model->get_id('email', $data['email']);
 			$session_data = array(
 				'email'			=> $user[0]['email'],
 				'username'	=> $user[0]['username'],
