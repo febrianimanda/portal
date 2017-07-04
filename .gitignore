@@ -30,3 +30,7 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 
 # Database Configuration
 application/config/database.php
+
+# File Uploads
+profpics_upload/*
+documents_upload/*
