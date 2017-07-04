@@ -25,13 +25,20 @@
 		</div>
 		<!-- Form Content -->
 		<div class="col-md-8">
-			<form action="../do_update_dasar" method="post">
+			<form action="../do_update_dasar" method="post" enctype="multipart/form-data">
 				<!-- Informasi Dasar  -->
 				<div class="row profil-row">
 					<div class="col-md-12">
+						<?php if($this->session->flashdata('message') != null):?>
+							<div class="alert alert-<?= $this->session->flashdata('status') ?>" role="alert">
+								<?= $this->session->flashdata('message') ?>
+							</div>
+						<?php endif; ?>
+					</div>
+					<div class="col-md-12">
 						<h3>Informasi Dasar</h3><hr>
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<div class="form-group">
 									<label>Foto Profil <span class="text-danger">*</span></label>
 									<input type="file" name="profpic_path" accept="image/*" class="form-control">
@@ -41,6 +48,12 @@
 								<div class="form-group">
 									<label>Nama Lengkap <span class="text-danger">*</span></label>
 									<input type="text" required name="fullname" placeholder="Nama Lengkap Anda" class="form-control" value="<?= $data['fullname'] ?>">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Username <span class="text-danger">*</span></label>
+									<input type="text" required name="username" placeholder="Nama Lengkap Anda" class="form-control" value="<?= $data['username'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">

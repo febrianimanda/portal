@@ -26,6 +26,7 @@ class Pencapaian_model extends CI_Model {
 	public function update_pencapaian($data) {
 		$this->db->set($data);
 		$this->db->update($this->table);
+		return ($this->db->affected_rows() != 1) ? False : True;
 	}
 
 }

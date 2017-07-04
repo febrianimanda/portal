@@ -17,6 +17,20 @@ class Peserta_model extends CI_Model {
 		return $query;
 	}
 
+	public function get_id($key, $val) {
+		$this->db->select('peserta_id');
+		$this->db->where($key, $val);
+		$query = $this->db->get($this->table, 1);
+		return $query->result_array()[0]['peserta_id'];
+	}
+
+	public function get_profpic($key, $val) {
+		$this->db->select('profpic_path');
+		$this->db->where($key, $val);
+		$query = $this->db->get($this->table, 1);
+		return $query->result_array()[0]['profpic_path'];
+	}
+
 	public function read_peserta_by_username($username) {
 		$this->db->where('username', $username);
 		$query = $this->db->get($this->table, 1);
@@ -35,9 +49,19 @@ class Peserta_model extends CI_Model {
 		return ($this->db->affected_rows() != 1) ? False : True;
 	}
 
-	public function update_peserta($data) {
+	public function update_peserta($idpeserta, $data) {
 		$this->db->set($data);
+		$this->db->where('peserta_id', $idpeserta);
 		$this->db->update($this->table);
+
+		return ($this->db->affected_rows() != 1) ? $this->db->error() : True;
+	}
+
+	public function update_profpic($idpeserta, $path) {
+		$this->db->set('profpic_path', $path);
+		$this->db->where('peserta_id', $idpeserta);
+		$this->db->update($this->table);
+		return ($this->db->affected_rows() != 1) ? False : True;
 	}
 
 }

@@ -47,6 +47,7 @@ class Institusi_model extends CI_Model {
 			$this->db->set('jumlah','`jumlah`-1', FALSE);
 		}
 		$query = $this->db->update($this->table);
+		return ($this->db->affected_rows() != 1) ? False : True;
 	}
 
 }

@@ -18,10 +18,15 @@ class Agama_model extends CI_Model {
 		return $query;
 	}
 
-	public function update_jumlah($key, $val) {
+	public function update_jumlah($key, $val, $inc=true) {
 		$this->db->where($key, $val);
-		$this->db->set('jumlah','`jumlah`+1', FALSE);
+		if($inc == true) {
+			$this->db->set('jumlah','`jumlah`+1', FALSE);
+		} else {
+			$this->db->set('jumlah','`jumlah`-1', FALSE);
+		}
 		$query = $this->db->update($this->table);
+		return ($this->db->affected_rows() != 1) ? False : True;
 	}
 
 }
