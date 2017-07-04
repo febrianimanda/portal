@@ -28,7 +28,7 @@
 			<div class="row profil-row">
 				<div class="col-md-12">
 					<h3>Rekomendasi</h3><hr>
-					<form action="<?= ($data['status'] == 'update') ? '../do_update_rekomendasi' : '../do_insert_rekomendasi' ?>" method="post">
+					<form action="../do_update_rekomendasi/<?= ($data['status'] == 'update') ? 'true' : 'false' ?>" method="post" enctype="multipart/form-data">
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
@@ -40,8 +40,8 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>File Rekomendasi (.pdf) <span class="text-danger">*</span></label>
-									<input type="file" required name="file_rekomendasi" class="form-control" placeholder="upload file anda disni"> <?= $data['file_rekomendasi_path'] ?>
+									<label>File Rekomendasi (.pdf) <span class="text-danger">*</span>  <span class="label label-info"><?= ($data['file_rekomendasi_path'] != "") ? "Sudah pernah upload" : "Belum pernah upload" ?></span></label>
+									<input type="file" required name="file_rekomendasi" class="form-control" placeholder="upload file anda disni">
 								</div>
 							</div>
 							<div class="col-md-12">

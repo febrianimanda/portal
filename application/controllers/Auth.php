@@ -219,7 +219,6 @@ class Auth extends CI_Controller {
 		
 		if($success) {
 			$user = $this->auth_model->read_user_information($data['email'])->result_array();
-			$idpeserta = $this->peserta_model->get_id('email', $data['email']);
 			$session_data = array(
 				'email'			=> $user[0]['email'],
 				'username'	=> $user[0]['username'],

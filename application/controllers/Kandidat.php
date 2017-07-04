@@ -29,6 +29,7 @@ class Kandidat extends CI_Controller {
 		$tw = $data_page['dasar'][0]['twitter'];
 		$ig = $data_page['dasar'][0]['instagram'];
 
+		//setup template page variable
 		$data['socmed'] = array(
 			'fb' 			=> $data_page['dasar'][0]['fb'],
 			'twitter'	=> (strpos($tw,'twitter.com/')) ? $tw : "twitter.com/".$tw,
@@ -37,7 +38,12 @@ class Kandidat extends CI_Controller {
 		);
 
 		$profpic = $data_page['dasar'][0]['profpic_path'];
-		$data['profpic'] = ($profpic != '') ? $profpic : 'ava-'.$data_page['dasar'][0]['gender'].'.png';
+		$data['header_info'] = array(
+			'name' 			=> $data_page['dasar'][0]['fullname'],
+			'kota'			=> $data_page['dasar'][0]['kota'],
+			'provinsi'	=> $data_page['dasar'][0]['provinsi'],
+			'profpic'		=> ($profpic != '') ? $profpic : 'ava-'.$data_page['dasar'][0]['gender'].'.png'
+		);
 
 		// Setup page content
 		$data['title'] = 'Profil Kandidat';
@@ -80,13 +86,13 @@ class Kandidat extends CI_Controller {
 
 			$idpeserta = $this->peserta_model->get_id('username', $username);
 			$obj_rekomendasi = $this->perekomendasi_model->read_perekomendasi($idpeserta)->result_array();
-			$exist = isset($obj_rekomendasi[0]);
+			$exist = (sizeof($obj_rekomendasi) > 0);
+
 			$data_page['data'] = array(
-				'nama_perekomendasi' => ($exist) ? $obj_rekomendasi['nama_perekomendasi'] : "",
-				'file_rekomendasi_path' => ($exist) ? $obj_rekomendasi['file_rekomendasi_path'] : "",
+				'nama_perekomendasi' => ($exist) ? $obj_rekomendasi[0]['nama_perekomendasi'] : "",
+				'file_rekomendasi_path' => ($exist) ? $obj_rekomendasi[0]['file_rekomendasi_path'] : "",
 				'status' => ($exist) ? "update" : "new",
 			);
-
 		}
 
 		if(!isset($data_page)){
@@ -96,7 +102,13 @@ class Kandidat extends CI_Controller {
 		}
 
 		$data['title'] = "Pengaturan ".$page;
-		$data['profpic'] = $this->peserta_model->get_profpic('username', $username);
+		$header_info = $this->peserta_model->get_header_info('username', $username);
+		$data['header_info'] = array(
+			'name' 			=> $header_info['fullname'],
+			'kota'			=> $header_info['kota'],
+			'provinsi'	=> $header_info['provinsi'],
+			'profpic'		=> ($header_info['profpic_path'] != '') ? $header_info['profpic_path'] : 'ava-'.$header_info['gender'].'.png'
+		);
 		$this->load->view('template/profil-full', $data);
 	}
 
@@ -155,12 +167,35 @@ class Kandidat extends CI_Controller {
 		redirect(site_url('kandidat/pengaturan/dasar'), 'refresh');
 	}
 
-	public function do_update_rekomendasi(){
+	public function do_update_rekomendasi($update='true'){
 		$this->load->model('peserta_model');
 		$this->load->model('perekomendasi_model');
 
 		$idpeserta = $this->peserta_model->get_id('username', $this->session->userdata('username'));
-		$success = $this->perekomendasi_model->update_perekomendasi($idpeserta, $this->input->post());		
+		
+		if($_FILES['file_rekomendasi']['size'] > 0){
+			$file = explode('.',$_FILES['file_rekomendasi']['name']);
+			$extension_file = end($file);
+			$filename = $this->session->userdata('username').'.'.$extension_file;
+			// Upload Photo
+			$this->do_upload_document($filename);
+			$_POST['file_rekomendasi_path'] = $filename;
+		}
+		if($update == 'true') {
+			$success = $this->perekomendasi_model->update_perekomendasi($idpeserta, $this->input->post());
+		}
+		else {
+			$_POST['id_peserta'] = $idpeserta;
+			$success = $this->perekomendasi_model->insert_perekomendasi($this->input->post());
+		}
+		if($success) {
+			$this->session->set_flashdata('status','success');
+			$this->session->set_flashdata('message','Data anda berhasil disimpan');
+		} else {
+			$this->session->set_flashdata('status','danger');
+			$this->session->set_flashdata('message','Ada kesalahan ketika meyimpan data anda,'.$success);
+		}
+		redirect(site_url('kandidat/pengaturan/rekomendasi'), 'refresh');
 	}
 
 	public function do_upload_image($filename){
@@ -216,6 +251,19 @@ class Kandidat extends CI_Controller {
         }
 			}
 			return true;
+		}
+	}
+
+	public function do_upload_document($filename){
+		$config['upload_path'] 		= "document_uploads";
+		$config['allowed_types']	= "pdf";
+		$config['filename']				= $filename;
+		$config['overwrite']			= TRUE;
+
+		$this->load->library('upload', $config);
+		if(!$this->upload->do_upload()){
+			$this->session->set_flashdata('status', 'danger');
+    	$this->session->set_flashdata('message', $this->upload->display_errors('', ''));
 		}
 	}
 }

@@ -20,7 +20,7 @@ class Perekomendasi_model extends CI_Model {
 		$this->db->where('peserta_id', $idpeserta);
 		$this->db->set($data);
 		$this->db->update($this->table);
-		return ($this->db->affected_rows() != 1) ? False : True;
+		return ($this->db->affected_rows() != 1) ? $this->db->error() : True;
 	}
 
 }
