@@ -127,7 +127,11 @@ class Auth extends CI_Controller {
 				'is_unique'			=> 'Email sudah terdaftar.',
 			)
 		);
-		$this->form_validation->set_rules('password', 'Password', 'required');	
+		$this->form_validation->set_rules('username', 'Username', 'required|is_unique[user.username]', array(
+				'is_unique'			=> 'Username sudah digunakan.',
+			)
+		);
+		$this->form_validation->set_rules('password', 'Password', 'required');
 		$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]');
 
 		if( $this->form_validation->run() == false) {
@@ -204,9 +208,9 @@ class Auth extends CI_Controller {
 			# back to login
 			redirect('auth/', 'refresh');
 		}
-		
+		$nonxss_email = $this->input->post('email');
 		$data = array(
-			'email'			=> $this->input->post('email'),
+			'email'			=> $this->security->xss_clean($nonxss_email),
 			'password'	=> MD5($this->input->post('password'))
 		);
 		$success = $this->auth_model->login_validation($data);

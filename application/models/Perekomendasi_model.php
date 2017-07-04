@@ -6,7 +6,7 @@ class Perekomendasi_model extends CI_Model {
 	public $table = 'perekomendasi';
 
 	public function read_perekomendasi($idpeserta) {
-		$this->db->where(array('id_peserta' => $idpeserta, 'is_deleted' => 0));
+		$this->db->where(array('peserta_id' => $idpeserta, 'is_deleted' => 0));
 		$query = $this->db->get($this->table);
 		return $query;
 	}

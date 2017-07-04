@@ -19,7 +19,7 @@ class Kandidat extends CI_Controller {
 
 		// setup page variable, result array is faster than else
 		$data_page['dasar'] = $this->peserta_model->read_peserta_by_username($username)->result_array();
-		$idpeserta = $data_page['dasar'][0]['id_peserta'];
+		$idpeserta = $data_page['dasar'][0]['peserta_id'];
 		$data_page['pencapaian'] = $this->pencapaian_model->read_all_pencapaian($idpeserta)->result_array();
 		$data_page['project'] = $this->project_model->read_project($idpeserta)->result_array();
 		$data_page['essay'] = $this->essay_model->read_essay($idpeserta)->result_array();
@@ -56,12 +56,14 @@ class Kandidat extends CI_Controller {
 			$this->load->model('jalur_model');
 			$this->load->model('provinsi_model');
 			$this->load->model('info_model');
+			$this->load->model('peserta_model');
 
 			// setup page variable
-			$data_page['agama'] = $this->agama_model->read_all_agama()->result();
-			$data_page['jalur'] = $this->jalur_model->read_all_jalur()->result();
-			$data_page['provinsi'] = $this->provinsi_model->read_all_provinsi()->result();
-			$data_page['info'] = $this->info_model->read_all_info()->result();
+			$data_page['data'] = $this->peserta_model->read_peserta_by_username($this->session->userdata('username'))->result_array()[0];
+			$data_page['agama'] = $this->agama_model->read_all_agama()->result_array();
+			$data_page['jalur'] = $this->jalur_model->read_all_jalur()->result_array();
+			$data_page['provinsi'] = $this->provinsi_model->read_all_provinsi()->result_array();
+			$data_page['info'] = $this->info_model->read_all_info()->result_array();
 
 			// Setup Page Dynamic CSS and JS
 			$data['header_css_file'] = ['bootstrap-tagsinput'];
@@ -77,6 +79,43 @@ class Kandidat extends CI_Controller {
 		}
 
 		$this->load->view('template/profil-full', $data);
+	}
+
+	public function do_update_dasar(){
+		$this->load->model('peserta_model');
+		$this->load->model('auth_model');
+		$this->load->model('provinsi_model');
+		$this->load->model('institusi_model');
+
+		$username = $this->session->userdata('username');
+		// for updating statistics purpose
+		$ext_data = $this->peserta_model->read_ext_data($username);
+
+		$success = $this->peserta_model->update_peserta($this->input->post());
+		if($success) {
+			if($_POST['provinsi'] != $ext_data['provinsi']) {
+				// Update Jumlah Provinsi
+				$this->provinsi_model->update_jumlah('nama_provinsi', $ext_data['provinsi'], false);
+				$this->provinsi_model->update_jumlah('nama_provinsi', $_POST['provinsi']);
+			}
+			if($_POST['institusi'] != $ext_data['institusi']) {
+				// Update jumlah institusi
+				$this->institusi_model->update_jumlah('nama_institusi', $ext_data['provinsi'], false);
+				$exist = $this->institusi_model->is_exist('nama_institusi', $_POST['institusi']);
+				if($exist)
+					$this->institusi_model->update_jumlah('nama_institusi', $_POST['institusi']);
+				else 
+					$this->institusi_model->insert_institusi($_POST['institusi'], 1);
+			}
+			if($_POST['username'] != $ext_data['username']) {
+				//Update username
+				$this->auth_model->update_username($this->session->userdata('email'), $_POST['username']);
+			}
+			$this->session->set_flashdata('alert','Data anda berhasil disimpan');
+		} else {
+			$this->session->set_flashdata('alert','Ada kesalahan ketika meyimpan data anda, silahkan coba lagi');
+		}
+		redirect(site_url('kandidat/pengaturan/dasar'), 'refresh');
 	}
 
 }

@@ -30,13 +30,17 @@ class Institusi_model extends CI_Model {
 		else { return false; }
 	}
 
-	public function insert_institusi($data) {
+	public function insert_institusi($institusi, $jumlah=0) {
+		$data = array(
+			'nama_institusi' => $institusi,
+			'jumlah' => $jumlah
+		);
 		$this->db->insert($this->table, $data);
 		return $this->db->affected_rows();
 	}
 
-	public function update_jumlah($id, $inc=true) {
-		$this->db->where('institusi_id', $id);
+	public function update_jumlah($key, $val, $inc=true) {
+		$this->db->where($key, $val);
 		if($inc == true) {
 			$this->db->set('jumlah','`jumlah`+1', FALSE);
 		} else {

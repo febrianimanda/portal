@@ -6,14 +6,14 @@ class Pencapaian_model extends CI_Model {
 	public $table = 'pencapaian';
 
 	public function read_all_pencapaian($idpeserta) {
-		$this->db->where(array('id_peserta' => $idpeserta, 'is_deleted' => 0));
+		$this->db->where(array('peserta_id' => $idpeserta, 'is_deleted' => 0));
 		$this->db->order_by('indeks', "asc");
 		$query = $this->db->get($this->table);
 		return $query;
 	}
 
 	public function read_pencapaian($idpeserta, $index) {
-		$this->db->where(array('id_peserta' => $idpeserta, 'indeks' => $index, 'is_deleted' => 0));
+		$this->db->where(array('peserta_id' => $idpeserta, 'indeks' => $index, 'is_deleted' => 0));
 		$query = $this->db->get($this->table, 1);
 		return $query;
 	}

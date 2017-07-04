@@ -6,7 +6,7 @@ class Project_model extends CI_Model {
 	public $table = 'project';
 
 	public function read_project($idpeserta) {
-		$this->db->where(array('id_peserta' => $idpeserta, 'is_deleted' => 0));
+		$this->db->where(array('peserta_id' => $idpeserta, 'is_deleted' => 0));
 		$query = $this->db->get($this->table);
 		return $query;
 	}

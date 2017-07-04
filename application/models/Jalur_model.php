@@ -18,9 +18,13 @@ class Jalur_model extends CI_Model {
 		return $query;
 	}
 
-	public function update_jumlah($key) {
+	public function update_jumlah($key, $inc=true) {
 		$this->db->where('key', $key);
-		$this->db->set('jumlah','`jumlah`+1', FALSE);
+		if($inc == true) {
+			$this->db->set('jumlah','`jumlah`+1', FALSE);
+		} else {
+			$this->db->set('jumlah','`jumlah`-1', FALSE);
+		}
 		$query = $this->db->update($this->table);
 	}
 

@@ -23,6 +23,13 @@ class Peserta_model extends CI_Model {
 		return $query;
 	}
 
+	public function read_ext_data($username) {
+		$this->db->select('username, agama, institusi, provinsi');
+		$this->db->where('username', $username);
+		$query = $this->db->get($this->table, 1);
+		return $query;
+	}
+
 	public function insert_peserta($data) {
 		$this->db->insert($this->table, $data);
 		return ($this->db->affected_rows() != 1) ? False : True;

@@ -3,8 +3,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Auth_model extends CI_Model {
 	
+	public $table = 'user';
+
 	public function insert_registration($data) {
-		$query = $this->db->insert('user', $data);
+		$query = $this->db->insert($this->table, $data);
 		return $query;
 	}
 
@@ -15,9 +17,9 @@ class Auth_model extends CI_Model {
 	}
 
 	public function read_user_information($email) {
-		$query = $this->db->get_where('user', array('email'=>$email), 1);
+		$query = $this->db->get_where($this->table, array('email'=>$email), 1);
 		if($query->num_rows() == 1) {
-			return $query->result();
+			return $query;
 		}
 		return false;
 	}
@@ -62,13 +64,19 @@ class Auth_model extends CI_Model {
 
 	public function update_password($post) {
 		$query1 = $this->db->where('email', $post['email']);
-		$query1->update('user', array('password'=>$post['password']));
+		$query1->update($this->table, array('password'=>$post['password']));
 		if($query1->affected_rows() > 0){
 			$query2->where('email', $post['email']);
 			$query2->update('token', array('is_expired'=>true));
 			return true;
 		}
 		return false;
+	}
+
+	public function update_username($email, $new_username) {
+		$this->db->where('email', $email);
+		$this->db->update($this->table, array('username'=>$new_username));
+		return $this->db->affected_rows();
 	}
 
 }
