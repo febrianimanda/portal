@@ -53,7 +53,6 @@ class Peserta_model extends CI_Model {
 		$this->db->set($data);
 		$this->db->where('peserta_id', $idpeserta);
 		$this->db->update($this->table);
-
 		return ($this->db->affected_rows() != 1) ? $this->db->error() : True;
 	}
 

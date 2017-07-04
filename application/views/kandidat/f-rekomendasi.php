@@ -28,7 +28,7 @@
 			<div class="row profil-row">
 				<div class="col-md-12">
 					<h3>Rekomendasi</h3><hr>
-					<form action="../do_update_rekomendasi/<?= ($data['status'] == 'update') ? 'true' : 'false' ?>" method="post" enctype="multipart/form-data">
+					<form action="../do_update_rekomendasi/<?= $data['status'] ?>" method="post" enctype="multipart/form-data">
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">

@@ -28,15 +28,17 @@
 			<div class="row profil-row">
 				<div class="col-md-12">
 					<h3>Essay</h3><hr>
-					<form action="#" method="post">
+					<form action="../do_update_essay/<?= $data['status'] ?>" method="post">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
 									<label>Essay dengan tema ... <span class="text-danger">*</span></label>
-									<textarea name="isi" rows="3" class="form-control" placeholder="Tulis essay anda disini"></textarea>
+									<textarea name="konten" rows="5" class="form-control" placeholder="Tulis essay anda disini"><?= $data['konten'] ?></textarea>
 								</div>
 							</div>
-							
+							<div class="col-md-12">
+								<input type="submit" value="simpan" class="btn btn-profil-primary">
+							</div>
 						</div>
 					</form>
 				</div>

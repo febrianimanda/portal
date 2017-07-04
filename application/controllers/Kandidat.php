@@ -59,6 +59,7 @@ class Kandidat extends CI_Controller {
 		
 		$this->load->model('peserta_model');
 		$username = $this->session->userdata('username');
+		$idpeserta = $this->peserta_model->get_id('username', $username);
 
 		if($page == 'dasar') {
 			// Load Model
@@ -84,14 +85,24 @@ class Kandidat extends CI_Controller {
 			// Load model
 			$this->load->model('perekomendasi_model');
 
-			$idpeserta = $this->peserta_model->get_id('username', $username);
 			$obj_rekomendasi = $this->perekomendasi_model->read_perekomendasi($idpeserta)->result_array();
 			$exist = (sizeof($obj_rekomendasi) > 0);
 
 			$data_page['data'] = array(
-				'nama_perekomendasi' => ($exist) ? $obj_rekomendasi[0]['nama_perekomendasi'] : "",
+				'nama_perekomendasi' 		=> ($exist) ? $obj_rekomendasi[0]['nama_perekomendasi'] : "",
 				'file_rekomendasi_path' => ($exist) ? $obj_rekomendasi[0]['file_rekomendasi_path'] : "",
-				'status' => ($exist) ? "update" : "new",
+				'status' 								=> ($exist) ? "update" : "new",
+			);
+		} else if ($page == 'essay') {
+			//load model
+			$this->load->model('essay_model');
+
+			$obj_essay = $this->essay_model->read_essay($idpeserta)->result_array();
+			$exist = (sizeof($obj_essay) > 0);
+
+			$data_page['data'] = array(
+				'konten'	=> ($exist) ? $obj_essay[0]['konten'] : "",
+				'status' 	=> ($exist) ? "update" : "new",
 			);
 		}
 
@@ -167,7 +178,7 @@ class Kandidat extends CI_Controller {
 		redirect(site_url('kandidat/pengaturan/dasar'), 'refresh');
 	}
 
-	public function do_update_rekomendasi($update='true'){
+	public function do_update_rekomendasi($status='update'){
 		$this->load->model('peserta_model');
 		$this->load->model('perekomendasi_model');
 
@@ -177,28 +188,36 @@ class Kandidat extends CI_Controller {
 			$file = explode('.',$_FILES['file_rekomendasi']['name']);
 			$extension_file = end($file);
 			$filename = $this->session->userdata('username').'.'.$extension_file;
-			// Upload Photo
+			// Upload document
 			$this->do_upload_document($filename);
 			$_POST['file_rekomendasi_path'] = $filename;
 		}
-		if($update == 'true') {
+		if($status == 'update') {
 			$success = $this->perekomendasi_model->update_perekomendasi($idpeserta, $this->input->post());
-		}
-		else {
+		} else {
 			$_POST['id_peserta'] = $idpeserta;
 			$success = $this->perekomendasi_model->insert_perekomendasi($this->input->post());
 		}
-		if($success) {
-			$this->session->set_flashdata('status','success');
-			$this->session->set_flashdata('message','Data anda berhasil disimpan');
-		} else {
-			$this->session->set_flashdata('status','danger');
-			$this->session->set_flashdata('message','Ada kesalahan ketika meyimpan data anda,'.$success);
-		}
+		$this->alert_messages($success);
 		redirect(site_url('kandidat/pengaturan/rekomendasi'), 'refresh');
 	}
 
-	public function do_upload_image($filename){
+	public function do_update_essay($status='update'){
+		$this->load->model('peserta_model');
+		$this->load->model('essay_model');
+
+		$idpeserta = $this->peserta_model->get_id('username', $this->session->userdata('username'));
+		if($status == 'update') {
+			$success = $this->essay_model->update_essay($idpeserta, $this->input->post());
+		} else {
+			$_POST['peserta_id'] = $idpeserta;
+			$success = $this->essay_model->insert_essay($this->input->post());
+		}
+		$this->alert_messages($success);
+		redirect(site_url('kandidat/pengaturan/essay'), 'refresh');
+	}
+
+	public function do_upload_image($userfile, $filename){
 
 		$config['upload_path'] 		= 'profpics_upload';
 		$config['allowed_types'] 	= 'jpg|jpeg|png';
@@ -206,10 +225,8 @@ class Kandidat extends CI_Controller {
 		$config['file_name']			= $filename;
 		$config['overwrite'] 		= TRUE;
 		$this->load->library('upload', $config);
-
-		$userfile = "profpic_path";
 		
-		if(strlen($_FILES['profpic_path']['name']) > 0) {
+		if(strlen($_FILES[$userfile]['name']) > 0) {
 			if(!$this->upload->do_upload($userfile)) { 
 				$upload_errors = $this->upload->display_errors('', '');
 				$this->session->set_flashdata('message', 'Error: '.$upload_errors);
@@ -264,6 +281,16 @@ class Kandidat extends CI_Controller {
 		if(!$this->upload->do_upload()){
 			$this->session->set_flashdata('status', 'danger');
     	$this->session->set_flashdata('message', $this->upload->display_errors('', ''));
+		}
+	}
+
+	public function alert_messages($success) {
+		if($success) {
+			$this->session->set_flashdata('status','success');
+			$this->session->set_flashdata('message','Data anda berhasil disimpan');
+		} else {
+			$this->session->set_flashdata('status','danger');
+			$this->session->set_flashdata('message','Ada kesalahan ketika meyimpan data anda,'.$success);
 		}
 	}
 }
