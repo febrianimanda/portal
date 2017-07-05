@@ -27,6 +27,13 @@
 		<div class="col-md-8">
 			<div class="row profil-row">
 				<div class="col-md-12">
+					<?php if($this->session->flashdata('message') != null):?>
+						<div class="alert alert-<?= $this->session->flashdata('status') ?>" role="alert">
+							<?= $this->session->flashdata('message') ?>
+						</div>
+					<?php endif; ?>
+				</div>
+				<div class="col-md-12">
 					<h3>Rekomendasi</h3><hr>
 					<form action="../do_update_rekomendasi/<?= $data['status'] ?>" method="post" enctype="multipart/form-data">
 						<div class="row">

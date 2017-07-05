@@ -88,7 +88,7 @@
 						<?php endif; ?>
 						</h3>
 					<hr>
-					<p><?= (isset($essay[0])) ? $essay[0]['isi'] : "<em>Essay belum diisi</em>" ?></p>
+					<p><?= (isset($essay[0])) ? $essay[0]['konten'] : "<em>Essay belum diisi</em>" ?></p>
 				</div>
 			</div>
 			<!-- Pencapaian Section -->
@@ -122,22 +122,22 @@
 				<div class="col-md-12">
 					<h3>Project 
 					<?php if($is_me): ?>
-						<a href="<?= site_url('profil/pengaturan/project') ?>" class="btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-pencil"></i> Ubah</a>
+						<a href="<?= site_url('kandidat/pengaturan/project') ?>" class="btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-pencil"></i> Ubah</a>
 					<?php endif; ?>
 					</h3>
 					<hr>
 					<div class="row">
 						<div class="col-md-12">
 							<?php if(isset($project[0])): ?>
-								<span class="floating-label label label-info"><?= $project['jenis'] ?></span>
-								<h4><strong><?= $project['nama_project'] ?></strong></h4>
-								<h5>Lokasi: <?= $project['lokasi'] ?> | Penanggung Jawab: <?= $project['penanggung_jawab'] ?> | Peran: <?= $project['peran'] ?></h5>
+								<span class="floating-label label label-info"><?= $project[0]['jenis'] ?></span>
+								<h4><strong><?= $project[0]['nama_project'] ?></strong></h4>
+								<h5>Lokasi: <?= $project[0]['lokasi'] ?> | Penanggung Jawab: <?= $project[0]['penanggung_jawab'] ?> | Peran: <?= $project[0]['peran'] ?></h5>
 								<h5><strong>Alasan Project ini Penting</strong></h5>
-								<p><?= $project['alasan_penting'] ?></p>
+								<p><?= $project[0]['alasan_penting'] ?></p>
 								<h5><strong>Kegiatan yang akan dilakukan</strong></h5>
-								<p><?= $project['kegiatan'] ?></p>
+								<p><?= $project[0]['kegiatan'] ?></p>
 								<h5><strong>Bagaimana FIM bisa meningkatkan nilai manfaat project ini</strong></h5>
-								<p><?= $project['support_fim'] ?></p>
+								<p><?= $project[0]['supported_fim'] ?></p>
 							<?php else: ?>
 								<p><i>Project belum diisi</i></p>
 							<?php endif; ?>
