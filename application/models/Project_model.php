@@ -13,12 +13,14 @@ class Project_model extends CI_Model {
 
 	public function insert_project($data) {
 		$this->db->insert($this->table, $data);
-		return ($this->db->affected_rows() != 1) ? False : True;
+		return ($this->db->affected_rows() != 1) ? $this->db->error() : True;
 	}
 
-	public function update_project($data) {
+	public function update_project($idpeserta, $data) {
+		$this->db->where('peserta_id', $idpeserta);
 		$this->db->set($data);
 		$this->db->update($this->table);
+		return ($this->db->affected_rows() != 1) ? $this->db->error() : True;
 	}
 
 }

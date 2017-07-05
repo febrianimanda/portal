@@ -25,7 +25,8 @@ class Kandidat extends CI_Controller {
 		$data_page['essay'] = $this->essay_model->read_essay($idpeserta)->result_array();
 		$data_page['rekomendasi'] = $this->perekomendasi_model->read_perekomendasi($idpeserta)->result_array();
 		$data_page['is_me'] = ($this->session->userdata('username') == $username);
-		
+
+
 		$tw = $data_page['dasar'][0]['twitter'];
 		$ig = $data_page['dasar'][0]['instagram'];
 
@@ -93,6 +94,7 @@ class Kandidat extends CI_Controller {
 				'file_rekomendasi_path' => ($exist) ? $obj_rekomendasi[0]['file_rekomendasi_path'] : "",
 				'status' 								=> ($exist) ? "update" : "new",
 			);
+
 		} else if ($page == 'essay') {
 			//load model
 			$this->load->model('essay_model');
@@ -104,6 +106,22 @@ class Kandidat extends CI_Controller {
 				'konten'	=> ($exist) ? $obj_essay[0]['konten'] : "",
 				'status' 	=> ($exist) ? "update" : "new",
 			);
+
+		} else if ($page == 'project') {
+			//load Model
+			$this->load->model('project_model');
+
+			$obj_project = $this->project_model->read_project($idpeserta)->result_array();
+			$exist = (sizeof($obj_project) > 0);
+			$obj_field = array('nama_project', 'penanggung_jawab', 'peran', 'jenis', 'lokasi', 'alasan_penting', 'kegiatan', 'supported_fim');
+
+			foreach ($obj_field as $field) {
+				if($exist)
+					$data_page['data'][$field] = $obj_project[0][$field];
+				else
+					$data_page['data'][$field] = "";
+			}
+			$data_page['data']['status'] = ($exist) ? "update" : "new";
 		}
 
 		if(!isset($data_page)){
@@ -215,6 +233,21 @@ class Kandidat extends CI_Controller {
 		}
 		$this->alert_messages($success);
 		redirect(site_url('kandidat/pengaturan/essay'), 'refresh');
+	}
+
+	public function do_update_project($status='update'){
+		$this->load->model('peserta_model');
+		$this->load->model('project_model');
+
+		$idpeserta = $this->peserta_model->get_id('username', $this->session->userdata('username'));
+		if($status == 'update') {
+			$success = $this->project_model->update_project($idpeserta, $this->input->post());
+		} else {
+			$_POST['peserta_id'] = $idpeserta;
+			$success = $this->project_model->insert_project($this->input->post());
+		}
+		$this->alert_messages('$success');
+		redirect(site_url('kandidat/pengaturan/project'));
 	}
 
 	public function do_upload_image($userfile, $filename){
