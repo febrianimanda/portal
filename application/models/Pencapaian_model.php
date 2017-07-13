@@ -13,6 +13,7 @@ class Pencapaian_model extends CI_Model {
 	}
 
 	public function read_pencapaian($idpeserta, $index) {
+		$this->db->select('indeks, nama_pencapaian, waktu_durasi, penyelenggara, cakupan, peran, narahubung, alasan');
 		$this->db->where(array('peserta_id' => $idpeserta, 'indeks' => $index, 'is_deleted' => 0));
 		$query = $this->db->get($this->table, 1);
 		return $query;
@@ -23,10 +24,12 @@ class Pencapaian_model extends CI_Model {
 		return ($this->db->affected_rows() != 1) ? False : True;
 	}
 
-	public function update_pencapaian($data) {
+	public function update_pencapaian($idpeserta, $indeks, $data) {
+		$this->db->where('peserta_id', $idpeserta);
+		$this->db->where('indeks', $indeks);
 		$this->db->set($data);
 		$this->db->update($this->table);
-		return ($this->db->affected_rows() != 1) ? False : True;
+		return ($this->db->affected_rows() != 1) ? $this->db->error() : True;
 	}
 
 }

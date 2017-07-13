@@ -122,6 +122,16 @@ class Kandidat extends CI_Controller {
 					$data_page['data'][$field] = "";
 			}
 			$data_page['data']['status'] = ($exist) ? "update" : "new";
+		} else if($page == 'pencapaian') {
+			// load model
+			$this->load->model('pencapaian_model');
+			$query_pencapaian = $this->pencapaian_model->read_all_pencapaian($idpeserta);
+			$data_page['data_count'] = $query_pencapaian->num_rows();
+			if($query_pencapaian->num_rows() > 0){
+				$data_page['pencapaian'] = $query_pencapaian->result_array();
+			}
+		} else {
+			// 404 page
 		}
 
 		if(!isset($data_page)){
@@ -189,9 +199,12 @@ class Kandidat extends CI_Controller {
 			}
 			$this->session->set_flashdata('status','success');
 			$this->session->set_flashdata('message','Data anda berhasil disimpan');
-		} else {
+		} else if($status == 'insert') {
 			$this->session->set_flashdata('status','danger');
 			$this->session->set_flashdata('message','Ada kesalahan ketika meyimpan data anda,'.$success);
+		} else {
+			$success = "Perintah tidak dikenali";
+			echo "Something is wrong";
 		}
 		redirect(site_url('kandidat/pengaturan/dasar'), 'refresh');
 	}
@@ -212,9 +225,12 @@ class Kandidat extends CI_Controller {
 		}
 		if($status == 'update') {
 			$success = $this->perekomendasi_model->update_perekomendasi($idpeserta, $this->input->post());
-		} else {
+		} else if ($status == 'insert') {
 			$_POST['id_peserta'] = $idpeserta;
 			$success = $this->perekomendasi_model->insert_perekomendasi($this->input->post());
+		} else {
+			$success = "Perintah tidak dikenali";
+			echo "Something is wrong";
 		}
 		$this->alert_messages($success);
 		redirect(site_url('kandidat/pengaturan/rekomendasi'), 'refresh');
@@ -227,9 +243,12 @@ class Kandidat extends CI_Controller {
 		$idpeserta = $this->peserta_model->get_id('username', $this->session->userdata('username'));
 		if($status == 'update') {
 			$success = $this->essay_model->update_essay($idpeserta, $this->input->post());
-		} else {
+		} else if ($status == 'insert') {
 			$_POST['peserta_id'] = $idpeserta;
 			$success = $this->essay_model->insert_essay($this->input->post());
+		} else {
+			$success = "Perintah tidak dikenali";
+			echo "Something is wrong";
 		}
 		$this->alert_messages($success);
 		redirect(site_url('kandidat/pengaturan/essay'), 'refresh');
@@ -242,12 +261,43 @@ class Kandidat extends CI_Controller {
 		$idpeserta = $this->peserta_model->get_id('username', $this->session->userdata('username'));
 		if($status == 'update') {
 			$success = $this->project_model->update_project($idpeserta, $this->input->post());
-		} else {
+		} else if ($status == 'insert') {
 			$_POST['peserta_id'] = $idpeserta;
 			$success = $this->project_model->insert_project($this->input->post());
+		} else {
+			$success = "Perintah tidak dikenali";
+			echo "Something is wrong";
 		}
-		$this->alert_messages('$success');
+		$this->alert_messages($success);
 		redirect(site_url('kandidat/pengaturan/project'));
+	}
+
+	public function do_update_pencapaian($status='update'){
+		$this->load->model('peserta_model');
+		$this->load->model('pencapaian_model');
+
+		$idpeserta = $this->peserta_model->get_id('username', $this->session->userdata('username'));
+		if($status == 'update') {
+			$success = $this->pencapaian_model->update_pencapaian($idpeserta, $this->input->post('indeks'), $this->input->post());
+		} else if ($status == 'insert'){
+			$_POST['peserta_id'] = $idpeserta;
+			$success = $this->pencapaian_model->insert_pencapaian($this->input->post());
+		} else {
+			$success = "Perintah tidak dikenali";
+			echo "Something is wrong";
+		}
+		$this->alert_messages($success);
+		redirect(site_url('kandidat/pengaturan/pencapaian'));
+	}
+
+	public function get_pencapaian(){
+		$this->load->model('peserta_model');
+		$this->load->model('pencapaian_model');
+
+		$idpeserta = $this->peserta_model->get_id('username', $this->session->userdata('username'));
+		$pencapaian = $this->pencapaian_model->read_pencapaian($idpeserta, $this->input->post('indeks'))->result();
+		// $pencapaian = $this->pencapaian_model->read_pencapaian($idpeserta, $indeks)->result_array();
+		echo json_encode($pencapaian[0]);
 	}
 
 	public function do_upload_image($userfile, $filename){
@@ -318,7 +368,7 @@ class Kandidat extends CI_Controller {
 	}
 
 	public function alert_messages($success) {
-		if($success) {
+		if($success == true) {
 			$this->session->set_flashdata('status','success');
 			$this->session->set_flashdata('message','Data anda berhasil disimpan');
 		} else {

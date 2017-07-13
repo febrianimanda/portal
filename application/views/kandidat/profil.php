@@ -101,14 +101,16 @@
 					</h3>
 					<hr>
 					<div class="row profil-pencapaian">
-						<?php if(isset($pencapaian[0])): ?>
-							<div class="col-md-12">
-								<span class="floating-label label label-info"><?= $pencapaian['cakupan'] ?></span>
-								<h4><strong><?= $pencapaian[0]['pencapaian'] ?></strong></h4>
-								<?php $role = $this->session->userdata('role'); ?> 
-								<h5>Peran: <?= $pencapaian[0]['peran'] ?> | Penyelenggara: <?= $pencapaian[0]['penyelanggara'] ?> | <?= $pencapaian[0]['waktu_durasi'] ?> <?= ($role >= 1 and $role <= 3) ?> | Narahubung: <?= $pencapaian[0]['penanggung_jawab'] ?> </h5>
-								<p><?= $pencapaian['alasan'] ?></p>
-							</div>
+						<?php if(isset($pencapaian)): ?>
+							<?php foreach ($pencapaian as $achieve): ?>
+								<div class="col-md-12">
+									<span class="floating-label label label-info"><?= $achieve['cakupan'] ?></span>
+									<h4><strong><?= $achieve['nama_pencapaian'] ?></strong></h4>
+									<?php $role = $this->session->userdata('role'); ?> 
+									<h5>Peran: <?= $achieve['peran'] ?> | Penyelenggara: <?= $achieve['penyelenggara'] ?> | <?= $achieve['waktu_durasi'] ?> <?= ($role >= 1 and $role <= 3) ?> | Narahubung: <?= $achieve['narahubung'] ?> </h5>
+									<p><?= $achieve['alasan'] ?></p>
+								</div>
+							<?php endforeach; ?>
 						<?php else: ?>
 							<div class="col-md-12">
 								<p><em>Belum ada pencapaian yang diisi</em></p>
