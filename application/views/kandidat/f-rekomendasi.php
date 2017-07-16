@@ -48,7 +48,10 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>File Rekomendasi (.pdf) <span class="text-danger">*</span>  <span class="label label-info"><?= ($data['file_rekomendasi_path'] != "") ? "Sudah pernah upload" : "Belum pernah upload" ?></span></label>
-									<input type="file" required name="file_rekomendasi" class="form-control" placeholder="upload file anda disni">
+									<input type="file" required name="file_rekomendasi_path" class="form-control" placeholder="upload file anda disni">
+									<?php if($data['file_rekomendasi_path'] != ""): ?>
+										<a href="<?= site_url('documents_upload/'.$data["file_rekomendasi_path"]) ?>" target="_blank">Lihat Rekomendasi</a>
+									<?php endif; ?>
 								</div>
 							</div>
 							<div class="col-md-12">

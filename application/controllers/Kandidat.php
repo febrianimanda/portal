@@ -180,7 +180,7 @@ class Kandidat extends CI_Controller {
 		if($_FILES['ktp_path']['size'] > 0){
 			$img = explode('.', $_FILES['ktp_path']['name']);
 			$extension_img = end($img);
-			$ktp_filename = 'ktp_'.$username.'.'.$extension_img;
+			$ktp_filename = MD5('ktp_'.$username).'.'.$extension_img;
 			//uppload image
 			$this->do_upload_ktp('ktp_path', $ktp_filename);
 			$_POST['ktp_path'] = $ktp_filename;
@@ -229,14 +229,15 @@ class Kandidat extends CI_Controller {
 
 		$idpeserta = $this->peserta_model->get_id('username', $this->session->userdata('username'));
 		
-		if($_FILES['file_rekomendasi']['size'] > 0){
-			$file = explode('.',$_FILES['file_rekomendasi']['name']);
+		if($_FILES['file_rekomendasi_path']['size'] > 0){
+			$file = explode('.',$_FILES['file_rekomendasi_path']['name']);
 			$extension_file = end($file);
-			$filename = $this->session->userdata('username').'.'.$extension_file;
+			$filename = MD5('document_'.$this->session->userdata('username')).'.'.$extension_file;
 			// Upload document
-			$this->do_upload_document($filename);
+			$this->do_upload_document('file_rekomendasi_path', $filename);
 			$_POST['file_rekomendasi_path'] = $filename;
 		}
+
 		if($status == 'update') {
 			$success = $this->perekomendasi_model->update_perekomendasi($idpeserta, $this->input->post());
 		} else if ($status == 'insert') {
@@ -375,17 +376,19 @@ class Kandidat extends CI_Controller {
 		}
 	}
 
-	public function do_upload_document($filename){
-		$config['upload_path'] 		= "document_uploads";
+	public function do_upload_document($userfile, $filename){
+		$config['upload_path'] 		= "documents_upload";
 		$config['allowed_types']	= "pdf";
-		$config['filename']				= $filename;
+		$config['file_name']				= $filename;
 		$config['overwrite']			= TRUE;
 
 		$this->load->library('upload', $config);
-		if(!$this->upload->do_upload()){
+		if(!$this->upload->do_upload($userfile)){
 			$this->session->set_flashdata('status', 'danger');
     	$this->session->set_flashdata('message', $this->upload->display_errors('', ''));
 		}
+
+		return true;
 	}
 
 	public function do_upload_ktp($userfile, $filename){
@@ -394,6 +397,7 @@ class Kandidat extends CI_Controller {
 		$config['max_size']				= '100000';
 		$config['file_name']			= $filename;
 		$config['overwrite'] 			= TRUE;
+
 		$this->load->library('upload', $config);
 		if(strlen($_FILES[$userfile]['name']) > 0) {
 			if(!$this->upload->do_upload($userfile)){
