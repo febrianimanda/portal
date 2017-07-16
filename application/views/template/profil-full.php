@@ -31,6 +31,11 @@
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 </head>
 <body>
+	<div id="imgModal" class="modal-image">
+	  <span class="close" onclick="document.getElementById('myModal').style.display='none'">&times;</span>
+	  <img class="modal-content" id="modalImg">
+	  <div id="caption"></div>
+	</div>
 	<nav class="navbar navbar-portal navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
@@ -64,7 +69,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-2 col-md-offset-1">
-						<img src="<?= base_url('profpics_upload/'.$header_info["profpic"]) ?>" alt="profile" class="profil-img">
+						<img src="<?= base_url('profpics_upload/'.$header_info["profpic"]) ?>" alt="<?= $header_info['profpic'] ?>" class="profil-img previewable-image" id="profpic-img" onclick="showImage(this)">
 					</div>
 					<div class="col-md-8">
 						<h1><?= $header_info['name'] ?></h1>
@@ -87,6 +92,7 @@
 	</div>
 	<!-- Bootstrap Latest Compiled and Minified JS -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="<?= js_url('script') ?>"></script>
 	<!-- Dynamic JS load from external -->
 	<?php if(isset($footer_js_url)): ?>
 	<?= footer_js_url($footer_js_url); ?>

@@ -117,6 +117,11 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<label>Foto KTP <span class="text-danger">*</span></label>
+									<input type="file" name="ktp_path" accept="image/*" class="form-control">
+									<?php if($data['ktp_path'] != ""): ?>
+										<img src="<?= base_url('ktp_upload/'.$data['ktp_path']) ?>" alt="<?= $data['ktp_path'] ?>" style="display:none" id="ktp_pic">
+										<a href="#" onclick="showImage('ktp_pic', true)">Lihat KTP</a>
+									<?php endif; ?>
 								</div>
 							</div>
 							<div class="col-md-6">

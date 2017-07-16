@@ -5,8 +5,11 @@ class Kandidat extends CI_Controller {
 
 	public function index() {
 		#same as profil page
-
-		$this->profil($this->session->userdata('username'));
+		if($this->session->userdata('logged_in')){
+			$this->profil($this->session->userdata('username'));
+		} else {
+			redirect(site_url(), 'refresh');
+		}
 	}
 
 	public function profil($username) {
@@ -163,13 +166,24 @@ class Kandidat extends CI_Controller {
 		// for updating statistics purpose
 		$ext_data = $this->peserta_model->read_ext_data($username)->result_array()[0];
 
+		// Upload Profpic
 		if($_FILES['profpic_path']['size'] > 0){
 			$img = explode('.',$_FILES['profpic_path']['name']);
 			$extension_img = end($img);
-			$filename = $username.'.'.$extension_img;
-			// Upload Photo
-			$this->do_upload_image($filename);
-			$_POST['profpic_path'] = $filename;
+			$profpic_filename = $username.'.'.$extension_img;
+			// Upload image
+			$this->do_upload_profpic('profpic_path', $profpic_filename);
+			$_POST['profpic_path'] = $profpic_filename;
+		}
+
+		// upload KTP
+		if($_FILES['ktp_path']['size'] > 0){
+			$img = explode('.', $_FILES['ktp_path']['name']);
+			$extension_img = end($img);
+			$ktp_filename = 'ktp_'.$username.'.'.$extension_img;
+			//uppload image
+			$this->do_upload_ktp('ktp_path', $ktp_filename);
+			$_POST['ktp_path'] = $ktp_filename;
 		}
 
 		$success = $this->peserta_model->update_peserta($idpeserta, $this->input->post());
@@ -303,11 +317,11 @@ class Kandidat extends CI_Controller {
 	public function get_all_province(){
 		$this->load->model('provinsi_model');
 		$data = $this->provinsi_model->read_all_provinsi()->result_array();
-		
+
 		echo json_encode($data);
 	}
 
-	public function do_upload_image($userfile, $filename){
+	public function do_upload_profpic($userfile, $filename){
 
 		$config['upload_path'] 		= 'profpics_upload';
 		$config['allowed_types'] 	= 'jpg|jpeg|png';
@@ -372,6 +386,24 @@ class Kandidat extends CI_Controller {
 			$this->session->set_flashdata('status', 'danger');
     	$this->session->set_flashdata('message', $this->upload->display_errors('', ''));
 		}
+	}
+
+	public function do_upload_ktp($userfile, $filename){
+		$config['upload_path'] 		= 'ktp_upload';
+		$config['allowed_types'] 	= 'jpg|jpeg|png';
+		$config['max_size']				= '100000';
+		$config['file_name']			= $filename;
+		$config['overwrite'] 			= TRUE;
+		$this->load->library('upload', $config);
+		if(strlen($_FILES[$userfile]['name']) > 0) {
+			if(!$this->upload->do_upload($userfile)){
+				$upload_errors = $this->upload->display_errors('', '');
+				$this->session->set_flashdata('message', 'Error: '.$upload_errors);
+				$this->session->set_flashdata('status', 'danger');
+				redirect(site_url('kandidat/pengaturan/dasar'));
+			}
+		}
+		return true;
 	}
 
 	public function alert_messages($success) {
