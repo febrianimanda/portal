@@ -38,7 +38,7 @@
 					<div class="col-md-12">
 						<h3>Informasi Dasar</h3><hr>
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-6">
 								<div class="form-group">
 									<label>Foto Profil <span class="text-danger">*</span></label>
 									<input type="file" name="profpic_path" accept="image/*" class="form-control">
@@ -70,18 +70,33 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Provinsi <span class="text-danger">*</span></label>
-									<select name="provinsi" class="form-control">
-										<option disabled selected value>Pilih Provinsi</option>
-										<?php foreach ($provinsi as $row): ?>
-											<option value="<?= $row['nama_provinsi'] ?>" <?= ($row['nama_provinsi'] == $data['provinsi']) ? "selected" : "" ?>> <?= $row['nama_provinsi'] ?></option>
-										<?php endforeach ?>
-									</select>
+									<div class="form-group">
+										<label>Negara <span class="text-danger">*</span></label>
+										<select name="country" class="form-control" id="country-selectbox">
+										</select>
+									</div>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Kota / Kabupaten <span class="text-danger">*</span></label>
+									<label>Provinsi (Region)<span class="text-danger">*</span></label>
+									<div id="province-box">
+										<?php if($data['country'] == 'Indonesia'): ?>
+											<select name="provinsi" class="form-control">
+												<option disabled selected value>Pilih Provinsi</option>
+												<?php foreach ($provinsi as $row): ?>
+													<option value="<?= $row['nama_provinsi'] ?>" <?= ($row['nama_provinsi'] == $data['provinsi']) ? "selected" : "" ?>> <?= $row['nama_provinsi'] ?></option>
+												<?php endforeach ?>
+											</select>
+										<?php else: ?>
+											<input type="text" name="provinsi" class="form-control" value="$data['provinsi']">
+										<?php endif; ?>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Kota / Kabupaten (City)<span class="text-danger">*</span></label>
 									<input type="text" name="kota" required class="form-control" placeholder="Kota/Kabupaten Tempat Anda Tinggal Saat Ini" value="<?= $data['kota'] ?>">
 								</div>
 							</div>
@@ -99,6 +114,11 @@
 					<div class="col-md-12">
 						<h3>Informasi Personal</h3><hr>
 						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Foto KTP <span class="text-danger">*</span></label>
+								</div>
+							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Nama Panggilan <span class="text-danger">*</span></label>
@@ -222,3 +242,52 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	$(document).ready(function(){
+		$.ajax({
+			method: 'GET',
+			url: 'https://restcountries.eu/rest/v2/all',
+		}).done(function(data){
+			// console.log(data);
+			var html = "<option disabled selected value>Pilih Negara</option>";
+			for (var i = 0; i < data.length; i++) {
+				if(data[i].name == "<?= $data['country'] ?>"){
+					html += "<option value='"+data[i].name+"' selected>"+data[i].name+"</option>";
+				} else {
+					html += "<option value='"+data[i].name+"'>"+data[i].name+"</option>";
+				}
+			}
+			$('#country-selectbox').html(html);
+		});
+
+		$('#country-selectbox').change(function(){
+			if($(this).val() == 'Indonesia'){
+				loadIndonesiaProvince();
+			} else {
+				html = '<input name="provinsi" class="form-control" placeholder="Provinsi atau Region anda Tinggal Saat Ini" />';
+				$('#province-box').html(html);
+			}
+		});
+	});
+
+	function loadIndonesiaProvince(selected){
+		$.ajax({
+			method: 'GET',
+			url: '<?= site_url('kandidat/get_all_province') ?>',
+		}).done(function(datas){
+			data = JSON.parse(datas);
+			var html = '<select name="provinsi" class="form-control">';
+			html += '	<option disabled selected value>Pilih Provinsi</option>';
+			for (var i = 0; i < data.length; i++) {
+				if(data[i].name != "<?= $data['provinsi'] ?>")
+					html += "	<option value='"+data[i].nama_provinsi+"'>"+data[i].nama_provinsi+"</option>";
+				else {
+					html += "	<option value='"+data[i].nama_provinsi+"' selected >"+data[i].nama_provinsi+"</option>";
+				}
+			}
+			html += '</select>';
+			$('#province-box').html(html);
+		});
+	}
+</script>

@@ -300,6 +300,13 @@ class Kandidat extends CI_Controller {
 		echo json_encode($pencapaian[0]);
 	}
 
+	public function get_all_province(){
+		$this->load->model('provinsi_model');
+		$data = $this->provinsi_model->read_all_provinsi()->result_array();
+		
+		echo json_encode($data);
+	}
+
 	public function do_upload_image($userfile, $filename){
 
 		$config['upload_path'] 		= 'profpics_upload';
