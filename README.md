@@ -7,4 +7,5 @@ Portal Pendaftaran
 3. Call migrate controller
 
 ## Folder for upload from users
-`./profpics_upload/` and `./documents_upload/` in root folder
+`./profpics_upload/`, `./documents_upload/` and `./ktp_upload/` in root folder.
+Ensure the folders is exist.
