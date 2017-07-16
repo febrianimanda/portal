@@ -294,7 +294,11 @@ class Migration_Initial_schema extends CI_Migration {
 			),
 			'birthplace' => array(
 				'type'				=> 'varchar',
-				'constraint'	=> 50	
+				'constraint'	=> 50,
+			),
+			'country' => array(
+				'type'				=> 'varchar',
+				'constraint'	=> 50,
 			),
 			'provinsi' => array(
 				'type'				=> 'varchar',
@@ -349,6 +353,10 @@ class Migration_Initial_schema extends CI_Migration {
 				'constraint'	=> 4
 			),
 			'profpic_path' => array(
+				'type'				=> 'varchar',
+				'constraint'	=> 100
+			),
+			'ktp_path' => array(
 				'type'				=> 'varchar',
 				'constraint'	=> 100
 			),
@@ -464,10 +472,6 @@ class Migration_Initial_schema extends CI_Migration {
 				'constraint'	=> 5,
 			),
 			'nama_perekomendasi'	=> array(
-				'type'				=> 'varchar',
-				'constraint'	=> 50
-			),
-			'email_perekomendasi'	=> array(
 				'type'				=> 'varchar',
 				'constraint'	=> 50
 			),
@@ -751,6 +755,40 @@ class Migration_Initial_schema extends CI_Migration {
 		$this->dbforge->add_key('jalur_id', TRUE);
 		$this->dbforge->create_table('jalur');
 	}
+	# ==== ==== ==== ==== ==== ==== ==== ==== ====
+		# == Table Jalur == 
+		$this->dbforge->add_field(array(
+			'country_id' => array(
+				'type'						=> 'int',
+				'constraint'			=> 3,
+				'unsgined'				=> TRUE,
+				'auto_increment'	=> TRUE
+			),
+			'country' => array(
+				'type'				=> 'varchar',
+				'constraint'	=> 50,
+			),
+			'jumlah' => array(
+				'type'				=> 'int',
+				'constraint'	=> 4,
+				'default'			=> 0,
+			),
+			'date_updated' => array(
+				'type'			=> 'timestamp',
+			),
+			'date_created' => array(
+				'type'					=> 'timestamp',
+				'default'				=> 'current_timestamp'
+			),
+			'is_deleted' => array(
+				'type'				=> 'int',
+				'constraint'	=> 1,
+				'default'			=> 0
+			),
+		));
+		$this->dbforge->add_key('country_id', TRUE);
+		$this->dbforge->create_table('country');
+	}
 
 	public function down() {
 		$this->dbforge->drop_table('penilaian');
@@ -767,6 +805,8 @@ class Migration_Initial_schema extends CI_Migration {
 		$this->dbforge->drop_table('peserta');
 		$this->dbforge->drop_table('token');
 		$this->dbforge->drop_table('user');
+		$this->dbforge->drop_table('jalur');
+		$this->dbforge->drop_table('country');
 	}
 
 }
