@@ -46,7 +46,7 @@
 					<h3>Rencana Proyek FIM</h3>
 					<p></p>
 					<hr>
-					<form action="../do_update_project/<?= $data['status'] ?>" method="post">
+					<form action="<?= site_url('kandidat/do_update_project/'.$data['status']) ?>" method="post">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">

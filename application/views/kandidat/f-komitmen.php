@@ -45,7 +45,7 @@
 				<div class="col-md-12">
 					<h3>Bagian Komitmen</h3>
 					<hr>
-					<form action="../do_update_komitmen/" method="post">
+					<form action="<?= site_url('kandidat/do_update_komitmen') ?>" method="post">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">

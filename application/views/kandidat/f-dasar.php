@@ -104,7 +104,7 @@
 												<?php endforeach ?>
 											</select>
 										<?php else: ?>
-											<input type="text" name="provinsi" class="form-control" value="$data['provinsi']">
+											<input type="text" name="provinsi" class="form-control" value="<?= $data['provinsi'] ?>">
 										<?php endif; ?>
 									</div>
 								</div>
@@ -247,7 +247,7 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<label>Link Blog atau Tumblr</label>
-									<input type="text" name="blog" required class="form-control" placeholder='Blogger, Wordpress, Tumblr atau Personal Website untuk blogging' value="<?= $data['blog'] ?>">
+									<input type="text" name="blog" class="form-control" placeholder='Blogger, Wordpress, Tumblr atau Personal Website untuk blogging' value="<?= $data['blog'] ?>">
 								</div>
 							</div>
 							<?php $jalur = $this->session->userdata('jalur'); ?>

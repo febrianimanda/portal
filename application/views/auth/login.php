@@ -2,6 +2,11 @@
 	<div class="row">
 		<div class="col-md-12" style="padding-top: 10%;">
 			<h1 class="text-center">Selamat Datang!</h1>
+			<?php if($this->session->flashdata('message') != null):?>
+				<div class="alert alert-<?= $this->session->flashdata('status') ?>" role="alert">
+					<?= $this->session->flashdata('message') ?>
+				</div>
+			<?php endif; ?>
 			<div class="well col-md-3 col-centered">
 				<form action="<?= base_url('auth/do_login') ?>" method="post">
 					<div class="form-group">

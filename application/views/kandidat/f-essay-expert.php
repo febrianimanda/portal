@@ -44,7 +44,7 @@
 				</div>
 				<div class="col-md-12">
 					<h3>$theme</h3><hr>
-					<form action="../do_update_essay/<?= $data['status'] ?>" method="post">
+					<form action="<?= site_url('kandidat/do_update_essay/'.$data['status']) ?>" method="post">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">

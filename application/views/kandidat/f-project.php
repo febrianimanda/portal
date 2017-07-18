@@ -44,7 +44,7 @@
 				</div>
 				<div class="col-md-12">
 					<h3>Proyek kolaborasi yang akan dilakukan dengan FIM</h3><hr>
-					<form action="../do_update_project/<?= $data['status'] ?>" method="post">
+					<form action="<?= site_url('kandidat/do_update_project/'.$data['status']) ?>" method="post">
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">

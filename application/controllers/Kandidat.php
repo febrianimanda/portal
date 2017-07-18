@@ -322,8 +322,8 @@ class Kandidat extends CI_Controller {
 			}
 			if($_POST['agama'] != $ext_data['agama']) {
 				// Update Jumlah Provinsi
-				$this->provinsi_model->update_jumlah('agama', $ext_data['agama'], false);
-				$this->provinsi_model->update_jumlah('agama', $_POST['agama']);
+				$this->agama_model->update_jumlah('agama', $ext_data['agama'], false);
+				$this->agama_model->update_jumlah('agama', $_POST['agama']);
 			}
 			if($_POST['institusi'] != $ext_data['institusi']) {
 				// Update jumlah institusi
@@ -345,7 +345,6 @@ class Kandidat extends CI_Controller {
 			$this->session->set_flashdata('message','Ada kesalahan ketika meyimpan data anda,'.$success);
 		} else {
 			$success = "Perintah tidak dikenali";
-			echo "Something is wrong";
 		}
 		redirect(site_url('kandidat/pengaturan/dasar'), 'refresh');
 	}
@@ -492,13 +491,15 @@ class Kandidat extends CI_Controller {
 	}
 
 	public function do_upload_profpic($userfile, $filename){
+		$this->load->library('upload');
 
-		$config['upload_path'] 		= 'profpics_upload';
-		$config['allowed_types'] 	= 'jpg|jpeg|png';
-		$config['max_size']				= '100000';
-		$config['file_name']			= $filename;
-		$config['overwrite'] 		= TRUE;
-		$this->load->library('upload', $config);
+		$config1['upload_path'] 		= 'profpics_upload';
+		$config1['allowed_types'] 	= 'jpg|jpeg|png';
+		$config1['max_size']				= '100000';
+		$config1['file_name']			= $filename;
+		$config1['overwrite'] 		= TRUE;
+
+		$this->upload->initialize($config1);
 		
 		if(strlen($_FILES[$userfile]['name']) > 0) {
 			if(!$this->upload->do_upload($userfile)) { 
@@ -527,18 +528,17 @@ class Kandidat extends CI_Controller {
 				// }
 
 				 // MAIN IMAGE
-        $config['image_library'] = 'gd2';
-        $config['source_image'] = $this->upload->upload_path.$this->upload->file_name;
-        $config['maintain_ratio'] = TRUE;
-        $config['width'] = 512;
-        $config['height'] = 512;
-        $config['overwrite'] = TRUE;
-        $this->load->library('image_lib',$config);
-
+        $config3['image_library'] = 'gd2';
+        $config3['source_image'] = $this->upload->upload_path.$this->upload->file_name;
+        $config3['maintain_ratio'] = TRUE;
+        $config3['width'] = 512;
+        $config3['height'] = 512;
+        $config3['overwrite'] = TRUE;
+        $this->load->library('image_lib',$config3);
         if (!$this->image_lib->resize()){
         	$this->session->set_flashdata('status', 'danger');
         	$this->session->set_flashdata('message', $this->image_lib->display_errors('', ''));
-        	return false;
+        	redirect('kandidat/pengaturan/dasar');
         }
 			}
 			return true;
@@ -555,19 +555,23 @@ class Kandidat extends CI_Controller {
 		if(!$this->upload->do_upload($userfile)){
 			$this->session->set_flashdata('status', 'danger');
     	$this->session->set_flashdata('message', $this->upload->display_errors());
+    	redirect('kandidat/pengaturan/rekomendasi');
 		}
 
 		return true;
 	}
 
 	public function do_upload_ktp($userfile, $filename){
-		$config['upload_path'] 		= 'ktp_upload';
-		$config['allowed_types'] 	= 'jpg|jpeg|png';
-		$config['max_size']				= '100000';
-		$config['file_name']			= $filename;
-		$config['overwrite'] 			= TRUE;
+		$this->load->library('upload');
 
-		$this->load->library('upload', $config);
+		$config2['upload_path'] 		= 'ktp_upload';
+		$config2['allowed_types'] 	= 'jpg|jpeg|png';
+		$config2['max_size']				= '100000';
+		$config2['file_name']			= $filename;
+		$config2['overwrite'] 			= TRUE;
+
+		$this->upload->initialize($config2);
+
 		if(strlen($_FILES[$userfile]['name']) > 0) {
 			if(!$this->upload->do_upload($userfile)){
 				$upload_errors = $this->upload->display_errors('', '');

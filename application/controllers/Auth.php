@@ -183,7 +183,7 @@ class Auth extends CI_Controller {
 			# success create new user
 			// $this->send_confirmation($_POST['email'], $_POST['username'], $unencrypt_pass, $_POST['hash']);
 			// $this->session->set_flashdata('message', 'Akun Anda telah berhasil didaftarkan. Silahkan cek email Anda untuk mengaktifkan akun Anda. Jika ada kesulitan, silahkan hubungi kami.');
-			$this->session->set_flashdata('message', 'Akun Anda telah berhasil didaftarkan, silahkan menuju halaman login untuk masuk ke portal. Jika ada kesulitan, jangan takut untuk menghubungi kami.');
+			$this->session->set_flashdata('message', 'Akun Anda telah berhasil didaftarkan');
 			redirect(site_url('auth'), 'refresh=3');
 		} else {
 			# failed to register because email exist
@@ -319,9 +319,14 @@ class Auth extends CI_Controller {
 				'logged_in'	=> true,
 			);
 			$this->session->set_userdata($session_data);
+			$idpeserta = $this->peserta_model->get_id('username', $this->session->userdata('username'));
 			if($session_data['role'] == 0 ) { 
 				#redirect peserta
-				redirect('/kandidat');
+				if($this->peserta_model->is_ready($idpeserta) == 1){
+					redirect(site_url('kandidat'));
+				} else {
+					redirect(site_url('kandidat/pengaturan/dasar'));
+				}
 			} else if ($session_data['role'] >= 1 && $session_data['role'] <= 3) {
 				#redirect admin
 				redirect('/dashboard');
