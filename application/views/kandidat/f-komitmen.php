@@ -45,45 +45,58 @@
 				<div class="col-md-12">
 					<h3>Bagian Komitmen</h3>
 					<hr>
-					<form action="<?= site_url('kandidat/do_update_komitmen') ?>" method="post">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="form-group">
-									<label>"Dengan ini, saya (nama lengkap) bersedia untuk aktif selama 1 tahun pasca pelatihan FIM apabila saya diterima sebagai peserta FIM 19." Silahkan salin dan sesuaikan dengan nama Anda di bawah ini. <span class="text-danger">*</span></label>
-									<input type="text" required name="pernyataan" class="form-control" placeholder="Salin dan sesuaikan tulisan diatas" value="<?= $data['pernyataan'] ?>">
+					<?php if($ready): ?>
+						<form action="<?= site_url('kandidat/do_update_komitmen') ?>" method="post">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>"Dengan ini, saya (nama lengkap) bersedia untuk aktif selama 1 tahun pasca pelatihan FIM apabila saya diterima sebagai peserta FIM 19." Silahkan salin dan sesuaikan dengan nama Anda di bawah ini. <span class="text-danger">*</span></label>
+										<input type="text" required name="pernyataan" class="form-control" placeholder="Salin dan sesuaikan tulisan diatas" value="<?= $data['pernyataan'] ?>">
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12">
-								<div class="form-group">
-									<label>Adapun pilihan kegiatan Pasca pelatihan yang saya pilih adalah: <span class="text-danger">*</span></label>
-									<select name="choose" id="choose-selectbox" class="form-control">
-										<option value="-1" disabled selected required>Pilih Sektor Kegiatan</option>
-										<option value="pusat">FIM Pusat</option>
-										<option value="regional">FIM Regional</option>
-									</select>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Adapun pilihan kegiatan Pasca pelatihan yang saya pilih adalah: <span class="text-danger">*</span></label>
+										<select name="choose" id="choose-selectbox" class="form-control">
+											<option value="-1" disabled selected required>Pilih Sektor Kegiatan</option>
+											<option value="pusat">FIM Pusat</option>
+											<option value="regional">FIM Regional</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Di: <span class="text-danger">*</span></label>
+										<div class="di-section"></div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>* Dengan menekan tombol simpan, Anda berarti telah menyelesaikan pendaftaran dan tidak dapat mengubahnya lagi.</label>
+									</div>
 								</div>
 							</div>
-							<div class="col-md-12">
-								<div class="form-group">
-									<label>Di: <span class="text-danger">*</span></label>
-									<div class="di-section"></div>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="form-group">
-									<label>* Dengan menekan tombol simpan, Anda berarti telah menyelesaikan pendaftaran dan tidak dapat mengubahnya lagi.</label>
-								</div>
-							</div>
-						</div>
 
+							<div class="row">
+								<div class="col-md-12">
+									<input type="submit" value="simpan" class="btn btn-profil-primary">
+								</div>
+							</div>
+						</form>
+					<?php else: ?>
 						<div class="row">
 							<div class="col-md-12">
-								<input type="submit" value="simpan" class="btn btn-profil-primary">
+								<p>
+									Untuk dapat mengubah bagian ini, anda harus sudah melengkapi semua data pendaftaran yang dibutuhkan terlebih dahulu. Adapun yang belum anda lengkapi adalah: <br>
+									<ul>
+										<?= $need_message ?>
+									</ul>
+								</p>
 							</div>
 						</div>
-					</form>
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>

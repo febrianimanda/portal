@@ -108,7 +108,7 @@
 					</h3>
 					<hr>
 					<div class="row profil-pencapaian">
-						<?php if(isset($pencapaian)): ?>
+						<?php if(sizeof($pencapaian) > 0): ?>
 							<?php foreach ($pencapaian as $achieve): ?>
 								<div class="col-md-12">
 									<span class="floating-label label label-info"><?= $achieve['cakupan'] ?></span>

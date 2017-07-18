@@ -26,8 +26,12 @@ class Project_model extends CI_Model {
 	public function is_ready($idpeserta) {
 		$this->db->select('is_ready');
 		$this->db->where('peserta_id', $idpeserta);
-		$result = $this->db->get($this->table)->result_array()[0];
-		return $result['is_ready'];
+		$result = $this->db->get($this->table)->result_array();
+		if(sizeof($result) > 0){
+			return $result[0]['is_ready'];
+		} else {
+			return 0;
+		}
 	}
 
 }
