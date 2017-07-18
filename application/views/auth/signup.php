@@ -45,7 +45,7 @@
 					</div>
 					<div class="form-group">
 						<label>Sudah pernah mendaftar FIM sebanyak</label>
-						<input type="number" name="daftar_fim">
+						<input type="number" name="daftar_fim" class="form-control">
 					</div>
 					<div class="form-group">
 						<label>Mengetahui Informasi Pendaftaran FIM dari</label>

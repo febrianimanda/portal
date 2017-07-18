@@ -34,7 +34,7 @@
 		</div>
 		<!-- Form Content -->
 		<div class="col-md-8">
-			<form action="../do_update_dasar" method="post" enctype="multipart/form-data">
+			<form action="<?= site_url('kandidat/do_update_dasar') ?>" method="post" enctype="multipart/form-data">
 				<!-- Informasi Dasar  -->
 				<div class="row profil-row">
 					<div class="col-md-12">
@@ -148,7 +148,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Tanggal Lahir (mm/dd/yyyy) <span class="text-danger">*</span></label>
-									<input name="birthdate" required type="date" class="form-control" placeholder="Tanggal Lahir Anda" value="<?= $data['birthdate'] ?>">
+									<input name="birthdate" id="birthdatepicker" required type="text" class="form-control" placeholder="Tanggal Lahir Anda" value="<?= $data['birthdate'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -223,25 +223,25 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Id Line</label>
-									<input type="text" name="line" required placeholder="Id Line Anda yang Aktif" class="form-control" value="<?= $data['line'] ?>">
+									<input type="text" name="line" placeholder="Id Line Anda yang Aktif" class="form-control" value="<?= $data['line'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Link Facebook</label>
-									<input type="text" name="fb" required class="form-control" placeholder='Contoh: https://facebook.com/ForumIndonesiaMuda/' value="<?= $data['fb'] ?>">
+									<input type="text" name="fb" class="form-control" placeholder='Contoh: https://facebook.com/ForumIndonesiaMuda/' value="<?= $data['fb'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Id atau Link Twitter</label>
-									<input type="text" name="twitter" required class="form-control" placeholder='Contoh: fimnews atau https://twitter.com/fimnews' value="<?= $data['twitter'] ?>">
+									<input type="text" name="twitter" class="form-control" placeholder='Contoh: fimnews atau https://twitter.com/fimnews' value="<?= $data['twitter'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Id atau Link Instagram</label>
-									<input type="text" name="instagram" required class="form-control" placeholder='Contoh: fimnews atau https://instagram.com/fimnews' value="<?= $data['instagram'] ?>">
+									<input type="text" name="instagram" class="form-control" placeholder='Contoh: fimnews atau https://instagram.com/fimnews' value="<?= $data['instagram'] ?>">
 								</div>
 							</div>
 							<div class="col-md-12">
@@ -276,6 +276,7 @@
 
 <script>
 	$(document).ready(function(){
+		$('#birthdatepicker').datepicker();
 		$.ajax({
 			method: 'GET',
 			url: 'https://restcountries.eu/rest/v2/all',

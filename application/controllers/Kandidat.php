@@ -168,6 +168,8 @@ class Kandidat extends CI_Controller {
 			$data_page['provinsi'] = $this->provinsi_model->read_all_provinsi()->result_array();
 			$data_page['info'] = $this->info_model->read_all_info()->result_array();
 
+			$data_page['data']['birthdate'] = date("m/d/Y", strtotime($data_page['data']['birthdate']));
+
 			// Setup Page Dynamic CSS and JS
 			$data['header_css_file'] = ['bootstrap-tagsinput'];
 			$data['header_css_url'] = ['https://cdnjs.cloudflare.com/ajax/libs/croppie/2.4.1/croppie.min.css'];
@@ -309,6 +311,7 @@ class Kandidat extends CI_Controller {
 
 		$_POST['is_ready'] = 1;
 		$_POST['is_video_exist'] = 1;
+		$_POST['birthdate'] = date('Y-m-d', strtotime($_POST['birthdate']));
 		$success = $this->peserta_model->update_peserta($idpeserta, $this->input->post());
 
 		if($success) {
@@ -352,15 +355,26 @@ class Kandidat extends CI_Controller {
 		$this->load->model('perekomendasi_model');
 
 		$idpeserta = $this->peserta_model->get_id('username', $this->session->userdata('username'));
-		
-		if($_FILES['file_rekomendasi_path']['size'] > 0){
-			$file = explode('.',$_FILES['file_rekomendasi_path']['name']);
-			$extension_file = end($file);
-			$filename = MD5('document_'.$this->session->userdata('username')).'.'.$extension_file;
-			// Upload document
-			$this->do_upload_document('file_rekomendasi_path', $filename);
-			$_POST['file_rekomendasi_path'] = $filename;
+
+		if($_FILES['file_rekomendasi_path']['error'] != 1){
+			if($_FILES['file_rekomendasi_path']['type'] == 'application/pdf'){
+				$file = explode('.',$_FILES['file_rekomendasi_path']['name']);
+				$extension_file = end($file);
+				$filename = MD5('document_'.$this->session->userdata('username')).'.'.$extension_file;
+				// Upload document
+				$this->do_upload_document('file_rekomendasi_path', $filename);
+				$_POST['file_rekomendasi_path'] = $filename;
+			} else {
+				$this->session->set_flashdata('status', 'danger');
+				$this->session->set_flashdata('message', 'File yang diterima harus berekstensi .pdf');
+				redirect(site_url('kandidat/pengaturan/rekomendasi'), 'refresh');
+			}
+		} else {
+			$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('message', 'Terjadi kesalah ketika mengupload file ini');
+			redirect(site_url('kandidat/pengaturan/rekomendasi'), 'refresh');
 		}
+
 
 		if($status == 'update') {
 			$success = $this->perekomendasi_model->update_perekomendasi($idpeserta, $this->input->post());
@@ -370,7 +384,6 @@ class Kandidat extends CI_Controller {
 			$success = $this->perekomendasi_model->insert_perekomendasi($this->input->post());
 		} else {
 			$success = "Perintah tidak dikenali";
-			echo "Something is wrong";
 		}
 		$this->alert_messages($success);
 		redirect(site_url('kandidat/pengaturan/rekomendasi'), 'refresh');
@@ -535,13 +548,13 @@ class Kandidat extends CI_Controller {
 	public function do_upload_document($userfile, $filename){
 		$config['upload_path'] 		= "documents_upload";
 		$config['allowed_types']	= "pdf";
-		$config['file_name']				= $filename;
+		$config['file_name']			= $filename;
 		$config['overwrite']			= TRUE;
 
 		$this->load->library('upload', $config);
 		if(!$this->upload->do_upload($userfile)){
 			$this->session->set_flashdata('status', 'danger');
-    	$this->session->set_flashdata('message', $this->upload->display_errors('', ''));
+    	$this->session->set_flashdata('message', $this->upload->display_errors());
 		}
 
 		return true;

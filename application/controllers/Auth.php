@@ -181,9 +181,10 @@ class Auth extends CI_Controller {
 				$this->info_model->update_jumlah('keterangan', $info);
 			}
 			# success create new user
-			$this->send_confirmation($_POST['email'], $_POST['username'], $unencrypt_pass, $_POST['hash']);
-			$this->session->set_flashdata('message', 'Akun Anda telah berhasil didaftarkan. Silahkan cek email Anda untuk mengaktifkan akun Anda. Jika ada kesulitan, silahkan hubungi kami.');
-			redirect(site_url('auth/regis_success'), 'refresh=3');
+			// $this->send_confirmation($_POST['email'], $_POST['username'], $unencrypt_pass, $_POST['hash']);
+			// $this->session->set_flashdata('message', 'Akun Anda telah berhasil didaftarkan. Silahkan cek email Anda untuk mengaktifkan akun Anda. Jika ada kesulitan, silahkan hubungi kami.');
+			$this->session->set_flashdata('message', 'Akun Anda telah berhasil didaftarkan, silahkan menuju halaman login untuk masuk ke portal. Jika ada kesulitan, jangan takut untuk menghubungi kami.');
+			redirect(site_url('auth'), 'refresh=3');
 		} else {
 			# failed to register because email exist
 			$this->session->set_flashdata('status', 'danger');

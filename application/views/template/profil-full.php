@@ -18,6 +18,8 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="<?= css_url('font-awesome.min') ?>">
+	<!-- Datepicker -->
+	<link rel="stylesheet" href="<?= css_url('bootstrap-datepicker.min') ?>">
 	<!-- Dynamic CSS Style -->
 	<?php if(isset($header_css_file)): ?>
 	<?= header_css_file($header_css_file); ?>
@@ -29,6 +31,9 @@
 	<link rel="stylesheet" href="<?= css_url('styles') ?>" />
 	<!-- Jquery Latest Compiled and Minified JS -->
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+	<!-- Bootstrap Latest Compiled and Minified JS -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="<?= js_url('bootstrap-datepicker.min') ?>"></script>
 </head>
 <body>
 	<div id="imgModal" class="modal-image">
@@ -94,8 +99,6 @@
 		</div>
 		<?php echo $content; ?>
 	</div>
-	<!-- Bootstrap Latest Compiled and Minified JS -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="<?= js_url('script') ?>"></script>
 	<!-- Dynamic JS load from external -->
 	<?php if(isset($footer_js_url)): ?>

@@ -51,7 +51,7 @@
 					<?php endif; ?>
 					</h3>
 					<hr>
-					<form action="../do_update_rekomendasi/<?= $data['status'] ?>" method="post" enctype="multipart/form-data">
+					<form action="<?= site_url('kandidat/do_update_rekomendasi/'.$data['status']) ?>" method="post" enctype="multipart/form-data">
 						<div class="row">
 							<div class="col-md-8">
 								<div class="form-group">
@@ -66,7 +66,7 @@
 									<label>File Rekomendasi (.pdf) <span class="text-danger">*</span> <sub>
 									</sub>
 									</label>
-									<input type="file" required name="file_rekomendasi_path" class="form-control" placeholder="upload file anda disni">
+									<input type="file" required name="file_rekomendasi_path" class="form-control" placeholder="upload file anda disni" accept=".pdf">
 									<?php if($data['file_rekomendasi_path'] != ""): ?>
 										<a href="<?= site_url('documents_upload/'.$data["file_rekomendasi_path"]) ?>" target="_blank">Lihat file rekomendasi yang telah diupload</a>
 									<?php endif; ?>
