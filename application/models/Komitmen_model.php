@@ -1,24 +1,18 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Essay_model extends CI_Model {
+class Komitmen_model extends CI_Model {
 	
-	public $table = 'essay';
+	public $table = 'komitmen';
 
-	public function read_essay($idpeserta) {
+	public function read_komitmen($idpeserta) {
 		$this->db->where(array('peserta_id' => $idpeserta, 'is_deleted' => 0));
 		$query = $this->db->get($this->table);
 		return $query;
 	}
 
-	public function insert_essay($data) {
+	public function insert_komitmen($data) {
 		$this->db->insert($this->table, $data);
-		return ($this->db->affected_rows() != 1) ? $this->db->error() : True;
-	}
-
-	public function update_essay($data) {
-		$this->db->set($data);
-		$this->db->update($this->table);
 		return ($this->db->affected_rows() != 1) ? $this->db->error() : True;
 	}
 

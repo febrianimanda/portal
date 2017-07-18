@@ -32,6 +32,13 @@ class Pencapaian_model extends CI_Model {
 		return ($this->db->affected_rows() != 1) ? $this->db->error() : True;
 	}
 
+	public function is_ready($idpeserta) {
+		$this->db->select('is_ready');
+		$this->db->where('peserta_id', $idpeserta);
+		$result = $this->db->get($this->table)->result_array()[0];
+		return $result['is_ready'];
+	}
+
 }
 
 ?>

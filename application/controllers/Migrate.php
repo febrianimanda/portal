@@ -12,7 +12,7 @@ class Migrate extends CI_Controller {
 			} else {
 				$data['job'] = 'Migrasi';
 				$data['title'] = 'Migration';
-				$data['content'] = $this->load->view('success');
+				$data['content'] = $this->load->view('success', $data, true);
 				$this->load->view('template/full-template',$data);
 			}
 		} else {

@@ -80,17 +80,24 @@
 		</div>
 		<div class="col-md-7">
 			<!-- Essay Section -->
-			<div class="row profil-row">
-				<div class="col-md-12">
-					<h3>Essay 
-						<?php if($is_me): ?>
-							<a href="<?= site_url('kandidat/pengaturan/essay') ?>" class="btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-pencil"></i> Ubah</a>
-						<?php endif; ?>
-						</h3>
-					<hr>
-					<p><?= (isset($essay[0])) ? $essay[0]['konten'] : "<em>Essay belum diisi</em>" ?></p>
+			<?php if($section['essay']): ?>
+				<div class="row profil-row">
+					<div class="col-md-12">
+						<h3> Essay
+							<?php if($is_me): ?>
+								<a href="<?= site_url('kandidat/pengaturan/essay') ?>" class="btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-pencil"></i> Ubah</a>
+							<?php endif; ?>
+							</h3>
+						<hr>
+						<div class="row">
+							<div class="col-md-12">
+								<h4>Tema: <?= $theme ?></h4>
+								<p><?= (isset($essay[0])) ? $essay[0]['konten'] : "<em>Essay belum diisi</em>" ?></p>
+							</div>
+						</div>
+					</div>
 				</div>
-			</div>
+			<?php endif; ?>
 			<!-- Pencapaian Section -->
 			<div class="row profil-row">
 				<div class="col-md-12">
@@ -120,33 +127,47 @@
 				</div>
 			</div>
 			<!-- Project Section -->
-			<div class="row profil-row">
-				<div class="col-md-12">
-					<h3>Project 
-					<?php if($is_me): ?>
-						<a href="<?= site_url('kandidat/pengaturan/project') ?>" class="btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-pencil"></i> Ubah</a>
-					<?php endif; ?>
-					</h3>
-					<hr>
-					<div class="row">
-						<div class="col-md-12">
-							<?php if(isset($project[0])): ?>
-								<span class="floating-label label label-info"><?= $project[0]['jenis'] ?></span>
-								<h4><strong><?= $project[0]['nama_project'] ?></strong></h4>
-								<h5>Lokasi: <?= $project[0]['lokasi'] ?> | Penanggung Jawab: <?= $project[0]['penanggung_jawab'] ?> | Peran: <?= $project[0]['peran'] ?></h5>
-								<h5><strong>Alasan Project ini Penting</strong></h5>
-								<p><?= $project[0]['alasan_penting'] ?></p>
-								<h5><strong>Kegiatan yang akan dilakukan</strong></h5>
-								<p><?= $project[0]['kegiatan'] ?></p>
-								<h5><strong>Bagaimana FIM bisa meningkatkan nilai manfaat project ini</strong></h5>
-								<p><?= $project[0]['supported_fim'] ?></p>
-							<?php else: ?>
-								<p><i>Project belum diisi</i></p>
-							<?php endif; ?>
+			<?php if($section['project']): ?>
+				<div class="row profil-row">
+					<div class="col-md-12">
+						<h3>Project 
+						<?php if($is_me): ?>
+							<a href="<?= site_url('kandidat/pengaturan/project') ?>" class="btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-pencil"></i> Ubah</a>
+						<?php endif; ?>
+						</h3>
+						<hr>
+						<div class="row">
+							<div class="col-md-12">
+								<?php if(isset($project[0])): ?>
+									<?php if($jalur != 'nextgen'): ?>
+										<span class="floating-label label label-info"><?= $project[0]['jenis'] ?></span>
+										<h4><strong><?= $project[0]['nama_project'] ?></strong></h4>
+										<h5><strong>Lokasi:</strong> <?= $project[0]['lokasi'] ?> | <strong>Peran:</strong> <?= $project[0]['peran'] ?></h5>
+										<h5><strong>Kegiatan yang akan dilakukan</strong></h5>
+										<p><?= $project[0]['kegiatan'] ?></p>
+										<h5><strong>Sumberdaya yang dibutuhkan</strong></h5>
+										<p><?= $project[0]['sumberdaya'] ?></p>
+										<h5><strong>Bagaimana FIM bisa meningkatkan nilai manfaat project ini</strong></h5>
+										<p><?= $project[0]['supported_fim'] ?></p>
+									<?php else: ?>
+										<h5><strong>Lokasi:</strong> <?= $project[0]['lokasi'] ?> | <strong>Peran:</strong> <?= $project[0]['peran'] ?></h5>
+										<h5><strong>Hal menginspirasi ketika magang</strong></h5>
+										<p><?= ($project[0]['hasil_magang'] != NULL) ? $project[0]['hasil_magang'] : '-' ?></p>
+										<h5><strong>Kegiatan yang akan dilakukan</strong></h5>
+										<p><?= ($project[0]['kegiatan'] != NULL) ? $project[0]['kegiatan'] : '-' ?></p>
+										<h5><strong>Sumberdaya yang dibutuhkan</strong></h5>
+										<p><?= ($project[0]['sumberdaya'] != NULL) ? $project[0]['sumberdaya'] : '-' ?></p>
+										<h5><strong>Timeline kegiatan</strong></h5>
+										<p><?= ($project[0]['timeline'] != NULL) ? $project[0]['timeline'] : '-' ?></p>
+									<?php endif; ?>
+								<?php else: ?>
+									<p><i>Project belum diisi</i></p>
+								<?php endif; ?>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			<?php endif; ?>
 		</div>
 	</div>
 </div>

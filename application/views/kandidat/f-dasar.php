@@ -6,17 +6,26 @@
 				<li role="presentation" class="active">
 					<a href="<?= site_url('kandidat/pengaturan/dasar') ?>">Dasar</a>
 				</li>
-				<li role="presentation">
-					<a href="<?= site_url('kandidat/pengaturan/rekomendasi') ?>">Rekomendasi</a>
-				</li>
-				<li role="presentation">
-					<a href="<?= site_url('kandidat/pengaturan/essay') ?>">Essay</a>
-				</li>
+				<?php if($menu['rekomendasi'] == true): ?>
+					<li role="presentation">
+						<a href="<?= site_url('kandidat/pengaturan/rekomendasi') ?>">Rekomendasi</a>
+					</li>
+				<?php endif; ?>
+				<?php if($menu['essay'] == true): ?>
+					<li role="presentation">
+						<a href="<?= site_url('kandidat/pengaturan/essay') ?>">Essay</a>
+					</li>
+				<?php endif; ?>
 				<li role="presentation">
 					<a href="<?= site_url('kandidat/pengaturan/pencapaian') ?>">Pencapaian</a>
 				</li>
+				<?php if($menu['project'] == true): ?>
+					<li role="presentation">
+						<a href="<?= site_url('kandidat/pengaturan/project') ?>">Project</a>
+					</li>
+				<?php endif; ?>
 				<li role="presentation">
-					<a href="<?= site_url('kandidat/pengaturan/project') ?>">Project</a>
+					<a href="<?= site_url('kandidat/pengaturan/komitmen') ?>">Komitmen</a>
 				</li>
 				<li role="presentation">
 					<a href="<?= site_url('kandidat/pengaturan/akun') ?>">Akun</a>
@@ -38,10 +47,16 @@
 					<div class="col-md-12">
 						<h3>Informasi Dasar</h3><hr>
 						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Biodata Singkat</label>
+									<input type="text" name="biodata_singkat" class="form-control" value="<?= $data['biodata_singkat'] ?>" placeholder="Tuliskan Bidata Singkat Anda"> 
+								</div>
+							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Foto Profil <span class="text-danger">*</span></label>
-									<input type="file" name="profpic_path" accept="image/*" class="form-control">
+									<label>Foto Profil <span class="text-danger">*</span> <sub>(dengan dimensi persegi, wajah harus terlihat jelas)</sub></label>
+									<input type="file" name="profpic_path" accept="image/*" class="form-control"> 
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -120,7 +135,7 @@
 									<input type="file" name="ktp_path" accept="image/*" class="form-control">
 									<?php if($data['ktp_path'] != ""): ?>
 										<img src="<?= base_url('ktp_upload/'.$data['ktp_path']) ?>" alt="<?= $data['ktp_path'] ?>" style="display:none" id="ktp_pic">
-										<a href="#" onclick="showImage('ktp_pic', true)">Lihat KTP</a>
+										<a href="#" onclick="showImage('ktp_pic', true)">Lihat Foto KTP</a>
 									<?php endif; ?>
 								</div>
 							</div>
@@ -132,7 +147,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Tanggal Lahir <span class="text-danger">*</span></label>
+									<label>Tanggal Lahir (mm/dd/yyyy) <span class="text-danger">*</span></label>
 									<input name="birthdate" required type="date" class="form-control" placeholder="Tanggal Lahir Anda" value="<?= $data['birthdate'] ?>">
 								</div>
 							</div>
@@ -207,32 +222,43 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Id Line <span class="text-danger">*</span></label>
+									<label>Id Line</label>
 									<input type="text" name="line" required placeholder="Id Line Anda yang Aktif" class="form-control" value="<?= $data['line'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Link Facebook <span class="text-danger">*</span></label>
+									<label>Link Facebook</label>
 									<input type="text" name="fb" required class="form-control" placeholder='Contoh: https://facebook.com/ForumIndonesiaMuda/' value="<?= $data['fb'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Id atau Link Twitter <span class="text-danger">*</span></label>
+									<label>Id atau Link Twitter</label>
 									<input type="text" name="twitter" required class="form-control" placeholder='Contoh: fimnews atau https://twitter.com/fimnews' value="<?= $data['twitter'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Id atau Link Instagram <span class="text-danger">*</span></label>
+									<label>Id atau Link Instagram</label>
 									<input type="text" name="instagram" required class="form-control" placeholder='Contoh: fimnews atau https://instagram.com/fimnews' value="<?= $data['instagram'] ?>">
 								</div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<div class="form-group">
-									<label>Link Blog atau Tumblr <span class="text-danger">*</span></label>
+									<label>Link Blog atau Tumblr</label>
 									<input type="text" name="blog" required class="form-control" placeholder='Blogger, Wordpress, Tumblr atau Personal Website untuk blogging' value="<?= $data['blog'] ?>">
+								</div>
+							</div>
+							<?php $jalur = $this->session->userdata('jalur'); ?>
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Sertakan karya Anda berupa profil singkat diri Anda beserta alasan mengapa ingin bergabung dalam keluarga besar FIM. Silahkan tuliskan link nya di bawah ini. (instagram, youtube)
+										<?php if($jalur == 'nextgen' or $jalur == 'influencer'): ?>
+											<span class="text-danger">*</span>
+										<?php endif; ?>
+									</label>
+									<input type="text" name="video_profile" class="form-control" placeholder='Link Youtube atau Instagram. Pastikan tidak private account.' value="<?= $data['video_profile'] ?>">
 								</div>
 							</div>
 						</div>

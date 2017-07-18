@@ -8,7 +8,9 @@ class Kandidat extends CI_Controller {
 		if($this->session->userdata('logged_in')){
 			$this->profil($this->session->userdata('username'));
 		} else {
-			redirect(site_url(), 'refresh');
+			$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('message', 'Silahkan login terlebih dahulu');
+			redirect(site_url('auth/'), 'refresh');
 		}
 	}
 
@@ -19,6 +21,7 @@ class Kandidat extends CI_Controller {
 		$this->load->model('project_model');
 		$this->load->model('essay_model');
 		$this->load->model('perekomendasi_model');
+		$this->load->model('auth_model');
 
 		// setup page variable, result array is faster than else
 		$data_page['dasar'] = $this->peserta_model->read_peserta_by_username($username)->result_array();
@@ -29,6 +32,33 @@ class Kandidat extends CI_Controller {
 		$data_page['rekomendasi'] = $this->perekomendasi_model->read_perekomendasi($idpeserta)->result_array();
 		$data_page['is_me'] = ($this->session->userdata('username') == $username);
 
+		$jalur = $this->auth_model->get_jalur($username);
+
+		$data_page['jalur'] = $jalur;
+
+		if($jalur == 'nextgen' or $jalur == 'local') {
+			$data_page['section']['project'] = true;
+		} else {
+			$data_page['section']['project'] = false;
+		}
+
+		if($jalur == 'nextgen') {
+			$data_page['theme'] = 'Bagaimana keberadaan Anda di FIM bisa menambah nilai manfaat untuk FIM?';
+		} else if($jalur == 'campus') {
+			$data_page['theme'] = 'Rencana strategis Anda di kampus dan bagaimana FIM dapat membantu mewujudkannya?';
+		} else if($jalur == 'servant') {
+			$data_page['theme'] = 'Bagaimana FIM bisa membantu Anda untuk meningkatkan kualitas diri Anda secara personal sehingga mampu memberikan keuntungan untuk masyarakat?';
+	  } else if($jalur == 'expert') {
+	  	$data_page['theme'] = 'Tulisan Jurnal (boleh link)';
+	  } else {
+	  	$data_page['theme'] = '-';
+	  }
+
+		if($jalur == 'nextgen' or $jalur == 'campus' or $jalur == 'expert' or $jalur == 'servant') {
+			$data_page['section']['essay'] = true;
+		} else {
+			$data_page['section']['essay'] = false;
+		}
 
 		$tw = $data_page['dasar'][0]['twitter'];
 		$ig = $data_page['dasar'][0]['instagram'];
@@ -38,7 +68,8 @@ class Kandidat extends CI_Controller {
 			'fb' 			=> $data_page['dasar'][0]['fb'],
 			'twitter'	=> (strpos($tw,'twitter.com/')) ? $tw : "twitter.com/".$tw,
 			'ig'			=> (strpos($ig,'instagram.com/')) ? $ig : "instagram.com/".$ig,
-			'blog'		=> $data_page['dasar'][0]['blog']
+			'blog'		=> $data_page['dasar'][0]['blog'],
+			'video'		=> $data_page['dasar'][0]['video_profile']
 		);
 
 		$profpic = $data_page['dasar'][0]['profpic_path'];
@@ -60,10 +91,68 @@ class Kandidat extends CI_Controller {
 		if(!isset($page) or $page=='') {
 			$page = 'dasar';
 		}
-		
+		//load model
 		$this->load->model('peserta_model');
+		$this->load->model('essay_model');
+		$this->load->model('perekomendasi_model');
+		$this->load->model('project_model');
+		$this->load->model('pencapaian_model');
+		$this->load->model('komitmen_model');
+
 		$username = $this->session->userdata('username');
 		$idpeserta = $this->peserta_model->get_id('username', $username);
+		$option = '';
+
+		$jalur = $this->session->userdata('jalur');
+		if($jalur == 'campus'){
+			$data_page['menu'] = array(
+				'project' 		=> false,
+				'essay' 			=> true,
+				'rekomendasi'	=> true,
+			);
+		} else if ($jalur == 'local') {
+			$data_page['menu'] = array(
+				'project' 		=> true,
+				'essay' 			=> false,
+				'rekomendasi'	=> true,
+			);
+		} else if ($jalur == 'influencer') {
+			$data_page['menu'] = array(
+				'project' 		=> false,
+				'essay' 			=> false,
+				'rekomendasi'	=> false,
+			);
+		} else if ($jalur == 'professional') {
+			$data_page['menu'] = array(
+				'project' 		=> false,
+				'essay' 			=> false,
+				'rekomendasi'	=> true,
+			);
+		} else if ($jalur == 'expert') {
+			$data_page['menu'] = array(
+				'project' 		=> false,
+				'essay' 			=> true,
+				'rekomendasi'	=> false,
+			);
+		} else if ($jalur == 'servant') {
+			$data_page['menu'] = array(
+				'project' 		=> false,
+				'essay' 			=> true,
+				'rekomendasi'	=> true,
+			);
+		} else if ($jalur == 'military') {
+			$data_page['menu'] = array(
+				'project' 		=> false,
+				'essay' 			=> false,
+				'rekomendasi'	=> true,
+			);
+		} else {
+			$data_page['menu'] = array(
+				'project' 		=> true,
+				'essay' 			=> true,
+				'rekomendasi'	=> true,
+			);
+		}
 
 		if($page == 'dasar') {
 			// Load Model
@@ -84,11 +173,7 @@ class Kandidat extends CI_Controller {
 			$data['header_css_url'] = ['https://cdnjs.cloudflare.com/ajax/libs/croppie/2.4.1/croppie.min.css'];
 			$data['footer_js_url'] = ['https://cdnjs.cloudflare.com/ajax/libs/croppie/2.4.1/croppie.min.js'];
 			$data['footer_js_file'] = ['bootstrap-tagsinput'];
-
 		} else if ($page == 'rekomendasi') {
-			// Load model
-			$this->load->model('perekomendasi_model');
-
 			$obj_rekomendasi = $this->perekomendasi_model->read_perekomendasi($idpeserta)->result_array();
 			$exist = (sizeof($obj_rekomendasi) > 0);
 
@@ -97,26 +182,36 @@ class Kandidat extends CI_Controller {
 				'file_rekomendasi_path' => ($exist) ? $obj_rekomendasi[0]['file_rekomendasi_path'] : "",
 				'status' 								=> ($exist) ? "update" : "new",
 			);
-
 		} else if ($page == 'essay') {
-			//load model
-			$this->load->model('essay_model');
-
 			$obj_essay = $this->essay_model->read_essay($idpeserta)->result_array();
 			$exist = (sizeof($obj_essay) > 0);
+
+			if($jalur == 'nextgen') {
+				$theme = 'Bagaimana keberadaan Anda di FIM bisa menambah nilai manfaat untuk FIM?';
+			} else if($jalur == 'campus') {
+				$theme = 'Rencana strategis Anda di kampus dan bagaimana FIM dapat membantu mewujudkannya?';
+			} else if($jalur == 'servant') {
+				$theme = 'Bagaimana FIM bisa membantu Anda untuk meningkatkan kualitas diri Anda secara personal sehingga mampu memberikan keuntungan untuk masyarakat?';
+		  } else if($jalur == 'expert') {
+		  	$option = '-expert';
+		  }	else {
+				$theme = 'Anda tidak diwajibkan untuk mengisi bagian ini';
+			}
 
 			$data_page['data'] = array(
 				'konten'	=> ($exist) ? $obj_essay[0]['konten'] : "",
 				'status' 	=> ($exist) ? "update" : "new",
+				'theme'	=> $theme
 			);
 
 		} else if ($page == 'project') {
-			//load Model
-			$this->load->model('project_model');
-
 			$obj_project = $this->project_model->read_project($idpeserta)->result_array();
 			$exist = (sizeof($obj_project) > 0);
-			$obj_field = array('nama_project', 'penanggung_jawab', 'peran', 'jenis', 'lokasi', 'alasan_penting', 'kegiatan', 'supported_fim');
+			if($jalur == 'nextgen') {
+				$obj_field = array('hasil_magang', 'peran', 'lokasi', 'kegiatan', 'sumberdaya', 'timeline');
+			} else {
+				$obj_field = array('nama_project', 'jenis', 'peran', 'lokasi', 'kegiatan', 'sumberdaya', 'supported_fim');
+			}
 
 			foreach ($obj_field as $field) {
 				if($exist)
@@ -124,23 +219,49 @@ class Kandidat extends CI_Controller {
 				else
 					$data_page['data'][$field] = "";
 			}
+
+			if($jalur == 'nextgen') {
+				$option = '-nextgen';
+			}
+
 			$data_page['data']['status'] = ($exist) ? "update" : "new";
+
 		} else if($page == 'pencapaian') {
-			// load model
-			$this->load->model('pencapaian_model');
+			if($jalur == 'nextgen' or $jalur == 'campus' or $jalur == 'local') {
+				$constraint = 5;
+			} else if($jalur == 'influencer' or $jalur == 'professional' or $jalur == 'servant') {
+				$constraint = 3;
+			} else {
+				$constraint = 1;
+			}
+
 			$query_pencapaian = $this->pencapaian_model->read_all_pencapaian($idpeserta);
 			$data_page['data_count'] = $query_pencapaian->num_rows();
 			if($query_pencapaian->num_rows() > 0){
 				$data_page['pencapaian'] = $query_pencapaian->result_array();
 			}
+			
+			$option = ($jalur == 'influencer') ? '-influencer' : '';
+
+			$data_page['max_count'] = $constraint;
+
+		} else if($page == 'komitmen') { 
+			$obj_komitmen = $this->komitmen_model->read_komitmen($idpeserta)->result_array();
+			$exist = (sizeof($obj_komitmen) > 0);
+			$data_page['data'] = array(
+				'pernyataan'	=> ($exist) ? $obj_komitmen[0]['pernyataan'] : "",
+				'pilihan'	=> ($exist) ? $obj_komitmen[0]['pilihan'] : "",
+				'penempatan'	=> ($exist) ? $obj_komitmen[0]['penempatan'] : "",
+				'status' 	=> ($exist) ? "update" : "new"
+			);
 		} else {
 			// 404 page
 		}
 
 		if(!isset($data_page)){
-			$data['content'] = $this->load->view('kandidat/f-'.$page, '', true);
+			$data['content'] = $this->load->view('kandidat/f-'.$page.$option, '', true);
 		} else {
-			$data['content'] = $this->load->view('kandidat/f-'.$page, $data_page, true);
+			$data['content'] = $this->load->view('kandidat/f-'.$page.$option, $data_page, true);
 		}
 
 		$data['title'] = "Pengaturan ".$page;
@@ -186,7 +307,10 @@ class Kandidat extends CI_Controller {
 			$_POST['ktp_path'] = $ktp_filename;
 		}
 
+		$_POST['is_ready'] = 1;
+		$_POST['is_video_exist'] = 1;
 		$success = $this->peserta_model->update_peserta($idpeserta, $this->input->post());
+
 		if($success) {
 			if($_POST['provinsi'] != $ext_data['provinsi']) {
 				// Update Jumlah Provinsi
@@ -242,6 +366,7 @@ class Kandidat extends CI_Controller {
 			$success = $this->perekomendasi_model->update_perekomendasi($idpeserta, $this->input->post());
 		} else if ($status == 'insert') {
 			$_POST['id_peserta'] = $idpeserta;
+			$_POST['is_ready'] = 1;
 			$success = $this->perekomendasi_model->insert_perekomendasi($this->input->post());
 		} else {
 			$success = "Perintah tidak dikenali";
@@ -260,6 +385,7 @@ class Kandidat extends CI_Controller {
 			$success = $this->essay_model->update_essay($idpeserta, $this->input->post());
 		} else if ($status == 'insert') {
 			$_POST['peserta_id'] = $idpeserta;
+			$_POST['is_ready'] = 1;
 			$success = $this->essay_model->insert_essay($this->input->post());
 		} else {
 			$success = "Perintah tidak dikenali";
@@ -278,6 +404,7 @@ class Kandidat extends CI_Controller {
 			$success = $this->project_model->update_project($idpeserta, $this->input->post());
 		} else if ($status == 'insert') {
 			$_POST['peserta_id'] = $idpeserta;
+			$_POST['is_ready'] = 1;
 			$success = $this->project_model->insert_project($this->input->post());
 		} else {
 			$success = "Perintah tidak dikenali";
@@ -296,6 +423,7 @@ class Kandidat extends CI_Controller {
 			$success = $this->pencapaian_model->update_pencapaian($idpeserta, $this->input->post('indeks'), $this->input->post());
 		} else if ($status == 'insert'){
 			$_POST['peserta_id'] = $idpeserta;
+			$_POST['is_ready'] = 1;
 			$success = $this->pencapaian_model->insert_pencapaian($this->input->post());
 		} else {
 			$success = "Perintah tidak dikenali";
@@ -303,6 +431,20 @@ class Kandidat extends CI_Controller {
 		}
 		$this->alert_messages($success);
 		redirect(site_url('kandidat/pengaturan/pencapaian'));
+	}
+
+	public function do_update_komitmen(){
+		$this->load->model('peserta_model');
+		$this->load->model('komitmen_model');
+
+		$idpeserta = $this->peserta_model->get_id('username', $this->session->userdata('username'));
+		$_POST['peserta_id'] = $idpeserta;
+		$success = $this->komitmen_model->insert_pencapaian($this->input->post());
+		if($success){
+			$this->peserta_model->data_completed($idpeserta);
+		}
+		$this->alert_messages($success);
+		redirect(site_url('kandidat/pengaturan/komitmen'));
 	}
 
 	public function get_pencapaian(){
@@ -318,6 +460,20 @@ class Kandidat extends CI_Controller {
 	public function get_all_province(){
 		$this->load->model('provinsi_model');
 		$data = $this->provinsi_model->read_all_provinsi()->result_array();
+
+		echo json_encode($data);
+	}
+
+	public function get_pusat_kegiatan(){
+		$this->load->model('pusat_model');
+		$data = $this->pusat_model->read_all_pusat()->result_array();
+
+		echo json_encode($data);
+	}
+
+	public function get_regional_kegiatan(){
+		$this->load->model('regional_model');
+		$data = $this->regional_model->read_all_regional()->result_array();
 
 		echo json_encode($data);
 	}

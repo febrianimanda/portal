@@ -12,6 +12,12 @@ class Auth extends CI_Controller {
 	}
 
 	public function index() {
+
+		if($this->session->userdata('logged_in')){
+			redirect(site_url('kandidat/'));
+			$this->session->set_flashdata('Anda sudah login');
+		}
+
 		$data['title'] = "Login";
 		$data['content'] = $this->load->view('auth/login', '', true);
 		
@@ -106,6 +112,7 @@ class Auth extends CI_Controller {
 		$this->load->model('info_model');
 		$this->load->model('auth_model');
 		$this->load->model('peserta_model');
+		$this->load->model('jalur_model');
 
 		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[user.email]', array(
 				'valid_email'		=> 'Email yang anda masukkan tidak valid.',
@@ -132,12 +139,13 @@ class Auth extends CI_Controller {
 		$data_info = implode(',', $arr_info);
 		// data for peserta table
 		$data_peserta = array(
+			'fullname'	=> $_POST['fullname'],
 			'username' 	=> $_POST['username'],
 			'email' 		=> $_POST['email'],
 			'info_fim' 	=> $data_info
 		);
 
-		unset($_POST['passconf'], $_POST['info_fim']);
+		unset($_POST['passconf'], $_POST['info_fim'], $_POST['fullname']);
 
 		$_POST['hash'] = MD5($_POST['username'].rand(0,10000));
 
@@ -147,7 +155,7 @@ class Auth extends CI_Controller {
 		if($result1 and $result2) {
 			# Update another records after successfull saving
 			# Update Jumlah Jalur
-			// $this->jalur_model->update_jumlah($this->input->post('jalur'));
+			$this->jalur_model->update_jumlah($this->input->post('jalur'));
 			
 			# Update jumlah provinsi
 			// $prov = $this->provinsi_model->read_provinsi('nama_provinsi', $this->input->post('provinsi'))->result();
@@ -174,12 +182,13 @@ class Auth extends CI_Controller {
 			}
 			# success create new user
 			$this->send_confirmation($_POST['email'], $_POST['username'], $unencrypt_pass, $_POST['hash']);
-			redirect(site_url('auth/regis_success'), 'refresh');
+			$this->session->set_flashdata('message', 'Akun Anda telah berhasil didaftarkan. Silahkan cek email Anda untuk mengaktifkan akun Anda. Jika ada kesulitan, silahkan hubungi kami.');
+			redirect(site_url('auth/regis_success'), 'refresh=3');
 		} else {
 			# failed to register because email exist
 			$this->session->set_flashdata('status', 'danger');
 			$this->session->set_flashdata('message', 'Ada kesalahan dalam menyimpan data Anda. Silahkan coba untuk mendaftar kembali.');
-			redirect(site_url('auth/registration'), 'refresh');
+			redirect(site_url('auth/registration'), 'refresh=3');
 		}
 
 	}
@@ -193,6 +202,87 @@ class Auth extends CI_Controller {
 		$this->load->view('template/full-template', $data);
 	}
 
+  // public function send_confirmation($user_email, $username, $user_password, $hash) {
+	public function send_confirmation(){
+  	$this->load->library('email');
+
+  	$config = Array(
+	    'protocol' 	=> 'smtp',
+	    'smtp_host' => 'mail.forumindonesiamuda.org',
+	    'smtp_port' => 465,
+	    'smtp_user' => 'info@forumindonesiamuda.org',
+	    'smtp_pass' => 'fim19bismillah',
+	    'mailtype'  => 'html',
+	    'charset'   => 'iso-8859-1',
+	    'newline' 	=> "\r\n",
+	    'crlf'			=> "\r\n"
+		);
+
+		$this->load->initialize($config);
+
+		$user_email = 'febrian.imanda@gmail.com';
+		$username = 'febrianimanda';
+		$user_password = 'bismillah';
+		$hash = '85118f5c36036e82f11cb8dd6bd1951e';
+
+  	$verify_link = base_url().'auth/verify?'.'email='.$user_email.'&hash='.$hash;
+
+  	$subject = "Tautan Verifikasi Pendaftaran Forum Indonesia Muda 19";
+  	$message = '
+  		Terima Kasih sudah menjadi bagian para pemuda perubahan, <strong>'.$username.'</strong>!<br/>
+      <br/>
+			Akun Anda sudah berhasil dibuat.<br/>
+      Berikut detail keterangan untuk login akun Anda.<br/>
+      ------------------------------------------------- <br/>
+      <strong>Email   :</strong> ' . $user_email . ' <br/>
+      <strong>Password:</strong> ' . $user_password . ' <br/>
+      -------------------------------------------------
+      Pastikan untuk menjaga kerahasiaan akun Anda.<br/>
+			<br/>
+      Untuk mengaktifkan akun Anda, silahkan klik tautan di bawah ini:<br/>
+      <a href="'.$verify_link.'">'.$verify_link.'</a><br/>
+			<br/>
+			Regards, Forum Infonesia Muda';
+
+    $this->email->from('info@forumindonesiamuda.org', 'Info Forum Indonesia Muda');
+    $this->email->to($user_email);
+		$this->email->subject($subject);
+		$this->email->message($message);
+		$result = $this->email->send();
+		
+		print_r($result);
+  }
+
+  public function verify() {
+  	$this->load->model('auth_model');
+  	
+  	$result = $this->auth_model->get_hash($_GET['email']);
+  	if($result) {
+  		if($result['hash'] == $_GET['hash']) {
+  			$this->auth_model->verify_user($_GET['email']);
+  			$user = $this->auth_model->read_user_information($_GET['email'])->result_array();
+  			$session_data = array(
+					'email'			=> $user[0]['email'],
+					'username'	=> $user[0]['username'],
+					'role'			=> $user[0]['role'],
+					'jalur'			=> $user[0]['jalur'],
+					'logged_in'	=> true,
+				);
+  			$this->session->set_flashdata('message', 'Akun Anda telah diverifikasi, silahkan lengkapi data Anda untuk melanjutkan proses pendaftaran. Anda akan secara otomatis menuju halaman profil Anda dalam waktu 5 detik.');
+  			$this->load->view('auth/success');
+  			header('refresh=5; url='.site_url('kandidat/pengaturan/dasar'));
+  		} else {
+  			$this->session->set_flashdata('status', 'danger');
+  			$this->session->set_flashdata('message', 'Ada kesalahan dalam kode verifikasi anda. Silahkan hubungi tim IT kami.');
+				header('refresh=0;url='.site_url('auth'));
+  		}
+  	} else {
+  		$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('message', 'Email anda belum terdaftar. Silahkan daftar terlebih dahulu.');
+			header('refresh=0;url='.site_url('auth'));
+  	}
+  }
+
 	public function do_login() {
 		$this->load->model('peserta_model');
 
@@ -202,7 +292,7 @@ class Auth extends CI_Controller {
 		if( $this->form_validation->run() == false) {
 			if(isset($this->session->userdata['logged_in'])) {
 				# redirect success page
-				redirect(base_url('dashboard'));
+				redirect(base_url('kandidat'));
 			}
 			# back to login
 			redirect('auth/', 'refresh');
@@ -216,6 +306,10 @@ class Auth extends CI_Controller {
 		
 		if($success) {
 			$user = $this->auth_model->read_user_information($data['email'])->result_array();
+			// if($user[0]['is_verified'] != 1) {
+			// 	$this->session->set_flashdata('message', 'Akun Anda belum aktif, silahkan cek email Anda untuk mengaktifkan akun Anda.');
+			// 	redirect(site_url('auth/success'), 'refresh');
+			// }
 			$session_data = array(
 				'email'			=> $user[0]['email'],
 				'username'	=> $user[0]['username'],
@@ -252,72 +346,6 @@ class Auth extends CI_Controller {
 
   public function base64url_decode($data) {
   	return base64_decode(str_pad(strtr($data, '-_', '+/'), strlen($data) % 4, '=', STR_PAD_RIGHT));
-  }
-
-  public function send_confirmation($user_email, $username, $user_password, $hash) {
-  	$config = Array(
-	    'protocol' => 'smtp',
-	    'smtp_host' => 'ssl://smtp.googlemail.com',
-	    'smtp_port' => 465,
-	    'smtp_user' => 'febrian.imanda@gmail.com',
-	    'smtp_pass' => 'gmail12345,./',
-	    'mailtype'  => 'html', 
-	    'charset'   => 'iso-8859-1'
-		);
-  	$this->load->library('email', $config);
-  	$this->email->set_newline("\r\n");
-
-  	$subject = "Tautan Verifikasi Pendaftaran Forum Indonesia Muda 19";
-  	$message = '
-  		Terima Kasih sudah menjadi bagian para pemuda perubahan, '.$username.'!
-      
-			Akun Anda sudah berhasil dibuat.
-      Berikut detail keterangan untuk login akun Anda.
-      -------------------------------------------------
-      Email   : ' . $user_email . '
-      Password: ' . $user_password . '
-      -------------------------------------------------
-      Pastikan untuk menjaga kerahasiaan akun Anda.
-
-      Untuk mengaktifkan akun Anda, silahkan klik tautan di bawah ini:    
-      ' . base_url() . '/auth/verify?' . 
-      'email=' . $user_email . '&hash=' . $hash;
-
-    $this->email->from('febrian.imanda@gmail.com', 'Febrian Imanda');
-    $this->email->to($user_email);
-		$this->email->subject($subject);
-		$this->email->message($message);
-		$result = $this->email->send();
-  }
-
-  public function verify() {
-  	$this->load->model('auth_model');
-  	
-  	$result = $this->auth_model->get_hash($_GET['email']);
-  	if($result) {
-  		if($result['hash'] == $_GET['hash']) {
-  			$this->auth_model->verify_user($_GET['email']);
-  			$user = $this->auth_model->read_user_information($_GET['email'])->result_array();
-  			$session_data = array(
-					'email'			=> $user[0]['email'],
-					'username'	=> $user[0]['username'],
-					'role'			=> $user[0]['role'],
-					'jalur'			=> $user[0]['jalur'],
-					'logged_in'	=> true,
-				);
-  			$this->session->set_flashdata('status', 'success');
-  			$this->session->set_flashdata('message', 'Akun Anda telah diverifikasi, silahkan lengkapi data Anda untuk melanjutkan proses pendaftaran.');
-  			header('refresh=5; url='.site_url('kandidat/pengaturan/dasar'));
-  		} else {
-  			$this->session->set_flashdata('status', 'danger');
-  			$this->session->set_flashdata('message', 'Ada kesalahan dalam kode verifikasi anda. Silahkan hubungi tim IT kami.');
-				header('refresh=0;url='.site_url('auth'));
-  		}
-  	} else {
-  		$this->session->set_flashdata('status', 'danger');
-			$this->session->set_flashdata('message', 'Email anda belum terdaftar. Silahkan daftar terlebih dahulu.');
-			header('refresh=0;url='.site_url('auth'));
-  	}
   }
 
 }

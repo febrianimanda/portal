@@ -53,8 +53,11 @@
 					<?php if($this->session->userdata('logged_in')): ?> 
 						<li><a href="<?= site_url('kandidat/profil/'.$this->session->userdata('username')) ?>">Profilku</a></li>
 					<?php endif; ?>
-					<li><a href="#">List Kandidat</a></li>
-					<li><a href="#">Pengumuman</a></li>
+					<?php if($this->session->userdata('logged_in')): ?> 
+						<li><a href="<?= site_url('kandidat/pengaturan')?>">Pengaturan</a></li>
+					<?php endif; ?>
+					<!-- <li><a href="#">List Kandidat</a></li> -->
+					<!-- <li><a href="#">Pengumuman</a></li> -->
 					<?php if($this->session->userdata('logged_in')): ?> 
 						<li><a href="<?= site_url('auth/logout') ?>">Logout</a></li>
 					<?php else : ?>
@@ -80,6 +83,7 @@
 								<a href="http://<?= $socmed['twitter'] ?>"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
 								<a href="http://<?= $socmed['ig'] ?>"><i class="fa fa-instagram" aria-hidden="true"></i></a>
 								<a href="http://<?= $socmed['blog'] ?>"><i class="fa fa-share-alt-square" aria-hidden="true"></i></a>
+								<a href="http://<?= $socmed['video'] ?>"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
 							<?php else: ?>
 								<a href="<?=site_url('kandidat')?>" class="btn btn-profil-flat">Kembali ke profil</a>
 							<?php endif; ?>

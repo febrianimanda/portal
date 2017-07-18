@@ -15,6 +15,10 @@
 				</div>
 				<form action="<?= base_url('auth/do_registration') ?>" method="post">
 					<div class="form-group">
+						<label>Nama Lengkap <span class="text-danger">*</span></label>
+						<input type="text" required name="fullname" placeholder="Nama Lengkap Anda" class="form-control">
+					</div>
+					<div class="form-group">
 						<label>Email</label>
 						<input name="email" type="email" required placeholder="Masukkan Email Anda yang Aktif" class="form-control">
 					</div>
@@ -40,7 +44,11 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<label>Mengetahui Informasi FIM dari</label>
+						<label>Sudah pernah mendaftar FIM sebanyak</label>
+						<input type="number" name="daftar_fim">
+					</div>
+					<div class="form-group">
+						<label>Mengetahui Informasi Pendaftaran FIM dari</label>
 						<?php foreach ($info as $row): ?>
 							<div class="checkbox">
 							  <label>

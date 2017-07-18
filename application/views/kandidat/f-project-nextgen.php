@@ -43,25 +43,15 @@
 					<?php endif; ?>
 				</div>
 				<div class="col-md-12">
-					<h3>Proyek kolaborasi yang akan dilakukan dengan FIM</h3><hr>
+					<h3>Rencana Proyek FIM</h3>
+					<p></p>
+					<hr>
 					<form action="../do_update_project/<?= $data['status'] ?>" method="post">
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<div class="form-group">
-									<label>Nama Project <span class="text-danger">*</span></label>
-									<input type="text" name="nama_project" required class="form-control" placeholder="Sebutkan Nama project ini" value="<?= $data['nama_project'] ?>">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label>Jenis Project <span class="text-danger">*</span></label>
-									<select name="jenis" class="form-control">
-										<option <?= ($data['jenis'] == 'pendidikan') ? 'selected' : '' ?> value="pendidikan">Pendidikan Budaya</option>
-										<option <?= ($data['jenis'] == 'sosial') ? 'selected' : '' ?> value="sosial">Sosial</option>
-										<option <?= ($data['jenis'] == 'ekonomi') ? 'selected' : '' ?> value="ekonomi">Eknonomi dan Industri Kreatif</option>
-										<option <?= ($data['jenis'] == 'iptek') ? 'selected' : '' ?> value="iptek">Sains dan Teknologi</option>
-										<option <?= ($data['jenis'] == 'pendidikan') ? 'politik' : '' ?> value="politik">Politik dan Kebijakan Publik</option>
-									</select>
+									<label>Dari hasil magang/pre-interview kira-kira hal apa yang menginspirasi kamu untuk membuat proyek FIM baru untuk meningkatkan atau memperbaiki kegiatan FIM selama ini? (max. 100 kata) <span class="text-danger">*</span></label>
+									<textarea name="hasil_magang" rows="3" class="form-control"><?= $data['hasil_magang'] ?></textarea>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -73,12 +63,12 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Dimana proyek ini akan dilakukan? <span class="text-danger">*</span></label>
-									<input type="text" name="lokasi" required class="form-control" placeholder="Tulis lokasi project ini dilakukan" value="<?= $data['lokasi'] ?>">
+									<input type="text" name="lokasi" required class="form-control" placeholder="Tulis lokasi project ini berada" value="<?= $data['lokasi'] ?>">
 								</div>
 							</div>
 							<div class="col-md-12">
 								<div class="form-group">
-									<label>Apa yang dilakukan dalam proyek ini? <span class="text-danger">*</span></label>
+									<label>Apa yang dilakukan dalam proyek ini? (max. 100 kata) <span class="text-danger">*</span></label>
 									<textarea rows="3" name="kegiatan" required class="form-control" placeholder="Apa saja kegiatan yang akan dilakukan dalam project ini"><?= $data['kegiatan'] ?></textarea>
 								</div>
 							</div>
@@ -90,8 +80,8 @@
 							</div>
 							<div class="col-md-12">
 								<div class="form-group">
-									<label>Bagaimana FIM bisa meningkatkan nilai manfaat project ini? (max. 100 kata) <span class="text-danger">*</span></label>
-									<textarea name="supported_fim" required class="form-control" rows="3" placeholder="Bagaimana FIM bisa memberikan dukungan untuk meningkatkan nilai manfaat project ini"><?= $data['supported_fim'] ?></textarea>
+									<label>Tuliskan perencanaan proyek dan cara mewujudkan project ini berdasarkan timeline (max. 100 kata) <span class="text-danger">*</span></label>
+									<textarea name="timeline" required class="form-control" rows="3" placeholder="Perencanaan Timeline"><?= $data['timeline'] ?></textarea>
 								</div>
 							</div>
 							<div class="col-md-12">

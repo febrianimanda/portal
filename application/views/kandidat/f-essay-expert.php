@@ -43,12 +43,12 @@
 					<?php endif; ?>
 				</div>
 				<div class="col-md-12">
-					<h3>Essay</h3><hr>
+					<h3>$theme</h3><hr>
 					<form action="../do_update_essay/<?= $data['status'] ?>" method="post">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
-									<label>Tuliskan Essai tentang "<?= $data['theme'] ?>"<span class="text-danger">*</span></label>
+									<label>Sertakan portofolio tulisan/artikel/jurnal yang telah Anda buat. Silahkan untuk menyalin tulisan Anda atau tuliskan link nya di bawah ini.<span class="text-danger">*</span></label>
 									<textarea name="konten" rows="5" class="form-control" placeholder="Tulis essay anda disini"><?= $data['konten'] ?></textarea>
 								</div>
 							</div>

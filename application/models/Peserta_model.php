@@ -63,6 +63,27 @@ class Peserta_model extends CI_Model {
 		return ($this->db->affected_rows() != 1) ? $this->db->error() : True;
 	}
 
+	public function completed_data($idpeserta) {
+		$this->db->set('is_completed', 1);
+		$this->db->where('peserta_id', $idpeserta);
+		$this->db->update($this->table);
+		return ($this->db->affected_rows() != 1) ? $this->db->error() : True;	
+	}
+
+	public function is_ready($idpeserta) {
+		$this->db->select('is_ready');
+		$this->db->where('peserta_id', $idpeserta);
+		$result = $this->db->get($this->table)->result_array()[0];
+		return $result['is_ready'];
+	}
+
+	public function is_video_exist($idpeserta) {
+		$this->db->select('is_video_exist');
+		$this->db->where('peserta_id', $idpeserta);
+		$result = $this->db->get($this->table)->result_array()[0];
+		return $result['is_video_exist'];
+	}
+
 }
 
 ?>

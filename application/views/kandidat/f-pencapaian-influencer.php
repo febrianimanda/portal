@@ -14,44 +14,38 @@
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>Nama Aktivitas / Pencapaian <span class="text-danger">*</span></label>
-								<input type="text" name="nama_pencapaian" required class="form-control" placeholder="Sebutkan nama dari aktivitas / pencapaian ini">
+								<label>Platform yang digunakan <span class="text-danger">*</span></label>
+								<input type="text" name="platform" required class="form-control" placeholder="Tuliskan platform yang anda gunakan">
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>Waktu / Durasi <span class="text-danger">*</span></label>
-								<input type="text" name="waktu_durasi" required class="form-control" placeholder="Kapan atau lama durasi kegiatan / pencapaian ini berlangsung">
+								<label>Nama Akun yang digunakan <span class="text-danger">*</span></label>
+								<input type="text" name="nama_akun" required class="form-control" placeholder="Tuliskan Nama Akun Anda">
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>Cakupan Wilayah <span class="text-danger">*</span></label>
-								<input type="text" name="cakupan" required class="form-control" placeholder="Seberapa besar skala kegiatan / pencapaian ini">
+								<label>Genre (humor, hiburan, musik, dsb) <span class="text-danger">*</span></label>
+								<input type="text" name="genre" required class="form-control" placeholder="Tuliskan Genrenya">
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label>Peran <span class="text-danger">*</span></label>
-								<input type="text" name="peran" required class="form-control" placeholder="Tulis peran anda">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Penyelenggara <span class="text-danger">*</span></label>
-								<input type="text" name="penyelenggara" required class="form-control" placeholder="Pihak penyelenggara kegiatan atau pencapaian ini">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label>Narahubung Penyelenggara kegiatan <span class="text-danger">*</span></label>
-								<input type="text" name="narahubung" required class="form-control" placeholder="Narahubung yang dapat mempertanggungjawabkan">
+								<label>Portofolio hasil karya terbaik (link) <span class="text-danger">*</span></label>
+								<input type="text" name="portofolio" required class="form-control" placeholder="Tuliskan link dari portofolio anda">
 							</div>
 						</div>
 						<div class="col-md-12">
 							<div class="form-group">
-								<label>Alasan mengapa pencapaian ini merupakan yang terbaik buat anda <span class="text-danger">*</span></label>
-								<textarea name="alasan" required class="form-control" rows="3" placeholder="Berikan alasan penguat anda"></textarea>
+								<label>Alasan mengapa anda memilih genre tersebut (max. 300 kata) <span class="text-danger">*</span></label>
+								<textarea name="alasan" required class="form-control" placeholder="Tuliskan mengapa anda memilih genre ini"></textarea>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<label>Penghargaan atas karya yang dibuat <span class="text-danger">*</span></label>
+								<input type="text" name="nama_pencapaian" required class="form-control" placeholder="Nama penghargaan yang telah anda raih">
 							</div>
 						</div>
 					</div>
@@ -142,8 +136,8 @@
 									<button data-toggle="modal" data-target="#modalUpdate" data-index="<?= $data['indeks'] ?>" type="button" class="btnModalTrigger btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-plus"></i> Edit</button>
 									<h4><strong><?= $data['nama_pencapaian'] ?></strong></h4>
 									<?php $role = $this->session->userdata('role'); ?>
-									<h5>Cakupan: <?= $data['cakupan'] ?></h5>
-									<h5>Peran: <?= $data['peran'] ?> | Penyelenggara: <?= $data['penyelenggara'] ?> | <?= $data['waktu_durasi'] ?> <?= ($role >= 1 and $role <= 3) ?> | Narahubung: <?= $data['narahubung'] ?> </h5>
+									<h5>Link Portofolio: <?= $data['cakupan'] ?></h5>
+									<h5>Nama Akun: <?= $data['nama_akun'] ?> | Genre: <?= $data['genre'] ?> | Platform: <?= $data['platform'] ?>
 									<p><?= $data['alasan'] ?></p>
 								</div>
 							<?php endforeach; ?>
@@ -173,49 +167,43 @@
 				var html = "";
 				html += '<div class="row">';
 				html += '	<div class="col-md-12">';
-				html += '		<h4>Pencapaian '+ix+'</h4>';
-				html += '		<input type="hidden" name="indeks" value="'+ix+'">';
+				html += '		<h4>Pencapaian'+data['indeks']+'</h4>';
+				html += '		<input type="hidden" name="indeks" value="'+data['indeks']+'">';
+				html += '	</div>';
+				html += '	<div class="col-md-6">';	
+				html += '		<div class="form-group">';	
+				html += '			<label>Platform yang digunakan <span class="text-danger">*</span></label>';
+				html += '			<input type="text" name="platform" required class="form-control" placeholder="Sebutkan platform yang anda gunakan" value="'+data['platform']+'">';	
+				html += '		</div>';	
+				html += '	</div>';	
+				html += '	<div class="col-md-6">';	
+				html += '		<div class="form-group">';	
+				html += '			<label>Nama Akun yang digunakan <span class="text-danger">*</span></label>';	
+				html += '			<input type="text" name="nama_akun" required class="form-control" placeholder="Nama akun anda" value="'+data['nama_akun']+'">';	
+				html += '		</div>';	
 				html += '	</div>';
 				html += '	<div class="col-md-6">';
 				html += '		<div class="form-group">';
-				html += '			<label>Nama Aktivitas / Pencapaian <span class="text-danger">*</span></label>';
-				html += '			<input type="text" name="nama_pencapaian" required class="form-control" placeholder="Sebutkan nama dari aktivitas / pencapaian ini" value="'+data["nama_pencapaian"]+'">';
+				html += '			<label>Genre (humor, hiburan, musik, dsb) <span class="text-danger">*</span></label>';
+				html += '			<input type="text" name="genre" required class="form-control" placeholder="Sebutkan genre penghargaan" value="'+data['genre']+'">';
 				html += '		</div>';
 				html += '	</div>';
 				html += '	<div class="col-md-6">';
 				html += '		<div class="form-group">';
-				html += '			<label>Waktu / Durasi <span class="text-danger">*</span></label>';
-				html += '			<input type="text" name="waktu_durasi" required class="form-control" placeholder="Kapan atau lama durasi kegiatan / pencapaian ini berlangsung" value="'+data["waktu_durasi"]+'">';
-				html += '		</div>';
-				html += '	</div>';
-				html += '	<div class="col-md-6">';
-				html += '		<div class="form-group">';
-				html += '			<label>Cakupan Wilayah <span class="text-danger">*</span></label>';
-				html += '			<input type="text" name="cakupan" required class="form-control" placeholder="Seberapa besar skala kegiatan / pencapaian ini" value="'+data["cakupan"]+'">';
-				html += '		</div>';
-				html += '	</div>';
-				html += '	<div class="col-md-6">';
-				html += '		<div class="form-group">';
-				html += '			<label>Peran <span class="text-danger">*</span></label>';
-				html += '			<input type="text" name="peran" required class="form-control" placeholder="Tulis peran anda" value="'+data["peran"]+'">';
-				html += '		</div>';
-				html += '	</div>';
-				html += '	<div class="col-md-6">';
-				html += '		<div class="form-group">';
-				html += '			<label>Penyelenggara <span class="text-danger">*</span></label>';
-				html += '			<input type="text" name="penyelenggara" required class="form-control" placeholder="Pihak penyelenggara kegiatan atau pencapaian ini" value="'+data["penyelenggara"]+'">';
-				html += '		</div>';
-				html += '	</div>';
-				html += '	<div class="col-md-6">';
-				html += '		<div class="form-group">';
-				html += '			<label>Narahubung Penyelenggara kegiatan <span class="text-danger">*</span></label>';
-				html += '			<input type="text" name="narahubung" required class="form-control" placeholder="Narahubung yang dapat mempertanggungjawabkan" value="'+data["narahubung"]+'">';
+				html += '			<label>Portofolio hasil karya terbaik (link) <span class="text-danger">*</span></label>';
+				html += '			<input type="text" name="portofolio" required class="form-control" placeholder="Lampirkan link portofolio anda" value="'+data['portofolio']+'">';
 				html += '		</div>';
 				html += '	</div>';
 				html += '	<div class="col-md-12">';
 				html += '		<div class="form-group">';
-				html += '			<label>Alasan mengapa pencapaian ini merupakan yang terbaik buat anda <span class="text-danger">*</span></label>';
-				html += '			<textarea name="alasan" required class="form-control" rows="3" placeholder="Berikan alasan penguat anda">'+data["alasan"]+'</textarea>';
+				html += '			<label>Alasan mengapa anda memilih genre tersebut (max. 300 kata) <span class="text-danger">*</span></label>';
+				html += '			<textarea name="alasan" required class="form-control" placeholder="Tuliskan mengapa anda memilih genre ini">'+data['alasan']+'</textarea>';
+				html += '		</div>';
+				html += '	</div>';
+				html += '	<div class="col-md-12">';
+				html += '		<div class="form-group">';						
+				html += '			<label>Penghargaan atas karya yang dibuat <span class="text-danger">*</span></label>';						
+				html += '			<input type="text" name="nama_pencapaian" required class="form-control" placeholder="Tuliskan Nama penghargaan yang anda dapatkan" value="'+data['nama_pencapaian']+'">';						
 				html += '		</div>';
 				html += '	</div>';
 				html += '</div>';

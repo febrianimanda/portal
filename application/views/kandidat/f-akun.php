@@ -6,17 +6,26 @@
 				<li role="presentation">
 					<a href="<?= site_url('kandidat/pengaturan/dasar') ?>">Dasar</a>
 				</li>
-				<li role="presentation">
-					<a href="<?= site_url('kandidat/pengaturan/rekomendasi') ?>">Rekomendasi</a>
-				</li>
-				<li role="presentation">
-					<a href="<?= site_url('kandidat/pengaturan/essay') ?>">Essay</a>
-				</li>
+				<?php if($menu['rekomendasi'] == true): ?>
+					<li role="presentation">
+						<a href="<?= site_url('kandidat/pengaturan/rekomendasi') ?>">Rekomendasi</a>
+					</li>
+				<?php endif; ?>
+				<?php if($menu['essay'] == true): ?>
+					<li role="presentation">
+						<a href="<?= site_url('kandidat/pengaturan/essay') ?>">Essay</a>
+					</li>
+				<?php endif; ?>
 				<li role="presentation">
 					<a href="<?= site_url('kandidat/pengaturan/pencapaian') ?>">Pencapaian</a>
 				</li>
+				<?php if($menu['project'] == true): ?>
+					<li role="presentation">
+						<a href="<?= site_url('kandidat/pengaturan/project') ?>">Project</a>
+					</li>
+				<?php endif; ?>
 				<li role="presentation">
-					<a href="<?= site_url('kandidat/pengaturan/project') ?>">Project</a>
+					<a href="<?= site_url('kandidat/pengaturan/komitmen') ?>">Komitmen</a>
 				</li>
 				<li role="presentation" class="active">
 					<a href="<?= site_url('kandidat/pengaturan/akun') ?>">Akun</a>

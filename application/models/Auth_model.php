@@ -12,10 +12,10 @@ class Auth_model extends CI_Model {
 
 	public function login_validation($data) {
 		$limit = 1;
-		$query = $this->db->get_where('user', $data);
+		$query = $this->db->get_where($this->table, $data);
 		return ($query->num_rows() == 1) ? true : false;
 	}
-
+	
 	public function read_user_information($email) {
 		$query = $this->db->get_where($this->table, array('email'=>$email), 1);
 		if($query->num_rows() == 1) {
@@ -91,6 +91,13 @@ class Auth_model extends CI_Model {
 		$this->db->where('email', $email);
 		$this->db->update('user', $data);
 		return ($this->db->affected_rows() > 0);
+  }
+
+  public function get_jalur($username) {
+  	$this->db->select('jalur');
+  	$this->db->where('username', $username);
+  	$result = $this->db->get($this->table)->result_array();
+  	return $result[0]['jalur'];
   }
 
 }
