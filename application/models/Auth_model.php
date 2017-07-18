@@ -79,6 +79,20 @@ class Auth_model extends CI_Model {
 		return $this->db->affected_rows();
 	}
 
+	public function get_hash($email) {
+		$this->db->select('hash');
+		$this->db->where('email', $email);
+		$result = $this->db->get($this->table)->result_array();
+		return $result[0];
+	}
+
+	public function verify_user($email) {
+		$data = array('is_verified' => 1);
+		$this->db->where('email', $email);
+		$this->db->update('user', $data);
+		return ($this->db->affected_rows() > 0);
+  }
+
 }
 
 ?>

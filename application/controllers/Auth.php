@@ -89,25 +89,13 @@ class Auth extends CI_Controller {
 	}
 
 	public function registration() {
-		// Load Model
-		$this->load->model('agama_model');
-		$this->load->model('jalur_model');
-		$this->load->model('provinsi_model');
 		$this->load->model('info_model');
-
-		// setup page variable
-		$data_page['agama'] = $this->agama_model->read_all_agama()->result();
-		$data_page['jalur'] = $this->jalur_model->read_all_jalur()->result();
-		$data_page['provinsi'] = $this->provinsi_model->read_all_provinsi()->result();
+		$this->load->model('jalur_model');
 		$data_page['info'] = $this->info_model->read_all_info()->result();
-
+		$data_page['jalur'] = $this->jalur_model->read_all_jalur()->result();
 		// Setup Page Content
 		$data['title'] = "Form Pendaftaran";
 		$data['content'] = $this->load->view('auth/signup', $data_page, true);
-
-		// Setup Page Dynamic CSS and JS
-		$data['header_css_file'] = ['bootstrap-tagsinput'];
-		$data['footer_js_file'] = ['bootstrap-tagsinput'];
 
 		// Load Page 
 		$this->load->view('template/full-template', $data);
@@ -115,85 +103,94 @@ class Auth extends CI_Controller {
 
 	public function do_registration() {
 		// Load Model
-		$this->load->model('peserta_model');
-		$this->load->model('jalur_model');
-		$this->load->model('provinsi_model');
 		$this->load->model('info_model');
-		$this->load->model('institusi_model');
-		$this->load->model('agama_model');
+		$this->load->model('auth_model');
+		$this->load->model('peserta_model');
 
 		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[user.email]', array(
 				'valid_email'		=> 'Email yang anda masukkan tidak valid.',
-				'is_unique'			=> 'Email sudah terdaftar.',
+				'is_unique'			=> 'Email sudah pernah mendaftar.',
 			)
 		);
-		$this->form_validation->set_rules('username', 'Username', 'required|is_unique[user.username]', array(
-				'is_unique'			=> 'Username sudah digunakan.',
-			)
+		$this->form_validation->set_rules('username', 'Username', 'required|is_unique[user.username]', array( 'is_unique'	=> 'Username sudah pernah digunakan.')
 		);
 		$this->form_validation->set_rules('password', 'Password', 'required');
-		$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]');
+		$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]', array('matches' => 'Password dan Konfirmasi Password yang anda masukkan tidak sama'));
 
 		if( $this->form_validation->run() == false) {
 			# back to login
-			print validation_errors();
-			die();
-			// redirect('auth/registration', 'refresh');
+			$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('message', validation_errors());
+			redirect('auth/registration', 'refresh');
 		}
 		
 		// encrypt password
+		$unencrypt_pass = $this->input->post('password');
 		$_POST['password'] = MD5($this->input->post('password'));
 
-		// data for user table
-		$data_user = array(
-			'email' 		=> $_POST['email'],
-			'password'	=> $_POST['password'],
-			'jalur'			=> $_POST['jalur']
-		);
-		$data_info = $_POST['info_fim'];
-		$_POST['info_fim'] = implode(',', $data_info);
+		$arr_info = $_POST['info_fim'];
+		$data_info = implode(',', $arr_info);
 		// data for peserta table
-		unset($_POST['password'], $_POST['jalur'], $_POST['passconf']);
+		$data_peserta = array(
+			'username' 	=> $_POST['username'],
+			'email' 		=> $_POST['email'],
+			'info_fim' 	=> $data_info
+		);
 
-		$result = $this->auth_model->insert_registration($data_user);
-		$result2 = $this->peserta_model->insert_peserta($this->input->post());
+		unset($_POST['passconf'], $_POST['info_fim']);
 
-		if($result and $result2) {
+		$_POST['hash'] = MD5($_POST['username'].rand(0,10000));
+
+		$result1 = $this->auth_model->insert_registration($this->input->post());
+		$result2 = $this->peserta_model->insert_peserta($data_peserta);
+
+		if($result1 and $result2) {
 			# Update another records after successfull saving
 			# Update Jumlah Jalur
-			$this->jalur_model->update_jumlah($this->input->post('jalur'));
+			// $this->jalur_model->update_jumlah($this->input->post('jalur'));
 			
 			# Update jumlah provinsi
-			$prov = $this->provinsi_model->read_provinsi('nama_provinsi', $this->input->post('provinsi'))->result();
-			$this->provinsi_model->update_jumlah($prov[0]->key);
+			// $prov = $this->provinsi_model->read_provinsi('nama_provinsi', $this->input->post('provinsi'))->result();
+			// $this->provinsi_model->update_jumlah($prov[0]->key);
 
 			# Add or Update Institusi table
-			$ins_exist = $this->institusi_model->is_exist($this->input->post('institusi'));
-			if(!$ins_exist) {
-				# adding new institusi record
-				$data_institusi = array('nama_institusi' => $this->input->post('institusi'), 'jumlah' => 1);
-				$this->institusi_model->insert_institusi($data_institusi);
-			} else {
-				# increasing jumlah
-				$ins_id = $this->institusi_model->read_institusi_id('nama_institusi', $this->input->post('institusi'));
-				$this->institusi_model->update_jumlah($ins_id);
-			}
+			// $ins_exist = $this->institusi_model->is_exist($this->input->post('institusi'));
+			// if(!$ins_exist) {
+			// 	# adding new institusi record
+			// 	$data_institusi = array('nama_institusi' => $this->input->post('institusi'), 'jumlah' => 1);
+			// 	$this->institusi_model->insert_institusi($data_institusi);
+			// } else {
+			// 	# increasing jumlah
+			// 	$ins_id = $this->institusi_model->read_institusi_id('nama_institusi', $this->input->post('institusi'));
+			// 	$this->institusi_model->update_jumlah($ins_id);
+			// }
 
 			# Update jumlah agama
-			$this->agama_model->update_jumlah('agama', $_POST['agama']);
+			// $this->agama_model->update_jumlah('agama', $_POST['agama']);
 
 			# Update jumlah informasi fim
-			foreach ($data_info as $info) {
+			foreach ($arr_info as $info) {
 				$this->info_model->update_jumlah('keterangan', $info);
 			}
 			# success create new user
-			echo "User berhasil disimpan";
+			$this->send_confirmation($_POST['email'], $_POST['username'], $unencrypt_pass, $_POST['hash']);
+			redirect(site_url('auth/regis_success'), 'refresh');
 		} else {
 			# failed to register because email exist
-			echo "User gagal disimpan";
+			$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('message', 'Ada kesalahan dalam menyimpan data Anda. Silahkan coba untuk mendaftar kembali.');
+			redirect(site_url('auth/registration'), 'refresh');
 		}
 
+	}
 
+	public function regis_success() {
+		// Setup Page Content
+		$data['title'] = "Pendaftaran Berhasil";
+		$data['content'] = $this->load->view('auth/success', '', true);
+
+		// Load Page 
+		$this->load->view('template/full-template', $data);
 	}
 
 	public function do_login() {
@@ -255,5 +252,72 @@ class Auth extends CI_Controller {
 
   public function base64url_decode($data) {
   	return base64_decode(str_pad(strtr($data, '-_', '+/'), strlen($data) % 4, '=', STR_PAD_RIGHT));
-  }   
+  }
+
+  public function send_confirmation($user_email, $username, $user_password, $hash) {
+  	$config = Array(
+	    'protocol' => 'smtp',
+	    'smtp_host' => 'ssl://smtp.googlemail.com',
+	    'smtp_port' => 465,
+	    'smtp_user' => 'febrian.imanda@gmail.com',
+	    'smtp_pass' => 'gmail12345,./',
+	    'mailtype'  => 'html', 
+	    'charset'   => 'iso-8859-1'
+		);
+  	$this->load->library('email', $config);
+  	$this->email->set_newline("\r\n");
+
+  	$subject = "Tautan Verifikasi Pendaftaran Forum Indonesia Muda 19";
+  	$message = '
+  		Terima Kasih sudah menjadi bagian para pemuda perubahan, '.$username.'!
+      
+			Akun Anda sudah berhasil dibuat.
+      Berikut detail keterangan untuk login akun Anda.
+      -------------------------------------------------
+      Email   : ' . $user_email . '
+      Password: ' . $user_password . '
+      -------------------------------------------------
+      Pastikan untuk menjaga kerahasiaan akun Anda.
+
+      Untuk mengaktifkan akun Anda, silahkan klik tautan di bawah ini:    
+      ' . base_url() . '/auth/verify?' . 
+      'email=' . $user_email . '&hash=' . $hash;
+
+    $this->email->from('febrian.imanda@gmail.com', 'Febrian Imanda');
+    $this->email->to($user_email);
+		$this->email->subject($subject);
+		$this->email->message($message);
+		$result = $this->email->send();
+  }
+
+  public function verify() {
+  	$this->load->model('auth_model');
+  	
+  	$result = $this->auth_model->get_hash($_GET['email']);
+  	if($result) {
+  		if($result['hash'] == $_GET['hash']) {
+  			$this->auth_model->verify_user($_GET['email']);
+  			$user = $this->auth_model->read_user_information($_GET['email'])->result_array();
+  			$session_data = array(
+					'email'			=> $user[0]['email'],
+					'username'	=> $user[0]['username'],
+					'role'			=> $user[0]['role'],
+					'jalur'			=> $user[0]['jalur'],
+					'logged_in'	=> true,
+				);
+  			$this->session->set_flashdata('status', 'success');
+  			$this->session->set_flashdata('message', 'Akun Anda telah diverifikasi, silahkan lengkapi data Anda untuk melanjutkan proses pendaftaran.');
+  			header('refresh=5; url='.site_url('kandidat/pengaturan/dasar'));
+  		} else {
+  			$this->session->set_flashdata('status', 'danger');
+  			$this->session->set_flashdata('message', 'Ada kesalahan dalam kode verifikasi anda. Silahkan hubungi tim IT kami.');
+				header('refresh=0;url='.site_url('auth'));
+  		}
+  	} else {
+  		$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('message', 'Email anda belum terdaftar. Silahkan daftar terlebih dahulu.');
+			header('refresh=0;url='.site_url('auth'));
+  	}
+  }
+
 }
