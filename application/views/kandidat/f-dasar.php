@@ -4,29 +4,61 @@
 		<div class="col-md-2 col-md-offset-1 side-profil">
 			<ul class="nav nav-pills nav-stacked">
 				<li role="presentation" class="active">
-					<a href="<?= site_url('kandidat/pengaturan/dasar') ?>">Dasar</a>
+					<a href="<?= site_url('kandidat/pengaturan/dasar') ?>">Dasar
+					<?php if($this->session->userdata('jalur') == 'nextgen' or $this->session->userdata('jalur') == 'influencer'): ?>
+						<?php if($menu_ready['dasar'] and $menu_ready['video']): ?>
+							<i class="fa fa-check-circle menu-done"></i>
+						<?php endif; ?>
+					<?php else: ?>
+						<?php if($menu_ready['dasar']): ?>
+							<i class="fa fa-check-circle menu-done"></i>
+						<?php endif; ?>
+					</a>
+					<?php endif; ?>
 				</li>
 				<?php if($menu['rekomendasi'] == true): ?>
 					<li role="presentation">
-						<a href="<?= site_url('kandidat/pengaturan/rekomendasi') ?>">Rekomendasi</a>
+						<a href="<?= site_url('kandidat/pengaturan/rekomendasi') ?>">Rekomendasi
+							<?php if($menu_ready['rekomendasi']): ?>
+								<i class="fa fa-check-circle menu-done"></i>
+							<?php endif; ?>
+						</a>
 					</li>
 				<?php endif; ?>
 				<?php if($menu['essay'] == true): ?>
 					<li role="presentation">
-						<a href="<?= site_url('kandidat/pengaturan/essay') ?>">Essay</a>
+						<a href="<?= site_url('kandidat/pengaturan/essay') ?>">
+							Esai
+							<?php if($menu_ready['essay']): ?>
+								<i class="fa fa-check-circle menu-done"></i>
+							<?php endif; ?>
+						</a>
 					</li>
 				<?php endif; ?>
 				<li role="presentation">
-					<a href="<?= site_url('kandidat/pengaturan/pencapaian') ?>">Pencapaian</a>
+					<a href="<?= site_url('kandidat/pengaturan/pencapaian') ?>">Pencapaian
+						<?php if($menu_ready['pencapaian']): ?>
+							<i class="fa fa-check-circle menu-done"></i>
+						<?php endif; ?>
+					</a>
 				</li>
 				<?php if($menu['project'] == true): ?>
 					<li role="presentation">
-						<a href="<?= site_url('kandidat/pengaturan/project') ?>">Project</a>
+						<a href="<?= site_url('kandidat/pengaturan/project') ?>">Proyek
+							<?php if($menu_ready['project']): ?>
+								<i class="fa fa-check-circle menu-done"></i>
+							<?php endif; ?>
+						</a>
 					</li>
 				<?php endif; ?>
 				<li role="presentation">
-					<a href="<?= site_url('kandidat/pengaturan/komitmen') ?>">Komitmen</a>
+					<a href="<?= site_url('kandidat/pengaturan/komitmen') ?>">Final Submit
+						<?php if($completed): ?>
+							<i class="fa fa-check-circle menu-done"></i>
+						<?php endif; ?>
+					</a>
 				</li>
+				<li role="separator" class="divider"></li>
 				<li role="presentation">
 					<a href="<?= site_url('kandidat/pengaturan/akun') ?>">Akun</a>
 				</li>
@@ -131,11 +163,11 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
-									<label>Foto KTP <span class="text-danger">*</span></label>
+									<label>Scan identitas (KTP/SIM/Paspor) <span class="text-danger">*</span></label>
 									<input <?= ($completed) ? 'disabled' : '' ?> type="file" name="ktp_path" accept="image/*" class="form-control">
 									<?php if($data['ktp_path'] != ""): ?>
 										<img src="<?= base_url('ktp_upload/'.$data['ktp_path']) ?>" alt="<?= $data['ktp_path'] ?>" style="display:none" id="ktp_pic">
-										<a href="#" onclick="showImage('ktp_pic', true)">Lihat Foto KTP</a>
+										<a href="#" onclick="showImage('ktp_pic', true)">Lihat Foto Identitas</a>
 									<?php endif; ?>
 								</div>
 							</div>
@@ -218,7 +250,7 @@
 				<!-- Informasi Social Media -->
 				<div class="row profil-row">
 					<div class="col-md-12">
-						<h3>Informasi Social Media</h3><hr/>
+						<h3>Informasi Media Sosial</h3><hr/>
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
@@ -251,16 +283,16 @@
 								</div>
 							</div>
 							<?php $jalur = $this->session->userdata('jalur'); ?>
-							<div class="col-md-12">
-								<div class="form-group">
-									<label>Sertakan karya Anda berupa profil singkat diri Anda beserta alasan mengapa ingin bergabung dalam keluarga besar FIM. Silahkan tuliskan link nya di bawah ini. (instagram, youtube)
-										<?php if($jalur == 'nextgen' or $jalur == 'influencer'): ?>
-											<span class="text-danger">*</span>
-										<?php endif; ?>
-									</label>
-									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="video_profile" class="form-control" placeholder='Link Youtube atau Instagram. Pastikan tidak private account.' value="<?= $data['video_profile'] ?>">
+							<?php if($jalur == 'nextgen' or $jalur == 'influencer'): ?>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Sertakan karya Anda berupa profil singkat diri Anda beserta alasan mengapa ingin bergabung dalam keluarga besar FIM. Silahkan tuliskan link nya di bawah ini. (instagram, youtube)
+												<span class="text-danger">*</span>
+										</label>
+										<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="video_profile" class="form-control" placeholder='Link Youtube atau Instagram. Pastikan tidak private account.' value="<?= $data['video_profile'] ?>">
+									</div>
 								</div>
-							</div>
+							<?php endif; ?>
 						</div>
 					</div>
 				</div>

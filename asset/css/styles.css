@@ -190,6 +190,18 @@ a.btn-profil-flat:hover, .btn-profil-flat:hover {
   height: 150px;
 }
 
+.fa.menu-done {
+  color: #5cb85c;
+  float: right;
+}
+
+@media only screen and (max-width: 1024px){
+  .fa.menu-done {
+    float: none;
+  }
+}
+
+
 /* Add Animation - Zoom in the Modal */
 .modal-image .modal-content, .modal-image #caption { 
   -webkit-animation-name: zoom;
@@ -231,6 +243,13 @@ a.btn-profil-flat:hover, .btn-profil-flat:hover {
   .modal-image .modal-content {
     width: 100%;
   }
+}
+
+.side-profil .divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #e5e5e5;
 }
 
 /* overwrite bootstrap-tagsinput */

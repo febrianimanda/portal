@@ -13,7 +13,7 @@
 				<?php endif; ?>
 				<?php if($menu['essay'] == true): ?>
 					<li role="presentation">
-						<a href="<?= site_url('kandidat/pengaturan/essay') ?>">Essay</a>
+						<a href="<?= site_url('kandidat/pengaturan/essay') ?>">Esai</a>
 					</li>
 				<?php endif; ?>
 				<li role="presentation">
@@ -21,12 +21,13 @@
 				</li>
 				<?php if($menu['project'] == true): ?>
 					<li role="presentation">
-						<a href="<?= site_url('kandidat/pengaturan/project') ?>">Project</a>
+						<a href="<?= site_url('kandidat/pengaturan/project') ?>">Proyek</a>
 					</li>
 				<?php endif; ?>
 				<li role="presentation">
-					<a href="<?= site_url('kandidat/pengaturan/komitmen') ?>">Komitmen</a>
+					<a href="<?= site_url('kandidat/pengaturan/komitmen') ?>">Final Submit</a>
 				</li>
+				<li role="separator" class="divider"></li>
 				<li role="presentation">
 					<a href="<?= site_url('kandidat/pengaturan/akun') ?>">Akun</a>
 				</li>
@@ -52,18 +53,18 @@
 					</h3>
 					<hr>
 					<form action="<?= (!$completed) ? site_url('kandidat/do_update_rekomendasi/'.$data['status']) : '#' ?>" method="post" enctype="multipart/form-data">
-						<div class="row">
+						<!-- <div class="row">
 							<div class="col-md-8">
 								<div class="form-group">
 									<label>Nama Perekomendasi <span class="text-danger">*</span></label>
 									<input <?= ($completed) ? 'disabled' : '' ?> type="text" required name="nama_perekomendasi" class="form-control" placeholder="Tulis lengkap nama yang merekomendasi anda" value="<?= $data['nama_perekomendasi'] ?>">
 								</div>
 							</div>
-						</div>
+						</div> -->
 						<div class="row">
 							<div class="col-md-8">
 								<div class="form-group">
-									<label>File Rekomendasi (.pdf) <span class="text-danger">*</span> <sub>
+									<label>Upload Rekomendasi (.pdf) <span class="text-danger">*</span> <sub>
 									</sub>
 									</label>
 									<input <?= ($completed) ? 'disabled' : '' ?> type="file" required name="file_rekomendasi_path" class="form-control" placeholder="upload file anda disni" accept=".pdf">

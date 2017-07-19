@@ -87,8 +87,8 @@ class Peserta_model extends CI_Model {
 	public function is_completed($idpeserta) {
 		$this->db->select('is_completed');
 		$this->db->where('peserta_id', $idpeserta);
-		$result = $this->db->get($this->table)->result_array()[0];
-		return $result['is_completed'];
+		$result = $this->db->get($this->table)->result_array();
+		return $result[0]['is_completed'];
 	}
 
 }

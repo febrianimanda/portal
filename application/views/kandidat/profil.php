@@ -71,19 +71,19 @@
 					<h5><?= $dasar[0]['pertunjukan'] ?></h5>
 				</div>
 			</div>
-			<div class="row profil-row">
+			<!-- <div class="row profil-row">
 				<div class="col-md-12">
 					<h3>Perekomendasi</h3><hr>
 					<h5><?= (isset($rekomendasi[0])) ? $rekomendasi[0]['nama_perekomendasi'] : "<em>Belum ada perekomendasi</em>" ?></h5>
 				</div>
-			</div>
+			</div> -->
 		</div>
 		<div class="col-md-7">
 			<!-- Essay Section -->
 			<?php if($section['essay']): ?>
 				<div class="row profil-row">
 					<div class="col-md-12">
-						<h3> Essay
+						<h3> Esai
 							<?php if($is_me): ?>
 								<a href="<?= site_url('kandidat/pengaturan/essay') ?>" class="btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-pencil"></i> Ubah</a>
 							<?php endif; ?>
@@ -130,7 +130,7 @@
 			<?php if($section['project']): ?>
 				<div class="row profil-row">
 					<div class="col-md-12">
-						<h3>Project 
+						<h3>Proyek 
 						<?php if($is_me): ?>
 							<a href="<?= site_url('kandidat/pengaturan/project') ?>" class="btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-pencil"></i> Ubah</a>
 						<?php endif; ?>

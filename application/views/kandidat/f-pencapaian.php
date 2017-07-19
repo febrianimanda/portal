@@ -100,7 +100,7 @@
 				<?php endif; ?>
 				<?php if($menu['essay'] == true): ?>
 					<li role="presentation">
-						<a href="<?= site_url('kandidat/pengaturan/essay') ?>">Essay</a>
+						<a href="<?= site_url('kandidat/pengaturan/essay') ?>">Esai</a>
 					</li>
 				<?php endif; ?>
 				<li role="presentation" class="active">
@@ -108,12 +108,13 @@
 				</li>
 				<?php if($menu['project'] == true): ?>
 					<li role="presentation">
-						<a href="<?= site_url('kandidat/pengaturan/project') ?>">Project</a>
+						<a href="<?= site_url('kandidat/pengaturan/project') ?>">Proyek</a>
 					</li>
 				<?php endif; ?>
 				<li role="presentation">
-					<a href="<?= site_url('kandidat/pengaturan/komitmen') ?>">Komitmen</a>
+					<a href="<?= site_url('kandidat/pengaturan/komitmen') ?>">Final Submit</a>
 				</li>
+				<li role="separator" class="divider"></li>
 				<li role="presentation">
 					<a href="<?= site_url('kandidat/pengaturan/akun') ?>">Akun</a>
 				</li>
@@ -130,6 +131,7 @@
 					<?php endif; ?>
 				</div>
 				<div class="col-md-12">
+					<p><strong>Catatan:</strong> Sebutkan dan jelaskan <?= $max_count ?> aktivitas dan/atau pencapaian terbaik yang telah Anda raih. Aktivitas dan pencapaian di sini diartikan dalam arti yang luas, bisa jadi berupa pengalaman organisasi, pengalaman kepanitiaan, pengalaman mendirikan organisasi,menjuarai kompetisi, partisipasi dalam suatu konferensi, penulisan ilmiah, dll.</p>
 					<h3>Pencapaian
 						<?php if($data_count < $max_count and !$completed): ?>
 							<button data-toggle="modal" data-target="#modalInsert" type="button" class="btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-plus"></i> Tambah</button>

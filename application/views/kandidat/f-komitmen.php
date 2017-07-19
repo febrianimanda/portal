@@ -13,7 +13,7 @@
 				<?php endif; ?>
 				<?php if($menu['essay'] == true): ?>
 					<li role="presentation">
-						<a href="<?= site_url('kandidat/pengaturan/essay') ?>">Essay</a>
+						<a href="<?= site_url('kandidat/pengaturan/essay') ?>">Esai</a>
 					</li>
 				<?php endif; ?>
 				<li role="presentation">
@@ -21,12 +21,13 @@
 				</li>
 				<?php if($menu['project'] == true): ?>
 					<li role="presentation">
-						<a href="<?= site_url('kandidat/pengaturan/project') ?>">Project</a>
+						<a href="<?= site_url('kandidat/pengaturan/project') ?>">Proyek</a>
 					</li>
 				<?php endif; ?>
 				<li role="presentation" class="active">
-					<a href="<?= site_url('kandidat/pengaturan/komitmen') ?>">Komitmen</a>
+					<a href="<?= site_url('kandidat/pengaturan/komitmen') ?>">Final Submit</a>
 				</li>
+				<li role="separator" class="divider"></li>
 				<li role="presentation">
 					<a href="<?= site_url('kandidat/pengaturan/akun') ?>">Akun</a>
 				</li>
@@ -43,7 +44,7 @@
 					<?php endif; ?>
 				</div>
 				<div class="col-md-12">
-					<h3>Bagian Komitmen</h3>
+					<h3>Final Submit</h3>
 					<hr>
 					<?php if($ready): ?>
 						<form action="<?= (!$completed) ? site_url('kandidat/do_update_komitmen') : '#' ?> ?>" method="post">
@@ -81,7 +82,7 @@
 							<?php if(!$completed): ?>
 								<div class="row">
 									<div class="col-md-12">
-										<input type="submit" value="simpan" class="btn btn-profil-primary">
+										<input type="submit" value="Simpan Semua Data" class="btn btn-lg btn-success">
 									</div>
 								</div>
 							<?php endif; ?>

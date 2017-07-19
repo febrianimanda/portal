@@ -95,6 +95,13 @@ class Kandidat extends CI_Controller {
 		if(!isset($page) or $page=='') {
 			$page = 'dasar';
 		}
+
+		if(!$this->session->userdata('logged_in')){
+			$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('status', 'Session anda sudah berakhir, silahkan login kembali');
+			redirect(site_url('auth'));
+		}
+
 		//load model
 		$this->load->model('peserta_model');
 		$this->load->model('essay_model');
@@ -157,6 +164,22 @@ class Kandidat extends CI_Controller {
 				'rekomendasi'	=> true,
 			);
 		}
+
+		$basic_ready = ($this->peserta_model->is_ready($idpeserta) == 1);
+		$project_ready = ($this->project_model->is_ready($idpeserta) == 1);
+		$pencapaian_ready = ($this->pencapaian_model->is_ready($idpeserta) == 1);
+		$rekomendasi_ready = ($this->perekomendasi_model->is_ready($idpeserta) == 1);
+		$essay_ready = ($this->essay_model->is_ready($idpeserta) == 1);
+		$video_ready = ($this->peserta_model->is_video_exist($idpeserta) == 1);
+
+		$data_page['menu_ready'] = array(
+			'dasar' 	=> $basic_ready,
+			'project'	=> $project_ready,
+			'pencapaian'	=> $pencapaian_ready,
+			'rekomendasi'	=> $rekomendasi_ready,
+			'essay'		=> $essay_ready,
+			'video'		=> $video_ready
+		);
 
 		$data_page['completed'] = ($this->peserta_model->is_completed($idpeserta) == 1);
 
@@ -256,13 +279,6 @@ class Kandidat extends CI_Controller {
 		} else if($page == 'komitmen') { 
 			$obj_komitmen = $this->komitmen_model->read_komitmen($idpeserta)->result_array();
 			$data_page['ready'] = false;
-
-			$basic_ready = ($this->peserta_model->is_ready($idpeserta) == 1);
-			$project_ready = ($this->project_model->is_ready($idpeserta) == 1);
-			$pencapaian_ready = ($this->pencapaian_model->is_ready($idpeserta) == 1);
-			$rekomendasi_ready = ($this->perekomendasi_model->is_ready($idpeserta) == 1);
-			$essay_ready = ($this->essay_model->is_ready($idpeserta) == 1);
-			$video_ready = ($this->peserta_model->is_video_exist($idpeserta) == 1);
 
 			$ready = true;
 			$data_page['need_message'] = '';
@@ -448,6 +464,13 @@ class Kandidat extends CI_Controller {
 	}
 
 	public function do_update_dasar(){
+
+		if(!$this->session->userdata('logged_in')){
+			$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('status', 'Session anda sudah berakhir, silahkan login kembali');
+			redirect(site_url('auth'));
+		}
+
 		$this->load->model('peserta_model');
 		$this->load->model('auth_model');
 		$this->load->model('provinsi_model');
@@ -522,6 +545,13 @@ class Kandidat extends CI_Controller {
 	}
 
 	public function do_update_rekomendasi($status='update'){
+
+		if(!$this->session->userdata('logged_in')){
+			$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('status', 'Session anda sudah berakhir, silahkan login kembali');
+			redirect(site_url('auth'));
+		}
+
 		$this->load->model('peserta_model');
 		$this->load->model('perekomendasi_model');
 
@@ -560,6 +590,13 @@ class Kandidat extends CI_Controller {
 	}
 
 	public function do_update_essay($status='update'){
+
+		if(!$this->session->userdata('logged_in')){
+			$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('status', 'Session anda sudah berakhir, silahkan login kembali');
+			redirect(site_url('auth'));
+		}
+
 		$this->load->model('peserta_model');
 		$this->load->model('essay_model');
 
@@ -578,6 +615,13 @@ class Kandidat extends CI_Controller {
 	}
 
 	public function do_update_project($status='update'){
+
+		if(!$this->session->userdata('logged_in')){
+			$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('status', 'Session anda sudah berakhir, silahkan login kembali');
+			redirect(site_url('auth'));
+		}
+
 		$this->load->model('peserta_model');
 		$this->load->model('project_model');
 
@@ -597,6 +641,13 @@ class Kandidat extends CI_Controller {
 	}
 
 	public function do_update_pencapaian($status='update'){
+
+		if(!$this->session->userdata('logged_in')){
+			$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('status', 'Session anda sudah berakhir, silahkan login kembali');
+			redirect(site_url('auth'));
+		}
+
 		$this->load->model('peserta_model');
 		$this->load->model('pencapaian_model');
 
@@ -616,6 +667,13 @@ class Kandidat extends CI_Controller {
 	}
 
 	public function do_update_komitmen(){
+
+		if(!$this->session->userdata('logged_in')){
+			$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('status', 'Session anda sudah berakhir, silahkan login kembali');
+			redirect(site_url('auth'));
+		}
+
 		$this->load->model('peserta_model');
 		$this->load->model('komitmen_model');
 
@@ -645,6 +703,13 @@ class Kandidat extends CI_Controller {
 	}
 
 	public function do_update_akun(){
+
+		if(!$this->session->userdata('logged_in')){
+			$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('status', 'Session anda sudah berakhir, silahkan login kembali');
+			redirect(site_url('auth'));
+		}
+
 		$this->load->model('auth_model');
 		$this->load->model('peserta_model');
 		$this->load->library('form_validation');
