@@ -51,12 +51,12 @@
 					<?php endif; ?>
 					</h3>
 					<hr>
-					<form action="<?= site_url('kandidat/do_update_rekomendasi/'.$data['status']) ?>" method="post" enctype="multipart/form-data">
+					<form action="<?= (!$completed) ? site_url('kandidat/do_update_rekomendasi/'.$data['status']) : '#' ?>" method="post" enctype="multipart/form-data">
 						<div class="row">
 							<div class="col-md-8">
 								<div class="form-group">
 									<label>Nama Perekomendasi <span class="text-danger">*</span></label>
-									<input type="text" required name="nama_perekomendasi" class="form-control" placeholder="Tulis lengkap nama yang merekomendasi anda" value="<?= $data['nama_perekomendasi'] ?>">
+									<input <?= ($completed) ? 'disabled' : '' ?> type="text" required name="nama_perekomendasi" class="form-control" placeholder="Tulis lengkap nama yang merekomendasi anda" value="<?= $data['nama_perekomendasi'] ?>">
 								</div>
 							</div>
 						</div>
@@ -66,15 +66,17 @@
 									<label>File Rekomendasi (.pdf) <span class="text-danger">*</span> <sub>
 									</sub>
 									</label>
-									<input type="file" required name="file_rekomendasi_path" class="form-control" placeholder="upload file anda disni" accept=".pdf">
+									<input <?= ($completed) ? 'disabled' : '' ?> type="file" required name="file_rekomendasi_path" class="form-control" placeholder="upload file anda disni" accept=".pdf">
 									<?php if($data['file_rekomendasi_path'] != ""): ?>
 										<a href="<?= site_url('documents_upload/'.$data["file_rekomendasi_path"]) ?>" target="_blank">Lihat file rekomendasi yang telah diupload</a>
 									<?php endif; ?>
 								</div>
 							</div>
-							<div class="col-md-12">
-								<input type="submit" value="simpan" class="btn btn-profil-primary">
-							</div>
+							<?php if(!$completed): ?>
+								<div class="col-md-12">
+									<input type="submit" value="simpan" class="btn btn-profil-primary">
+								</div>
+							<?php endif; ?>
 						</div>
 					</form>
 				</div>

@@ -34,7 +34,7 @@
 		</div>
 		<!-- Form Content -->
 		<div class="col-md-8">
-			<form action="<?= site_url('kandidat/do_update_dasar') ?>" method="post" enctype="multipart/form-data">
+			<form action="<?= (!$completed) ? site_url('kandidat/do_update_dasar')  : '#'; ?>" method="post" enctype="multipart/form-data">
 				<!-- Informasi Dasar  -->
 				<div class="row profil-row">
 					<div class="col-md-12">
@@ -50,44 +50,44 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<label>Biodata Singkat</label>
-									<input type="text" name="biodata_singkat" class="form-control" value="<?= $data['biodata_singkat'] ?>" placeholder="Tuliskan Bidata Singkat Anda"> 
+									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="biodata_singkat" class="form-control" value="<?= $data['biodata_singkat'] ?>" placeholder="Tuliskan Bidata Singkat Anda"> 
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Foto Profil <span class="text-danger">*</span> <sub>(dengan dimensi persegi, wajah harus terlihat jelas)</sub></label>
-									<input type="file" name="profpic_path" accept="image/*" class="form-control"> 
+									<input <?= ($completed) ? 'disabled' : '' ?> type="file" name="profpic_path" accept="image/*" class="form-control"> 
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Nama Lengkap <span class="text-danger">*</span></label>
-									<input type="text" required name="fullname" placeholder="Nama Lengkap Anda" class="form-control" value="<?= $data['fullname'] ?>">
+									<input <?= ($completed) ? 'disabled' : '' ?> type="text" required name="fullname" placeholder="Nama Lengkap Anda" class="form-control" value="<?= $data['fullname'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Username <span class="text-danger">*</span></label>
-									<input type="text" required name="username" placeholder="Nama Lengkap Anda" class="form-control" value="<?= $data['username'] ?>">
+									<input <?= ($completed) ? 'disabled' : '' ?> type="text" required name="username" placeholder="Nama Lengkap Anda" class="form-control" value="<?= $data['username'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>No. Handphone <span class="text-danger">*</span></label>
-									<input name="handphone" required type="text" class="form-control" placeholder="No. Handphone Anda yang aktif" value="<?= $data['handphone'] ?>">
+									<input <?= ($completed) ? 'disabled' : '' ?> name="handphone" required type="text" class="form-control" placeholder="No. Handphone Anda yang aktif" value="<?= $data['handphone'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>No. Darurat Yang Dapat Dihubungi <span class="text-danger">*</span></label>
-									<input name="emergency_number" required type="text" class="form-control" placeholder="Bisa Nomor teman terdekat Anda atau Orang Tua Anda" value="<?= $data['emergency_number'] ?>">
+									<input <?= ($completed) ? 'disabled' : '' ?> name="emergency_number" required type="text" class="form-control" placeholder="Bisa Nomor teman terdekat Anda atau Orang Tua Anda" value="<?= $data['emergency_number'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<div class="form-group">
 										<label>Negara <span class="text-danger">*</span></label>
-										<select name="country" class="form-control" id="country-selectbox">
+										<select <?= ($completed) ? 'disabled' : '' ?> name="country" class="form-control" id="country-selectbox">
 										</select>
 									</div>
 								</div>
@@ -97,14 +97,14 @@
 									<label>Provinsi (Region)<span class="text-danger">*</span></label>
 									<div id="province-box">
 										<?php if($data['country'] == 'Indonesia'): ?>
-											<select name="provinsi" class="form-control">
+											<select <?= ($completed) ? 'disabled' : '' ?> name="provinsi" class="form-control">
 												<option disabled selected value>Pilih Provinsi</option>
 												<?php foreach ($provinsi as $row): ?>
 													<option value="<?= $row['nama_provinsi'] ?>" <?= ($row['nama_provinsi'] == $data['provinsi']) ? "selected" : "" ?>> <?= $row['nama_provinsi'] ?></option>
 												<?php endforeach ?>
 											</select>
 										<?php else: ?>
-											<input type="text" name="provinsi" class="form-control" value="<?= $data['provinsi'] ?>">
+											<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="provinsi" class="form-control" value="<?= $data['provinsi'] ?>">
 										<?php endif; ?>
 									</div>
 								</div>
@@ -112,13 +112,13 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Kota / Kabupaten (City)<span class="text-danger">*</span></label>
-									<input type="text" name="kota" required class="form-control" placeholder="Kota/Kabupaten Tempat Anda Tinggal Saat Ini" value="<?= $data['kota'] ?>">
+									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="kota" required class="form-control" placeholder="Kota/Kabupaten Tempat Anda Tinggal Saat Ini" value="<?= $data['kota'] ?>">
 								</div>
 							</div>
 							<div class="col-md-12">
 								<div class="form-group">
 									<label>Alamat Tinggal Saat Ini <span class="text-danger">*</span></label>
-									<textarea name="alamat" required class="form-control" rows="3" placeholder="Alamat Lengkap Tempat Tinggal Anda Saat Ini"><?= $data['alamat'] ?></textarea>
+									<textarea <?= ($completed) ? 'disabled' : '' ?> name="alamat" required class="form-control" rows="3" placeholder="Alamat Lengkap Tempat Tinggal Anda Saat Ini"><?= $data['alamat'] ?></textarea>
 								</div>
 							</div>
 						</div>
@@ -132,7 +132,7 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<label>Foto KTP <span class="text-danger">*</span></label>
-									<input type="file" name="ktp_path" accept="image/*" class="form-control">
+									<input <?= ($completed) ? 'disabled' : '' ?> type="file" name="ktp_path" accept="image/*" class="form-control">
 									<?php if($data['ktp_path'] != ""): ?>
 										<img src="<?= base_url('ktp_upload/'.$data['ktp_path']) ?>" alt="<?= $data['ktp_path'] ?>" style="display:none" id="ktp_pic">
 										<a href="#" onclick="showImage('ktp_pic', true)">Lihat Foto KTP</a>
@@ -142,13 +142,13 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Nama Panggilan <span class="text-danger">*</span></label>
-									<input name="nickname" required type="text" class="form-control" placeholder="Nama Akrab Anda" value="<?= $data['nickname'] ?>">
+									<input <?= ($completed) ? 'disabled' : '' ?> name="nickname" required type="text" class="form-control" placeholder="Nama Akrab Anda" value="<?= $data['nickname'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Tanggal Lahir (mm/dd/yyyy) <span class="text-danger">*</span></label>
-									<input name="birthdate" id="birthdatepicker" required type="text" class="form-control" placeholder="Tanggal Lahir Anda" value="<?= $data['birthdate'] ?>">
+									<input <?= ($completed) ? 'disabled' : '' ?> name="birthdate" id="birthdatepicker" required type="text" class="form-control" placeholder="Tanggal Lahir Anda" value="<?= $data['birthdate'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -174,7 +174,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Agama <span class="text-danger">*</span></label>
-									<select name="agama" id="" class="form-control">
+									<select <?= ($completed) ? 'disabled' : '' ?> name="agama" id="" class="form-control">
 										<option disabled selected value>Pilih Agama</option>
 										<?php foreach ($agama as $row): ?>
 											<option <?= ($row['agama'] == $data['agama']) ? "selected" : "" ?> value="<?= $row['agama'] ?>"><?= $row['agama'] ?></option>
@@ -185,31 +185,31 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Alergi Makanan</label>
-									<input type="text" name="alergi_makanan" class="form-control" placeholder='contoh: Udang' value="<?= $data['alergi_makanan'] ?>">
+									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="alergi_makanan" class="form-control" placeholder='contoh: Udang' value="<?= $data['alergi_makanan'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Nama Institusi Pendidikan Terakhir <span class="text-danger">*</span></label>
-									<input type="text" name="institusi" required placeholder="contoh: Telkom University" class="form-control" value="<?= $data['institusi'] ?>">
+									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="institusi" required placeholder="contoh: Telkom University" class="form-control" value="<?= $data['institusi'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Angkatan Masuk <span class="text-danger">*</span></label>
-									<input type="number" name="angkatan" required class="form-control" placeholder="contoh: 2013" value="<?= $data['angkatan'] ?>">
+									<input <?= ($completed) ? 'disabled' : '' ?> type="number" name="angkatan" required class="form-control" placeholder="contoh: 2013" value="<?= $data['angkatan'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Hobi <span class="text-danger">*</span></label>
-									<input type="text" name="hobi" required placeholder="Pisahkan dengan koma" class="form-control" data-role="tagsinput" value="<?= $data['hobi'] ?>">
+									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="hobi" required placeholder="Pisahkan dengan koma" class="form-control" data-role="tagsinput" value="<?= $data['hobi'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Keahlian yang dapat ditampilkan <span class="text-danger">*</span></label>
-									<input type="text" name="pertunjukan" required class="form-control" placeholder="contoh: Tari Piring" value="<?= $data['pertunjukan'] ?>">
+									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="pertunjukan" required class="form-control" placeholder="contoh: Tari Piring" value="<?= $data['pertunjukan'] ?>">
 								</div>
 							</div>
 						</div>
@@ -223,19 +223,19 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Id Line</label>
-									<input type="text" name="line" placeholder="Id Line Anda yang Aktif" class="form-control" value="<?= $data['line'] ?>">
+									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="line" placeholder="Id Line Anda yang Aktif" class="form-control" value="<?= $data['line'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Link Facebook</label>
-									<input type="text" name="fb" class="form-control" placeholder='Contoh: https://facebook.com/ForumIndonesiaMuda/' value="<?= $data['fb'] ?>">
+									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="fb" class="form-control" placeholder='Contoh: https://facebook.com/ForumIndonesiaMuda/' value="<?= $data['fb'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Id atau Link Twitter</label>
-									<input type="text" name="twitter" class="form-control" placeholder='Contoh: fimnews atau https://twitter.com/fimnews' value="<?= $data['twitter'] ?>">
+									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="twitter" class="form-control" placeholder='Contoh: fimnews atau https://twitter.com/fimnews' value="<?= $data['twitter'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -247,7 +247,7 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<label>Link Blog atau Tumblr</label>
-									<input type="text" name="blog" class="form-control" placeholder='Blogger, Wordpress, Tumblr atau Personal Website untuk blogging' value="<?= $data['blog'] ?>">
+									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="blog" class="form-control" placeholder='Blogger, Wordpress, Tumblr atau Personal Website untuk blogging' value="<?= $data['blog'] ?>">
 								</div>
 							</div>
 							<?php $jalur = $this->session->userdata('jalur'); ?>
@@ -258,17 +258,19 @@
 											<span class="text-danger">*</span>
 										<?php endif; ?>
 									</label>
-									<input type="text" name="video_profile" class="form-control" placeholder='Link Youtube atau Instagram. Pastikan tidak private account.' value="<?= $data['video_profile'] ?>">
+									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="video_profile" class="form-control" placeholder='Link Youtube atau Instagram. Pastikan tidak private account.' value="<?= $data['video_profile'] ?>">
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<input type="submit" class="btn btn-profil-primary" value="Simpan">
+				<?php if(!$completed): ?>
+					<div class="row">
+						<div class="col-md-12">
+							<input type="submit" class="btn btn-profil-primary" value="Simpan">
+						</div>
 					</div>
-				</div>
+				<?php endif; ?>
 			</form>
 		</div>
 	</div>

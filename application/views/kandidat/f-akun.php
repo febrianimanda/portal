@@ -44,30 +44,30 @@
 				</div>
 				<div class="col-md-12">
 					<h3>Akun</h3><hr>
-					<form action="#" method="post">
+					<form action="<?= site_url('kandidat/do_update_akun/') ?>" method="post">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
 									<label>Email (tidak dapat diubah)</label>
-									<input disabled type="text" name="email" required class="form-control" placeholder="Email Anda">
+									<input disabled type="text" name="email" required class="form-control" placeholder="Email Anda" value="<?= $this->session->userdata('email'); ?>">
 								</div>
 							</div>
 							<div class="col-md-12">
 								<div class="form-group">
 									<label>Password Lama <span class="text-danger">*</span></label>
-									<input type="text" name="penanggung_jawab" required class="form-control" placeholder="Tulis password lama anda jika ingin mengganti password">
+									<input type="password" name="password" required class="form-control" placeholder="Tulis password lama anda jika ingin mengganti password">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Password Baru <span class="text-danger">*</span></label>
-									<input type="text" name="penanggung_jawab" required class="form-control" placeholder="Tulis password baru anda">
+									<input type="password" name="new_password" required class="form-control" placeholder="Tulis password baru anda">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Konfirmasi Password Baru <span class="text-danger">*</span></label>
-									<input type="text" name="penanggung_jawab" required class="form-control" placeholder="Tulis ulang password baru anda">
+									<input type="password" name="passconf" required class="form-control" placeholder="Tulis ulang password baru anda">
 								</div>
 							</div>
 							<div class="col-md-12">

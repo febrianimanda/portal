@@ -44,17 +44,19 @@
 				</div>
 				<div class="col-md-12">
 					<h3>$theme</h3><hr>
-					<form action="<?= site_url('kandidat/do_update_essay/'.$data['status']) ?>" method="post">
+					<form action="<?= (!$completed) ? site_url('kandidat/do_update_essay/'.$data['status']) : '#' ?>" method="post">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
 									<label>Sertakan portofolio tulisan/artikel/jurnal yang telah Anda buat. Silahkan untuk menyalin tulisan Anda atau tuliskan link nya di bawah ini.<span class="text-danger">*</span></label>
-									<textarea name="konten" rows="5" class="form-control" placeholder="Tulis essay anda disini"><?= $data['konten'] ?></textarea>
+									<textarea <?= ($completed) ? 'disabled' : '' ?> name="konten" rows="5" class="form-control" placeholder="Tulis essay anda disini"><?= $data['konten'] ?></textarea>
 								</div>
 							</div>
-							<div class="col-md-12">
-								<input type="submit" value="simpan" class="btn btn-profil-primary">
-							</div>
+							<?php if(!$completed): ?>
+								<div class="col-md-12">
+									<input type="submit" value="simpan" class="btn btn-profil-primary">
+								</div>
+							<?php endif; ?>
 						</div>
 					</form>
 				</div>

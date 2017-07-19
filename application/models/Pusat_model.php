@@ -19,7 +19,7 @@ class Pusat_model extends CI_Model {
 	}
 
 	public function update_jumlah($key, $inc=true) {
-		$this->db->where('key', $key);
+		$this->db->where('keyword', $key);
 		if($inc == true) {
 			$this->db->set('jumlah','`jumlah`+1', FALSE);
 		} else {

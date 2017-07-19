@@ -14,7 +14,7 @@ class Kandidat extends CI_Controller {
 		}
 	}
 
-	public function profil($username) {
+	public function profil($username='') {
 		// Load Model
 		$this->load->model('peserta_model');
 		$this->load->model('pencapaian_model');
@@ -22,6 +22,10 @@ class Kandidat extends CI_Controller {
 		$this->load->model('essay_model');
 		$this->load->model('perekomendasi_model');
 		$this->load->model('auth_model');
+
+		if($username == ''){
+			$username = $this->session->userdata('username');
+		}
 
 		// setup page variable, result array is faster than else
 		$data_page['dasar'] = $this->peserta_model->read_peserta_by_username($username)->result_array();
@@ -154,6 +158,8 @@ class Kandidat extends CI_Controller {
 			);
 		}
 
+		$data_page['completed'] = ($this->peserta_model->is_completed($idpeserta) == 1);
+
 		if($page == 'dasar') {
 			// Load Model
 			$this->load->model('agama_model');
@@ -182,7 +188,7 @@ class Kandidat extends CI_Controller {
 			$data_page['data'] = array(
 				'nama_perekomendasi' 		=> ($exist) ? $obj_rekomendasi[0]['nama_perekomendasi'] : "",
 				'file_rekomendasi_path' => ($exist) ? $obj_rekomendasi[0]['file_rekomendasi_path'] : "",
-				'status' 								=> ($exist) ? "update" : "new",
+				'status' 								=> ($exist) ? "update" : "insert",
 			);
 		} else if ($page == 'essay') {
 			$obj_essay = $this->essay_model->read_essay($idpeserta)->result_array();
@@ -202,7 +208,7 @@ class Kandidat extends CI_Controller {
 
 			$data_page['data'] = array(
 				'konten'	=> ($exist) ? $obj_essay[0]['konten'] : "",
-				'status' 	=> ($exist) ? "update" : "new",
+				'status' 	=> ($exist) ? "update" : "insert",
 				'theme'	=> $theme
 			);
 
@@ -226,7 +232,7 @@ class Kandidat extends CI_Controller {
 				$option = '-nextgen';
 			}
 
-			$data_page['data']['status'] = ($exist) ? "update" : "new";
+			$data_page['data']['status'] = ($exist) ? "update" : "insert";
 
 		} else if($page == 'pencapaian') {
 			if($jalur == 'nextgen' or $jalur == 'campus' or $jalur == 'local') {
@@ -249,12 +255,176 @@ class Kandidat extends CI_Controller {
 
 		} else if($page == 'komitmen') { 
 			$obj_komitmen = $this->komitmen_model->read_komitmen($idpeserta)->result_array();
+			$data_page['ready'] = false;
+
+			$basic_ready = ($this->peserta_model->is_ready($idpeserta) == 1);
+			$project_ready = ($this->project_model->is_ready($idpeserta) == 1);
+			$pencapaian_ready = ($this->pencapaian_model->is_ready($idpeserta) == 1);
+			$rekomendasi_ready = ($this->perekomendasi_model->is_ready($idpeserta) == 1);
+			$essay_ready = ($this->essay_model->is_ready($idpeserta) == 1);
+			$video_ready = ($this->peserta_model->is_video_exist($idpeserta) == 1);
+
+			$ready = true;
+			$data_page['need_message'] = '';
+			if($jalur == 'nextgen'){
+				if(!$basic_ready){
+					$data_page['need_message'] .= '<li>Informasi Dasar</li>';
+					$ready = false;
+				}
+				if(!$project_ready){
+					$data_page['need_message'] .= '<li>Project</li>';
+					$ready = false;
+				}
+				if(!$pencapaian_ready){
+					$data_page['need_message'] .= '<li>Pencapaian</li>';
+					$ready = false;
+				}
+				if(!$rekomendasi_ready){
+					$data_page['need_message'] .= '<li>Rekomendasi</li>';
+					$ready = false;
+				}
+				if(!$essay_ready){
+					$data_page['need_message'] .= '<li>Essay</li>';
+					$ready = false;
+				}
+				if(!$video_ready){
+					$data_page['need_message'] .= '<li>Video Profile</li>';
+					$ready = false;
+				}
+				if($ready) {
+					$data_page['ready'] = true;
+				}
+			} else if($jalur == 'campus'){
+				if(!$basic_ready){
+					$data_page['need_message'] .= '<li>Informasi Dasar</li>';
+					$ready = false;
+				}
+				if(!$essay_ready){
+					$data_page['need_message'] .= '<li>Essay</li>';
+					$ready = false;
+				}
+				if(!$rekomendasi_ready){
+					$data_page['need_message'] .= '<li>Rekomendasi</li>';
+					$ready = false;
+				}
+				if(!$pencapaian_ready){
+					$data_page['need_message'] .= '<li>Pencapaian</li>';
+					$ready = false;
+				}
+				if($ready) {
+					$data_page['ready'] = true;
+				}
+			} else if($jalur == 'local') {
+				if(!$basic_ready){
+					$data_page['need_message'] .= '<li>Informasi Dasar</li>';
+					$ready = false;
+				}
+				if(!$project_ready){
+					$data_page['need_message'] .= '<li>Project</li>';
+					$ready = false;
+				}
+				if(!$pencapaian_ready){
+					$data_page['need_message'] .= '<li>Pencapaian</li>';
+					$ready = false;
+				}
+				if($ready) {
+					$data_page['ready'] = true;
+				}
+			} else if($jalur == 'influencer') {
+				if(!$basic_ready){
+					$data_page['need_message'] .= '<li>Informasi Dasar</li>';
+					$ready = false;
+				}
+				if(!$pencapaian_ready){
+					$data_page['need_message'] .= '<li>Pencapaian</li>';
+					$ready = false;
+				}
+				if(!$video_ready){
+					$data_page['need_message'] .= '<li>Video Profile</li>';
+					$ready = false;
+				}
+				if($ready) {
+					$data_page['ready'] = true;
+				}
+			} else if($jalur == 'professional') {
+				if(!$basic_ready){
+					$data_page['need_message'] .= '<li>Informasi Dasar</li>';
+					$ready = false;
+				}
+				if(!$pencapaian_ready){
+					$data_page['need_message'] .= '<li>Pencapaian</li>';
+					$ready = false;
+				}
+				if(!$rekomendasi_ready){
+					$data_page['need_message'] .= '<li>Rekomendasi</li>';
+					$ready = false;
+				}
+				if($ready) {
+					$data_page['ready'] = true;
+				}
+			} else if($jalur == 'expert') {
+				if(!$basic_ready){
+					$data_page['need_message'] .= '<li>Informasi Dasar</li>';
+					$ready = false;
+				}
+				if(!$pencapaian_ready){
+					$data_page['need_message'] .= '<li>Pencapaian</li>';
+					$ready = false;
+				}
+				if(!$essay_ready){
+					$data_page['need_message'] .= '<li>Essay</li>';
+					$ready = false;
+				}
+				if($ready) {
+					$data_page['ready'] = true;
+				}
+			} else if($jalur == 'servant') {
+				if(!$basic_ready){
+					$data_page['need_message'] .= '<li>Informasi Dasar</li>';
+					$ready = false;
+				}
+				if(!$pencapaian_ready){
+					$data_page['need_message'] .= '<li>Pencapaian</li>';
+					$ready = false;
+				}
+				if(!$essay_ready){
+					$data_page['need_message'] .= '<li>Essay</li>';
+					$ready = false;
+				}
+				if(!$rekomendasi_ready){
+					$data_page['need_message'] .= '<li>Rekomendasi</li>';
+					$ready = false;
+				}
+				if($ready) {
+					$data_page['ready'] = true;
+				}
+			} else if($jalur == 'military') {
+				if(!$basic_ready){
+					$data_page['need_message'] .= '<li>Informasi Dasar</li>';
+					$ready = false;
+				}
+				if(!$pencapaian_ready){
+					$data_page['need_message'] .= '<li>Pencapaian</li>';
+					$ready = false;
+				}
+				if($basic_ready and $pencapaian_ready and $rekomendasi_ready){
+					$data_page['ready'] = true;
+				}
+				if(!$rekomendasi_ready){
+					$data_page['need_message'] .= '<li>Rekomendasi</li>';
+					$ready = false;
+				}
+				if($ready) {
+					$data_page['ready'] = true;
+				}
+			}
+
 			$exist = (sizeof($obj_komitmen) > 0);
 			$data_page['data'] = array(
 				'pernyataan'	=> ($exist) ? $obj_komitmen[0]['pernyataan'] : "",
 				'pilihan'	=> ($exist) ? $obj_komitmen[0]['pilihan'] : "",
 				'penempatan'	=> ($exist) ? $obj_komitmen[0]['penempatan'] : "",
-				'status' 	=> ($exist) ? "update" : "new"
+				'status' 	=> ($exist) ? "update" : "insert"
 			);
 		} else {
 			// 404 page
@@ -310,7 +480,9 @@ class Kandidat extends CI_Controller {
 		}
 
 		$_POST['is_ready'] = 1;
-		$_POST['is_video_exist'] = 1;
+		if($_POST['video_profile'] != ''){
+			$_POST['is_video_exist'] = 1;
+		}
 		$_POST['birthdate'] = date('Y-m-d', strtotime($_POST['birthdate']));
 		$success = $this->peserta_model->update_peserta($idpeserta, $this->input->post());
 
@@ -374,11 +546,10 @@ class Kandidat extends CI_Controller {
 			redirect(site_url('kandidat/pengaturan/rekomendasi'), 'refresh');
 		}
 
-
 		if($status == 'update') {
 			$success = $this->perekomendasi_model->update_perekomendasi($idpeserta, $this->input->post());
 		} else if ($status == 'insert') {
-			$_POST['id_peserta'] = $idpeserta;
+			$_POST['peserta_id'] = $idpeserta;
 			$_POST['is_ready'] = 1;
 			$success = $this->perekomendasi_model->insert_perekomendasi($this->input->post());
 		} else {
@@ -401,7 +572,6 @@ class Kandidat extends CI_Controller {
 			$success = $this->essay_model->insert_essay($this->input->post());
 		} else {
 			$success = "Perintah tidak dikenali";
-			echo "Something is wrong";
 		}
 		$this->alert_messages($success);
 		redirect(site_url('kandidat/pengaturan/essay'), 'refresh');
@@ -451,12 +621,57 @@ class Kandidat extends CI_Controller {
 
 		$idpeserta = $this->peserta_model->get_id('username', $this->session->userdata('username'));
 		$_POST['peserta_id'] = $idpeserta;
-		$success = $this->komitmen_model->insert_pencapaian($this->input->post());
+		
+		$arr_penempatan = $_POST['penempatan'];
+		$_POST['penempatan'] = implode(',', $arr_penempatan);
+
+		$success = $this->komitmen_model->insert_komitmen($this->input->post());
 		if($success){
-			$this->peserta_model->data_completed($idpeserta);
+			$this->peserta_model->completed_data($idpeserta);
+			if($this->input->post('pilihan') == 'pusat'){
+				$this->load->model('pusat_model');
+				foreach ($arr_penempatan as $info) {
+					$this->pusat_model->update_jumlah('detail', $info);
+				}
+			} else {
+				$this->load->model('regional_model');
+				foreach ($arr_penempatan as $info) {
+					$this->regional_model->update_jumlah('area', $info);
+				}
+			}
 		}
 		$this->alert_messages($success);
 		redirect(site_url('kandidat/pengaturan/komitmen'));
+	}
+
+	public function do_update_akun(){
+		$this->load->model('auth_model');
+		$this->load->model('peserta_model');
+		$this->load->library('form_validation');
+
+		$this->form_validation->set_rules('password', 'Password', 'required');
+		$this->form_validation->set_rules('new_password', 'Password', 'required');
+		$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[new_password]', array('matches' => 'Password dan Konfirmasi Password yang anda masukkan tidak sama'));
+
+		if( $this->form_validation->run() == false) {
+			$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('message', validation_errors());
+			redirect(site_url('kandidat/pengaturan/akun'), 'refresh');
+		}
+
+		$pass = $this->auth_model->get_old_password($this->session->userdata('email'));
+		$old_pass = MD5($this->input->post('password'));
+
+		if($old_pass != $pass) {
+			$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('message', 'password lama yang anda masukkan tidak sesuai');
+			redirect(site_url('kandidat/pengaturan/akun'), 'refresh');
+		}
+
+		$new_pass = MD5($this->input->post('new_password'));
+		$success = $this->auth_model->update_password($this->session->userdata('email'), $new_pass);
+		$this->alert_messages($success);
+		redirect(site_url('kandidat/pengaturan/akun'));
 	}
 
 	public function get_pencapaian(){

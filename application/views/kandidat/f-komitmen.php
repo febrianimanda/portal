@@ -46,12 +46,12 @@
 					<h3>Bagian Komitmen</h3>
 					<hr>
 					<?php if($ready): ?>
-						<form action="<?= site_url('kandidat/do_update_komitmen') ?>" method="post">
+						<form action="<?= (!$completed) ? site_url('kandidat/do_update_komitmen') : '#' ?> ?>" method="post">
 							<div class="row">
 								<div class="col-md-12">
 									<div class="form-group">
 										<label>"Dengan ini, saya (nama lengkap) bersedia untuk aktif selama 1 tahun pasca pelatihan FIM apabila saya diterima sebagai peserta FIM 19." Silahkan salin dan sesuaikan dengan nama Anda di bawah ini. <span class="text-danger">*</span></label>
-										<input type="text" required name="pernyataan" class="form-control" placeholder="Salin dan sesuaikan tulisan diatas" value="<?= $data['pernyataan'] ?>">
+										<textarea <?= ($completed) ? 'disabled' : '' ?> required name="pernyataan" class="form-control" placeholder="Salin dan sesuaikan tulisan diatas"><?= $data['pernyataan'] ?></textarea>
 									</div>
 								</div>
 							</div>
@@ -59,10 +59,10 @@
 								<div class="col-md-12">
 									<div class="form-group">
 										<label>Adapun pilihan kegiatan Pasca pelatihan yang saya pilih adalah: <span class="text-danger">*</span></label>
-										<select name="choose" id="choose-selectbox" class="form-control">
+										<select name="pilihan" <?= ($completed) ? 'disabled' : '' ?> id="choose-selectbox" class="form-control" onchange='loadPenempatan($(this).val())'>
 											<option value="-1" disabled selected required>Pilih Sektor Kegiatan</option>
-											<option value="pusat">FIM Pusat</option>
-											<option value="regional">FIM Regional</option>
+											<option value="pusat" <?= ($data['pilihan'] == 'pusat') ? 'selected' : '' ?>>FIM Pusat</option>
+											<option <?= ($data['pilihan'] == 'regional') ? 'selected' : '' ?> value="regional">FIM Regional</option>
 										</select>
 									</div>
 								</div>
@@ -78,12 +78,13 @@
 									</div>
 								</div>
 							</div>
-
-							<div class="row">
-								<div class="col-md-12">
-									<input type="submit" value="simpan" class="btn btn-profil-primary">
+							<?php if(!$completed): ?>
+								<div class="row">
+									<div class="col-md-12">
+										<input type="submit" value="simpan" class="btn btn-profil-primary">
+									</div>
 								</div>
-							</div>
+							<?php endif; ?>
 						</form>
 					<?php else: ?>
 						<div class="row">
@@ -104,29 +105,41 @@
 </div>
 
 <script>
-	$(document).ready(function(){
-		$('#choose-selectbox').change(function(){
-			$.ajax({
-				'url': "<?= site_url('kandidat/') ?>"+"get_"+$(this).val()+"_kegiatan"
-			}).done(function(datas){
-				data = JSON.parse(datas);
-				html = '';
-				for (var i = 0; i < data.length; i++) {
-					html += '<div class="col-md-4">';
-					html += '	<div class="checkbox">';
-					html += '		<label>';
-					html += '			<input type="checkbox" name="kegiatan[]" value="'+data[i]['keyword']+'">'
-					if($('#choose-selectbox').val() == 'pusat'){
-						html += data[i]['detail'];
-					} else {
-						html += '<strong>'+data[i]['keyword']+'</strong> ('+data[i]['area']+')';
+	function loadPenempatan(pilihan){
+		$.ajax({
+			'url': "<?= site_url('kandidat/') ?>"+"get_"+pilihan+"_kegiatan"
+		}).done(function(datas){
+			data = JSON.parse(datas);
+			html = '';
+			checked = "<?= $data['penempatan']; ?>";
+			val_checked = checked.split(",");
+			for (var i = 0; i < data.length; i++) {
+				html += '<div class="col-md-4">';
+				html += '	<div class="checkbox">';
+				html += '		<label>';
+				found = false;
+				for(var j = 0; j < val_checked.length; j++) {
+					if(data[i]['keyword'] == val_checked[j]){
+						html += '			<input type="checkbox" checked name="penempatan[]" value="'+data[i]['keyword']+'">';
+						found = true;
 					}
-					html += '		</label>';
-					html += '	</div>';
-					html += '</div>';
 				}
-				$('.di-section').html(html);
-			});
+				if(!found){
+					html += '			<input type="checkbox" name="penempatan[]" value="'+data[i]['keyword']+'">';
+				}
+				if($('#choose-selectbox').val() == 'pusat'){
+					html += data[i]['detail'];
+				} else {
+					html += '<strong>'+data[i]['keyword']+'</strong> ('+data[i]['area']+')';
+				}
+				html += '		</label>';
+				html += '	</div>';
+				html += '</div>';
+			}
+			$('.di-section').html(html);
 		});
-	})
+	}
+	$(document).ready(function(){
+		loadPenempatan($('#choose-selectbox').val());
+	});
 </script>

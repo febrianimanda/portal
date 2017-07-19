@@ -62,12 +62,14 @@ class Auth_model extends CI_Model {
 		return false;
 	}
 
-	public function update_password($post) {
-		$query1 = $this->db->where('email', $post['email']);
-		$query1->update($this->table, array('password'=>$post['password']));
+	public function update_password($email, $pass, $forgot = false ) {
+		$query1 = $this->db->where('email', $email);
+		$query1->update($this->table, array('password' => $pass));
 		if($query1->affected_rows() > 0){
-			$query2->where('email', $post['email']);
-			$query2->update('token', array('is_expired'=>true));
+			if($forgot){
+				$query2->where('email', $email);
+				$query2->update('token', array('is_expired'=>true));
+			}
 			return true;
 		}
 		return false;
@@ -77,6 +79,12 @@ class Auth_model extends CI_Model {
 		$this->db->where('email', $email);
 		$this->db->update($this->table, array('username'=>$new_username));
 		return $this->db->affected_rows();
+	}
+
+	public function get_old_password($email) {
+		$this->db->select('password');
+		$this->db->where('email', $email);
+		return $this->db->get($this->table)->result_array()[0]['password'];
 	}
 
 	public function get_hash($email) {

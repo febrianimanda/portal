@@ -128,7 +128,7 @@ class Auth extends CI_Controller {
 			# back to login
 			$this->session->set_flashdata('status', 'danger');
 			$this->session->set_flashdata('message', validation_errors());
-			redirect('auth/registration', 'refresh');
+			redirect(site_url('auth/registration'), 'refresh');
 		}
 		
 		// encrypt password

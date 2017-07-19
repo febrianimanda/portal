@@ -1,7 +1,7 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="modalInsert">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-			<form action="<?= site_url('kandidat/do_update_pencapaian/insert') ?>" method="post">
+			<form action="<?= (!$completed) ? site_url('kandidat/do_update_pencapaian/insert') : '#' ?>" method="post">
 		    <div class="modal-header">
 		      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 		      <h4 class="modal-title">Form Pencapaian</h4>
@@ -62,7 +62,7 @@
 <div class="modal fade" tabindex="-1" role="dialog" id="modalUpdate">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-			<form action="<?= site_url('kandidat/do_update_pencapaian') ?>" method="post">
+			<form action="<?= (!$completed) ? site_url('kandidat/do_update_pencapaian') : '#' ?>" method="post">
 		    <div class="modal-header">
 		      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 		      <h4 class="modal-title">Form Pencapaian</h4>
@@ -125,7 +125,7 @@
 				</div>
 				<div class="col-md-12">
 					<h3>Pencapaian
-						<?php if($data_count < $max_count): ?>
+						<?php if($data_count < $max_count and !$completed): ?>
 							<button data-toggle="modal" data-target="#modalInsert" type="button" class="btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-plus"></i> Tambah</button>
 						<?php endif; ?>
 					</h3><hr>
@@ -133,7 +133,9 @@
 						<?php if(isset($pencapaian)): ?>
 							<?php foreach ($pencapaian as $data): ?>
 								<div class="col-md-12">
-									<button data-toggle="modal" data-target="#modalUpdate" data-index="<?= $data['indeks'] ?>" type="button" class="btnModalTrigger btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-plus"></i> Edit</button>
+									<?php if(!$completed): ?>
+										<button data-toggle="modal" data-target="#modalUpdate" data-index="<?= $data['indeks'] ?>" type="button" class="btnModalTrigger btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-plus"></i> Edit</button>
+									<?php endif; ?>
 									<h4><strong><?= $data['nama_pencapaian'] ?></strong></h4>
 									<?php $role = $this->session->userdata('role'); ?>
 									<h5>Link Portofolio: <?= $data['cakupan'] ?></h5>
