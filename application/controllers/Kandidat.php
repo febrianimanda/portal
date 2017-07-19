@@ -775,9 +775,9 @@ class Kandidat extends CI_Controller {
 
 		$config1['upload_path'] 		= 'profpics_upload';
 		$config1['allowed_types'] 	= 'jpg|jpeg|png';
-		$config1['max_size']				= '100000';
-		$config1['file_name']			= $filename;
-		$config1['overwrite'] 		= TRUE;
+		$config1['max_size']				= '2048';
+		$config1['file_name']				= $filename;
+		$config1['overwrite'] 			= TRUE;
 
 		$this->upload->initialize($config1);
 		
@@ -828,6 +828,7 @@ class Kandidat extends CI_Controller {
 	public function do_upload_document($userfile, $filename){
 		$config['upload_path'] 		= "documents_upload";
 		$config['allowed_types']	= "pdf";
+		$config2['max_size']			= '2048';
 		$config['file_name']			= $filename;
 		$config['overwrite']			= TRUE;
 
@@ -846,8 +847,8 @@ class Kandidat extends CI_Controller {
 
 		$config2['upload_path'] 		= 'ktp_upload';
 		$config2['allowed_types'] 	= 'jpg|jpeg|png';
-		$config2['max_size']				= '100000';
-		$config2['file_name']			= $filename;
+		$config2['max_size']				= '2048';
+		$config2['file_name']				= $filename;
 		$config2['overwrite'] 			= TRUE;
 
 		$this->upload->initialize($config2);

@@ -85,9 +85,9 @@
 									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="biodata_singkat" class="form-control" value="<?= $data['biodata_singkat'] ?>" placeholder="Tuliskan Bidata Singkat Anda"> 
 								</div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<div class="form-group">
-									<label>Foto Profil <span class="text-danger">*</span> <sub>(dengan proporsi 	1:1, wajah harus terlihat jelas)</sub></label>
+									<label>Foto Profil <span class="text-danger">*</span> <sub>(dengan proporsi 	3x3, wajah harus terlihat jelas. Ukuran Max. 2MB)</sub></label>
 									<input <?= ($completed) ? 'disabled' : '' ?> type="file" name="profpic_path" accept="image/*" class="form-control"> 
 								</div>
 							</div>
@@ -141,7 +141,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<div class="form-group">
 									<label>Kota / Kabupaten (City)<span class="text-danger">*</span></label>
 									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="kota" required class="form-control" placeholder="Kota/Kabupaten Tempat Anda Tinggal Saat Ini" value="<?= $data['kota'] ?>">
@@ -163,7 +163,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
-									<label>Scan identitas (KTP/SIM/Paspor) <span class="text-danger">*</span></label>
+									<label>Scan identitas <sub>(KTP/SIM/Paspor. Ukuran Max. 2MB)</sub> <span class="text-danger">*</span></label>
 									<input <?= ($completed) ? 'disabled' : '' ?> type="file" name="ktp_path" accept="image/*" class="form-control">
 									<?php if($data['ktp_path'] != ""): ?>
 										<img src="<?= base_url('ktp_upload/'.$data['ktp_path']) ?>" alt="<?= $data['ktp_path'] ?>" style="display:none" id="ktp_pic">

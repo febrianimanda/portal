@@ -60,7 +60,7 @@
 					<div class="form-group">
 						<label>Persetujuan</label>
 						<div class="checkbox">
-						  <label><input type="checkbox" required>Dengan ini saya menyetujui untuk mengikuti semua alur pendaftaran FIM 19</label>
+						  <label><input type="checkbox" required>Dengan ini Saya menyetujui untuk mengikuti semua alur pendaftaran FIM 19. Dan Saya hanya akan mendaftar untuk 1 jalur</label>
 						</div>
 					</div>
 					<div class="form-group text-center">
