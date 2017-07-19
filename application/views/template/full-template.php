@@ -20,21 +20,58 @@
 	<link rel="stylesheet" href="<?= css_url('styles') ?>" />
 	<!-- Chatra {literal} -->
 	<script>
-	    (function(d, w, c) {
-	        w.ChatraID = 'R5mt5hsqS5ypzgyxD';
-	        var s = d.createElement('script');
-	        w[c] = w[c] || function() {
-	            (w[c].q = w[c].q || []).push(arguments);
-	        };
-	        s.async = true;
-	        s.src = (d.location.protocol === 'https:' ? 'https:': 'http:')
-	        + '//call.chatra.io/chatra.js';
-	        if (d.head) d.head.appendChild(s);
-	    })(document, window, 'Chatra');
+    (function(d, w, c) {
+      w.ChatraID = 'R5mt5hsqS5ypzgyxD';
+      var s = d.createElement('script');
+      w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+      };
+      s.async = true;
+      s.src = (d.location.protocol === 'https:' ? 'https:': 'http:')
+      + '//call.chatra.io/chatra.js';
+      if (d.head) d.head.appendChild(s);
+    })(document, window, 'Chatra');
 	</script>
 	<!-- /Chatra {/literal} -->
+	<script>
+  	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-48323794-5', 'auto');
+  	ga('send', 'pageview');
+	</script>
 </head>
 <body>
+	<nav class="navbar navbar-portal navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#kandidat-menu" aria-expanded="false">
+			    <span class="sr-only">Toggle navigation</span>
+			    <span class="icon-bar"></span>
+			    <span class="icon-bar"></span>
+			    <span class="icon-bar"></span>
+			  </button>
+			  <a href="#" class="navbar-brand"><img src="<?= img_url('logo.png') ?>" alt="FIM"></a>
+			</div>
+
+			<div class="collapse navbar-collapse" id="kandidat-menu">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="<?= site_url('welcome/home')?>">Home</a></li>
+					<?php if($this->session->userdata('logged_in')): ?> 
+						<li><a href="<?= site_url('kandidat/profil/'.$this->session->userdata('username')) ?>">Profilku</a></li>
+					<?php endif; ?>
+					<?php if($this->session->userdata('logged_in')): ?> 
+						<li><a href="<?= site_url('kandidat/pengaturan')?>">Pengaturan Akun</a></li>
+					<?php endif; ?>
+					<!-- <li><a href="#">List Kandidat</a></li> -->
+					<!-- <li><a href="#">Pengumuman</a></li> -->
+					<?php if($this->session->userdata('logged_in')): ?> 
+						<li><a href="<?= site_url('auth/logout') ?>">Logout</a></li>
+					<?php else : ?>
+						<li><a href="<?= site_url('auth/logout') ?>">Sign In</a></li>
+					<?php endif; ?>
+				</ul>
+			</div>
+		</div>
+	</nav>
 	<div class="fluid-container">
 		<?php echo $content; ?>
 	</div>

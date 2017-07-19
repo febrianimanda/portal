@@ -107,6 +107,14 @@ class Auth extends CI_Controller {
 		$this->load->view('template/full-template', $data);
 	}
 
+	public function _usernameRegex($username){
+		if(preg_match('/^[a-z0-9]+$/', $username)){
+			return True;
+		} else {
+			return False;
+		}
+	}
+
 	public function do_registration() {
 		// Load Model
 		$this->load->model('info_model');
@@ -119,7 +127,7 @@ class Auth extends CI_Controller {
 				'is_unique'			=> 'Email sudah pernah mendaftar.',
 			)
 		);
-		$this->form_validation->set_rules('username', 'Username', 'required|is_unique[user.username]', array( 'is_unique'	=> 'Username sudah pernah digunakan.')
+		$this->form_validation->set_rules('username', 'Username', 'required|is_unique[user.username]|regex_match[/^[a-z0-9]+$/]', array( 'is_unique'	=> 'Username sudah pernah digunakan.', 'regex_match' => 'Username tidak boleh terdapat spasi didalamnya')
 		);
 		$this->form_validation->set_rules('password', 'Password', 'required');
 		$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]', array('matches' => 'Password dan Konfirmasi Password yang anda masukkan tidak sama'));
@@ -128,8 +136,10 @@ class Auth extends CI_Controller {
 			# back to login
 			$this->session->set_flashdata('status', 'danger');
 			$this->session->set_flashdata('message', validation_errors());
-			redirect(site_url('auth/registration'), 'refresh');
+			echo validation_errors();
+			// redirect(site_url('auth/registration'), 'refresh');
 		}
+		die();
 		
 		// encrypt password
 		$unencrypt_pass = $this->input->post('password');

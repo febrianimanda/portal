@@ -27,13 +27,30 @@
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Cakupan Wilayah <span class="text-danger">*</span></label>
-								<input type="text" name="cakupan" required class="form-control" placeholder="Seberapa besar skala kegiatan / pencapaian ini">
+								<select name="cakupan" class="form-control" required>
+									<option value="-1" selected disabled>Pilih Cakupan Wilayah</option>
+									<option value="kelurahan">Kelurahan</option>
+									<option value="kecamatan">Kecamatan</option>
+									<option value="jurusan">Jurusan</option>
+									<option value="kampus">Kampus</option>
+									<option value="kota">Kota</option>
+									<option value="provinsi">Provinsi</option>
+									<option value="nasional">Nasional</option>
+									<option value="internasional">Internasional</option>
+								</select>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
 								<label>Peran <span class="text-danger">*</span></label>
-								<input type="text" name="peran" required class="form-control" placeholder="Tulis peran anda">
+								<select name="peran" required class="form-control">
+									<option value="-1" selected disabled>Pilih Peran</option>
+									<option value="anggota">Anggota</option>
+									<option value="superdiv">Super Divisi</option>
+									<option value="supervisi">Supervisi Antar Bidang</option>
+									<option value="ketua">Ketua</option>
+									<option value="pendiri">Pendiri</option>
+								</select>
 							</div>
 						</div>
 						<div class="col-md-6">
@@ -225,12 +242,30 @@
 				html += '	<div class="col-md-6">';
 				html += '		<div class="form-group">';
 				html += '			<label>Cakupan Wilayah <span class="text-danger">*</span></label>';
-				html += '			<input type="text" name="cakupan" required class="form-control" placeholder="Seberapa besar skala kegiatan / pencapaian ini" value="'+data["cakupan"]+'">';
+				html += '			<select name="cakupan" class="form-control">'
+				html += '				<option value="-1" disabled>Pilih Cakupan</option>'
+				html += '				<option value="kelurahan" '+(data['cakupan'] == 'kelurahan') ? 'selected' : +'>Kelurahan</option>'
+				html += '				<option value="kecamatan" '+(data['cakupan'] == 'kecamatan') ? 'selected' : +'>Kecamatan</option>'
+				html += '				<option value="jurusan" '+(data['cakupan'] == 'jurusan') ? 'selected' : +'>Jurusan</option>'
+				html += '				<option value="kampus" '+(data['cakupan'] == 'kampus') ? 'selected' : +'>Kampus</option>'
+				html += '				<option value="kota" '+(data['cakupan'] == 'kota') ? 'selected' : +'>Kota</option>'
+				html += '				<option value="provinsi" '+(data['cakupan'] == 'provinsi') ? 'selected' : +'>Provinsi</option>'
+				html += '				<option value="nasional" '+(data['cakupan'] == 'nasional') ? 'selected' : +'>Nasional</option>'
+				html += '				<option value="internasional" '+(data['cakupan'] == 'internasional') ? 'selected' : +'>Internasional</option>'
+				html += '			</select>';
 				html += '		</div>';
 				html += '	</div>';
 				html += '	<div class="col-md-6">';
 				html += '		<div class="form-group">';
 				html += '			<label>Peran <span class="text-danger">*</span></label>';
+				html += '			<select name="peran" required class="form-control">';
+				html += '				<option value="-1" disabled>Pilih Peran</option>'
+				html += '				<option value="anggota" '+(data['peran'] == 'anggota') ? 'selected' : ''+'>Anggota</option>'
+				html += '				<option value="superdiv" '+(data['peran'] == 'superdiv') ? 'selected' : +'>Super Divisi</option>'
+				html += '				<option value="supervisi" '+(data['peran'] == 'supervisi') ? 'selected' : +'>Supervisi Antar Bidang</option>'
+				html += '				<option value="ketua" '+(data['peran'] == 'ketua') ? 'selected' : +'>Ketua</option>'
+				html += '				<option value="pendiri" '+(data['peran'] == 'pendiri') ? 'selected' : +'>Pendiri</option>'
+				html += '			</select>'
 				html += '			<input type="text" name="peran" required class="form-control" placeholder="Tulis peran anda" value="'+data["peran"]+'">';
 				html += '		</div>';
 				html += '	</div>';

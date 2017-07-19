@@ -49,6 +49,11 @@
     })(document, window, 'Chatra');
 	</script>
 	<!-- /Chatra {/literal} -->
+  <script>
+  	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-48323794-5', 'auto');
+  	ga('send', 'pageview');
+	</script>
 </head>
 <body>
 	<div id="imgModal" class="modal-image">
@@ -70,6 +75,7 @@
 
 			<div class="collapse navbar-collapse" id="kandidat-menu">
 				<ul class="nav navbar-nav navbar-right">
+					<li><a href="<?= site_url('welcome/home')?>">Home</a></li>
 					<?php if($this->session->userdata('logged_in')): ?> 
 						<li><a href="<?= site_url('kandidat/profil/'.$this->session->userdata('username')) ?>">Profilku</a></li>
 					<?php endif; ?>

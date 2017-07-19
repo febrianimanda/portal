@@ -87,7 +87,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Foto Profil <span class="text-danger">*</span> <sub>(dengan dimensi persegi, wajah harus terlihat jelas)</sub></label>
+									<label>Foto Profil <span class="text-danger">*</span> <sub>(dengan proporsi 	1:1, wajah harus terlihat jelas)</sub></label>
 									<input <?= ($completed) ? 'disabled' : '' ?> type="file" name="profpic_path" accept="image/*" class="form-control"> 
 								</div>
 							</div>
@@ -99,7 +99,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Username <span class="text-danger">*</span></label>
+									<label>Username <span class="text-danger">*</span><sub>(tanpa spasi)</sub></label>
 									<input <?= ($completed) ? 'disabled' : '' ?> type="text" required name="username" placeholder="Nama Lengkap Anda" class="form-control" value="<?= $data['username'] ?>">
 								</div>
 							</div>
@@ -220,9 +220,9 @@
 									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="alergi_makanan" class="form-control" placeholder='contoh: Udang' value="<?= $data['alergi_makanan'] ?>">
 								</div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<div class="form-group">
-									<label>Nama Institusi Pendidikan Terakhir <span class="text-danger">*</span></label>
+									<label>Nama Institusi Pendidikan Terakhir <span class="text-danger">*</span><sub>(Tempat pendidikan terakhir yang sedang ditekuni)</sub></label>
 									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="institusi" required placeholder="contoh: Telkom University" class="form-control" value="<?= $data['institusi'] ?>">
 								</div>
 							</div>
@@ -238,10 +238,10 @@
 									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="hobi" required placeholder="Pisahkan dengan koma" class="form-control" data-role="tagsinput" value="<?= $data['hobi'] ?>">
 								</div>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<div class="form-group">
 									<label>Keahlian yang dapat ditampilkan <span class="text-danger">*</span></label>
-									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="pertunjukan" required class="form-control" placeholder="contoh: Tari Piring" value="<?= $data['pertunjukan'] ?>">
+									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="pertunjukan" required class="form-control" placeholder="contoh: Tari Piring. Pisahkan dengan koma juka memiliki lebih dari 1" data-role="tagsinput" value="<?= $data['pertunjukan'] ?>">
 								</div>
 							</div>
 						</div>
@@ -310,7 +310,10 @@
 
 <script>
 	$(document).ready(function(){
-		$('#birthdatepicker').datepicker();
+		$('#birthdatepicker').datepicker({
+			startDate: '-30y',
+			endDate: '-18y',
+		});
 		$.ajax({
 			method: 'GET',
 			url: 'https://restcountries.eu/rest/v2/all',

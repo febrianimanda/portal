@@ -23,7 +23,7 @@
 						<input name="email" type="email" required placeholder="Masukkan Email Anda yang Aktif" class="form-control">
 					</div>
 					<div class="form-group">
-						<label>Username</label>
+						<label>Username <sub>(tanpa spasi)</sub></label>
 						<input type="text" required name="username" placeholder="Masukkan Username" class="form-control">
 					</div>
 					<div class="form-group">

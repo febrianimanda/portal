@@ -111,6 +111,7 @@ class Kandidat extends CI_Controller {
 		$this->load->model('project_model');
 		$this->load->model('pencapaian_model');
 		$this->load->model('komitmen_model');
+		$this->load->model('jalur_model');
 
 		$username = $this->session->userdata('username');
 		$idpeserta = $this->peserta_model->get_id('username', $username);
@@ -188,7 +189,6 @@ class Kandidat extends CI_Controller {
 		if($page == 'dasar') {
 			// Load Model
 			$this->load->model('agama_model');
-			$this->load->model('jalur_model');
 			$this->load->model('provinsi_model');
 			$this->load->model('info_model');
 
@@ -236,7 +236,6 @@ class Kandidat extends CI_Controller {
 				'status' 	=> ($exist) ? "update" : "insert",
 				'theme'	=> $theme
 			);
-
 		} else if ($page == 'project') {
 			$obj_project = $this->project_model->read_project($idpeserta)->result_array();
 			$exist = (sizeof($obj_project) > 0);
@@ -258,7 +257,6 @@ class Kandidat extends CI_Controller {
 			}
 
 			$data_page['data']['status'] = ($exist) ? "update" : "insert";
-
 		} else if($page == 'pencapaian') {
 			if($jalur == 'nextgen' or $jalur == 'campus' or $jalur == 'local') {
 				$constraint = 5;
@@ -277,7 +275,6 @@ class Kandidat extends CI_Controller {
 			$option = ($jalur == 'influencer') ? '-influencer' : '';
 
 			$data_page['max_count'] = $constraint;
-
 		} else if($page == 'komitmen') { 
 			$obj_komitmen = $this->komitmen_model->read_komitmen($idpeserta)->result_array();
 			$data_page['ready'] = false;
@@ -461,7 +458,7 @@ class Kandidat extends CI_Controller {
 			'kota'			=> $header_info['kota'],
 			'provinsi'	=> $header_info['provinsi'],
 			'profpic'		=> ($header_info['profpic_path'] != '') ? $header_info['profpic_path'] : 'ava-'.$header_info['gender'].'.png',
-			'jalur'		=> $this->jalur_model->read_jalur($jalur)
+			'jalur'			=> $this->jalur_model->read_jalur($this->session->userdata('jalur'))
 		);
 		$this->load->view('template/profil-full', $data);
 	}
