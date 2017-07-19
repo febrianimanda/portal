@@ -4,28 +4,58 @@
 		<div class="col-md-2 col-md-offset-1 side-profil">
 			<ul class="nav nav-pills nav-stacked">
 				<li role="presentation">
-					<a href="<?= site_url('kandidat/pengaturan/dasar') ?>">Dasar</a>
+					<a href="<?= site_url('kandidat/pengaturan/dasar') ?>">Dasar
+					<?php if($this->session->userdata('jalur') == 'nextgen' or $this->session->userdata('jalur') == 'influencer'): ?>
+						<?php if($menu_ready['dasar'] and $menu_ready['video']): ?>
+							<i class="fa fa-check-circle menu-done"></i>
+						<?php endif; ?>
+					<?php else: ?>
+						<?php if($menu_ready['dasar']): ?>
+							<i class="fa fa-check-circle menu-done"></i>
+						<?php endif; ?>
+					</a>
+					<?php endif; ?>
 				</li>
 				<?php if($menu['rekomendasi'] == true): ?>
 					<li role="presentation">
-						<a href="<?= site_url('kandidat/pengaturan/rekomendasi') ?>">Rekomendasi</a>
+						<a href="<?= site_url('kandidat/pengaturan/rekomendasi') ?>">Rekomendasi
+							<?php if($menu_ready['rekomendasi']): ?>
+								<i class="fa fa-check-circle menu-done"></i>
+							<?php endif; ?>
+						</a>
 					</li>
 				<?php endif; ?>
 				<?php if($menu['essay'] == true): ?>
 					<li role="presentation" class="active">
-						<a href="<?= site_url('kandidat/pengaturan/essay') ?>">Esai</a>
+						<a href="<?= site_url('kandidat/pengaturan/essay') ?>">Esai
+							<?php if($menu_ready['essay']): ?>
+								<i class="fa fa-check-circle menu-done"></i>
+							<?php endif; ?>
+						</a>
 					</li>
 				<?php endif; ?>
 				<li role="presentation">
-					<a href="<?= site_url('kandidat/pengaturan/pencapaian') ?>">Pencapaian</a>
+					<a href="<?= site_url('kandidat/pengaturan/pencapaian') ?>">Pencapaian
+						<?php if($menu_ready['pencapaian']): ?>
+							<i class="fa fa-check-circle menu-done"></i>
+						<?php endif; ?>
+					</a>
 				</li>
 				<?php if($menu['project'] == true): ?>
 					<li role="presentation">
-						<a href="<?= site_url('kandidat/pengaturan/project') ?>">Proyek</a>
+						<a href="<?= site_url('kandidat/pengaturan/project') ?>">Proyek
+							<?php if($menu_ready['project']): ?>
+								<i class="fa fa-check-circle menu-done"></i>
+							<?php endif; ?>
+						</a>
 					</li>
 				<?php endif; ?>
 				<li role="presentation">
-					<a href="<?= site_url('kandidat/pengaturan/komitmen') ?>">Final Submit</a>
+					<a href="<?= site_url('kandidat/pengaturan/komitmen') ?>">Final Submit
+						<?php if($completed): ?>
+							<i class="fa fa-check-circle menu-done"></i>
+						<?php endif; ?>
+					</a>
 				</li>
 				<li role="separator" class="divider"></li>
 				<li role="presentation">
