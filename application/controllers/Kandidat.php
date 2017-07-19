@@ -689,19 +689,17 @@ class Kandidat extends CI_Controller {
 			if($this->input->post('pilihan') == 'pusat'){
 				$this->load->model('pusat_model');
 				foreach ($arr_penempatan as $info) {
-					echo $info."</br>";
 					$this->pusat_model->update_jumlah($info);
 				}
 			} else {
 				$this->load->model('regional_model');
 				foreach ($arr_penempatan as $info) {
-					echo $info."</br>";
 					$this->regional_model->update_jumlah($info);
 				}
 			}
 		}
 		$this->alert_messages($success);
-		// redirect(site_url('kandidat/pengaturan/komitmen'));
+		redirect(site_url('kandidat/pengaturan/komitmen'));
 	}
 
 	public function do_update_akun(){
