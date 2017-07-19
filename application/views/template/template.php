@@ -20,6 +20,21 @@
 	<link rel="stylesheet" href="<?= css_url('styles') ?>" />
 	<!-- Font Awesome -->
 	<script src="https://use.fontawesome.com/d11888fc05.js"></script>
+	<!-- Chatra {literal} -->
+	<script>
+	    (function(d, w, c) {
+	        w.ChatraID = 'R5mt5hsqS5ypzgyxD';
+	        var s = d.createElement('script');
+	        w[c] = w[c] || function() {
+	            (w[c].q = w[c].q || []).push(arguments);
+	        };
+	        s.async = true;
+	        s.src = (d.location.protocol === 'https:' ? 'https:': 'http:')
+	        + '//call.chatra.io/chatra.js';
+	        if (d.head) d.head.appendChild(s);
+	    })(document, window, 'Chatra');
+	</script>
+	<!-- /Chatra {/literal} -->
 </head>
 <body>
 	<div class="container">

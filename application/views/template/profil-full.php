@@ -34,6 +34,21 @@
 	<!-- Bootstrap Latest Compiled and Minified JS -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script src="<?= js_url('bootstrap-datepicker.min') ?>"></script>
+	<!-- Chatra {literal} -->
+	<script>
+    (function(d, w, c) {
+      w.ChatraID = 'R5mt5hsqS5ypzgyxD';
+      var s = d.createElement('script');
+      w[c] = w[c] || function() {
+          (w[c].q = w[c].q || []).push(arguments);
+      };
+      s.async = true;
+      s.src = (d.location.protocol === 'https:' ? 'https:': 'http:')
+      + '//call.chatra.io/chatra.js';
+      if (d.head) d.head.appendChild(s);
+    })(document, window, 'Chatra');
+	</script>
+	<!-- /Chatra {/literal} -->
 </head>
 <body>
 	<div id="imgModal" class="modal-image">
