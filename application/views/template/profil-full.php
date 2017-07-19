@@ -91,11 +91,11 @@
 		<div class="profil-background">
 			<div class="container">
 				<div class="row">
-					<div class="col-md-2 col-md-offset-1">
+					<div class="col-lg-2 col-md-3 col-md-offset-1 profil-header">
 						<img src="<?= base_url('profpics_upload/'.$header_info["profpic"]) ?>" alt="<?= $header_info['profpic'] ?>" class="profil-img previewable-image" id="profpic-img" onclick="showImage(this)">
 					</div>
-					<div class="col-md-8">
-						<h1><?= $header_info['name'] ?></h1>
+					<div class="col-lg-8 col-md-7">
+						<h2><?= $header_info['name'] ?> <span class="label label-success" style="font-size: 14px;"> <?= $header_info['jalur'] ?> </span></h2>
 						<h4><i class="fa fa-map-marker" aria-hidden="true"></i> <?= $header_info['kota'] ?>, <?= $header_info['provinsi'] ?></h4>
 						<div class="profil-socmed">
 							<?php if($this->uri->segment(2) != "pengaturan"): ?>

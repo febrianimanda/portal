@@ -1,12 +1,9 @@
 .profil-background {
-  background: url(../images/bg-profil.jpg) no-repeat;
+  /*background: url(../images/bg-profil.jpg) no-repeat;*/
   background-size: cover;
   padding-top: 80px;
   padding-bottom: 20px;
-  color: #fff;
-}
-.profil-background h1 {
-  color: #fff;
+  background-color: #fff;
 }
 
 .profil-img {
@@ -17,12 +14,21 @@
   position: absolute;
   top: 10px;
 }
+
+@media only screen and (max-width: 990px){
+  .profil-header {
+    text-align: center;
+  }
+  .profil-img {
+    position: relative;
+  }
+}
+
 .profil-socmed {
   font-size: 24px;
 }
 
 .profil-socmed a {
-  color: #fff;
   cursor: pointer;
 }
 

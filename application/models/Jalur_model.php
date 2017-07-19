@@ -14,8 +14,8 @@ class Jalur_model extends CI_Model {
 
 	public function read_jalur($key) {
 		$this->db->where('key', $key);
-		$query = $this->db->get($this->table, 1);
-		return $query;
+		$query = $this->db->get($this->table, 1)->result_array()[0];
+		return $query['details'];
 	}
 
 	public function update_jumlah($key, $inc=true) {

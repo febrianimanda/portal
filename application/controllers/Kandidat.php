@@ -22,6 +22,7 @@ class Kandidat extends CI_Controller {
 		$this->load->model('essay_model');
 		$this->load->model('perekomendasi_model');
 		$this->load->model('auth_model');
+		$this->load->model('jalur_model');
 
 		if($username == ''){
 			$username = $this->session->userdata('username');
@@ -73,7 +74,7 @@ class Kandidat extends CI_Controller {
 			'twitter'	=> (strpos($tw,'twitter.com/')) ? $tw : "twitter.com/".$tw,
 			'ig'			=> (strpos($ig,'instagram.com/')) ? $ig : "instagram.com/".$ig,
 			'blog'		=> $data_page['dasar'][0]['blog'],
-			'video'		=> $data_page['dasar'][0]['video_profile']
+			'video'		=> $data_page['dasar'][0]['video_profile'],
 		);
 
 		$profpic = $data_page['dasar'][0]['profpic_path'];
@@ -81,7 +82,8 @@ class Kandidat extends CI_Controller {
 			'name' 			=> $data_page['dasar'][0]['fullname'],
 			'kota'			=> $data_page['dasar'][0]['kota'],
 			'provinsi'	=> $data_page['dasar'][0]['provinsi'],
-			'profpic'		=> ($profpic != '') ? $profpic : 'ava-'.$data_page['dasar'][0]['gender'].'.png'
+			'profpic'		=> ($profpic != '') ? $profpic : 'ava-'.$data_page['dasar'][0]['gender'].'.png',
+			'jalur'		=> $this->jalur_model->read_jalur($jalur)
 		);
 
 		// Setup page content
@@ -458,7 +460,8 @@ class Kandidat extends CI_Controller {
 			'name' 			=> $header_info['fullname'],
 			'kota'			=> $header_info['kota'],
 			'provinsi'	=> $header_info['provinsi'],
-			'profpic'		=> ($header_info['profpic_path'] != '') ? $header_info['profpic_path'] : 'ava-'.$header_info['gender'].'.png'
+			'profpic'		=> ($header_info['profpic_path'] != '') ? $header_info['profpic_path'] : 'ava-'.$header_info['gender'].'.png',
+			'jalur'		=> $this->jalur_model->read_jalur($jalur)
 		);
 		$this->load->view('template/profil-full', $data);
 	}
