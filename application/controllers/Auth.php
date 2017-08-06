@@ -107,27 +107,25 @@ class Auth extends CI_Controller {
 		$this->load->view('template/full-template', $data);
 	}
 
-	public function _usernameRegex($username){
-		if(preg_match('/^[a-z0-9]+$/', $username)){
-			return True;
-		} else {
-			return False;
-		}
-	}
-
 	public function do_registration() {
 		// Load Model
 		$this->load->model('info_model');
-		$this->load->model('auth_model');
 		$this->load->model('peserta_model');
 		$this->load->model('jalur_model');
+
+		$arr_username = explode(" ", $_POST['username']);
+		if(sizeof($arr_username) > 1){
+			$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('message', "Username tidak boleh ada spasi didalamnya");
+			redirect(site_url('auth/registration'), 'refresh');
+		}
 
 		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[user.email]', array(
 				'valid_email'		=> 'Email yang anda masukkan tidak valid.',
 				'is_unique'			=> 'Email sudah pernah mendaftar.',
 			)
 		);
-		$this->form_validation->set_rules('username', 'Username', 'required|is_unique[user.username]|regex_match[/^[a-z0-9]+$/]', array( 'is_unique'	=> 'Username sudah pernah digunakan.', 'regex_match' => 'Username tidak boleh terdapat spasi didalamnya')
+		$this->form_validation->set_rules('username', 'Username', 'required|is_unique[user.username]', array( 'is_unique'	=> 'Username sudah digunakan.')
 		);
 		$this->form_validation->set_rules('password', 'Password', 'required');
 		$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]', array('matches' => 'Password dan Konfirmasi Password yang anda masukkan tidak sama'));
@@ -136,11 +134,11 @@ class Auth extends CI_Controller {
 			# back to login
 			$this->session->set_flashdata('status', 'danger');
 			$this->session->set_flashdata('message', validation_errors());
-			echo validation_errors();
-			// redirect(site_url('auth/registration'), 'refresh');
+			redirect(site_url('auth/registration'), 'refresh');
 		}
-		die();
 		
+
+
 		// encrypt password
 		$unencrypt_pass = $this->input->post('password');
 		$_POST['password'] = MD5($this->input->post('password'));
@@ -193,8 +191,10 @@ class Auth extends CI_Controller {
 			# success create new user
 			// $this->send_confirmation($_POST['email'], $_POST['username'], $unencrypt_pass, $_POST['hash']);
 			// $this->session->set_flashdata('message', 'Akun Anda telah berhasil didaftarkan. Silahkan cek email Anda untuk mengaktifkan akun Anda. Jika ada kesulitan, silahkan hubungi kami.');
+
+			$this->session->set_flashdata('status', 'success');
 			$this->session->set_flashdata('message', 'Akun Anda telah berhasil didaftarkan');
-			redirect(site_url('auth'), 'refresh=3');
+			redirect(site_url('auth'), 'refresh');
 		} else {
 			# failed to register because email exist
 			$this->session->set_flashdata('status', 'danger');
@@ -265,8 +265,6 @@ class Auth extends CI_Controller {
   }
 
   public function verify() {
-  	$this->load->model('auth_model');
-  	
   	$result = $this->auth_model->get_hash($_GET['email']);
   	if($result) {
   		if($result['hash'] == $_GET['hash']) {
@@ -313,6 +311,14 @@ class Auth extends CI_Controller {
 			'email'			=> $this->security->xss_clean($nonxss_email),
 			'password'	=> MD5($this->input->post('password'))
 		);
+		$is_email_exist = $this->auth_model->is_email_exist($nonxss_email);
+
+		if(!$is_email_exist){
+			$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('message', 'Email anda belum terdaftar');
+			redirect(site_url('auth'), 'refresh');
+		}
+
 		$success = $this->auth_model->login_validation($data);
 		
 		if($success) {
@@ -346,6 +352,8 @@ class Auth extends CI_Controller {
 			}
 		} else {
 			# error login
+			$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('message', 'Anda salah memasukkan email atau password');
 			redirect('/auth');
 		}
 	}

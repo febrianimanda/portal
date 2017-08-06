@@ -81,7 +81,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
-									<label>Biodata Singkat</label>
+									<label>Biodata Singkat (Max. 160 karakter)</label>
 									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="biodata_singkat" class="form-control" value="<?= $data['biodata_singkat'] ?>" placeholder="Tuliskan Bidata Singkat Anda"> 
 								</div>
 							</div>
@@ -261,19 +261,19 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Link Facebook</label>
-									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="fb" class="form-control" placeholder='Contoh: https://facebook.com/ForumIndonesiaMuda/' value="<?= $data['fb'] ?>">
+									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="fb" class="form-control" placeholder='Contoh: www.facebook.com/ForumIndonesiaMuda/' value="<?= $data['fb'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Id atau Link Twitter</label>
-									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="twitter" class="form-control" placeholder='Contoh: fimnews atau https://twitter.com/fimnews' value="<?= $data['twitter'] ?>">
+									<input <?= ($completed) ? 'disabled' : '' ?> type="text" name="twitter" class="form-control" placeholder='Contoh: fimnews atau www.twitter.com/fimnews' value="<?= $data['twitter'] ?>">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Id atau Link Instagram</label>
-									<input type="text" name="instagram" class="form-control" placeholder='Contoh: fimnews atau https://instagram.com/fimnews' value="<?= $data['instagram'] ?>">
+									<input type="text" name="instagram" class="form-control" placeholder='Contoh: fimnews atau www.instagram.com/fimnews' value="<?= $data['instagram'] ?>">
 								</div>
 							</div>
 							<div class="col-md-12">
@@ -311,8 +311,8 @@
 <script>
 	$(document).ready(function(){
 		$('#birthdatepicker').datepicker({
-			startDate: '-30y',
-			endDate: '-18y',
+			startDate: '08/19/1887',
+			endDate: '08/19/1999',
 		});
 		$.ajax({
 			method: 'GET',

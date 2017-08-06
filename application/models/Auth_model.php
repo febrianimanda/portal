@@ -108,6 +108,16 @@ class Auth_model extends CI_Model {
   	return $result[0]['jalur'];
   }
 
+  public function is_email_exist($email) {
+  	$this->db->where('email', $email);
+  	$this->db->get($this->table);
+  	if($this->db->affected_rows() == 1){
+  		return true;
+  	} else {
+  		return false;
+  	}
+  }
+
 }
 
 ?>

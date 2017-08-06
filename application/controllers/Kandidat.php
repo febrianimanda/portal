@@ -65,16 +65,43 @@ class Kandidat extends CI_Controller {
 			$data_page['section']['essay'] = false;
 		}
 
-		$tw = $data_page['dasar'][0]['twitter'];
+		$fb = $data_page['dasar'][0]['fb'];
+		$tw = '';
 		$ig = $data_page['dasar'][0]['instagram'];
+		$blog = $data_page['dasar'][0]['blog'];
+		$youtube = $data_page['dasar'][0]['video_profile'];
+		
+		$fb = ($fb == '') ? '' : '<a href="'.$fb.'" target="blank"><i class="fa fa-facebook-square" alt="facebook" aria-hidden="true"></i></a>';
+		$blog = ($blog == '') ? '' : '<a href="'.$blog.'" target="blank"><i class="fa fa-share-alt-square" alt="blog" aria-hidden="true"></i></a>';
+		$youtube = ($youtube == '') ? '' : '<a href="'.$youtube.'" target="blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>';
+
+		if($data_page['dasar'][0]['twitter'] != ''){
+		    $tw = $data_page['dasar'][0]['twitter'];
+		    if(!strpos($tw,'twitter.com/')){
+		        $tw = "https://twitter.com/".$tw;
+		    }
+		    $tw = '<a href="'.$tw.'" target="blank"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>';
+		} else {
+		    $tw = '';
+		}
+		
+		if($data_page['dasar'][0]['instagram'] != ''){
+		    $ig = $data_page['dasar'][0]['instagram'];
+		    if(!strpos($ig,'instagram.com/')){
+		        $ig = "https://instagram.com/".$ig;
+		    }
+		    $ig = '<a href="'.$ig.'" target="blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>';
+		} else {
+		    $ig = '';
+		}
 
 		//setup template page variable
 		$data['socmed'] = array(
-			'fb' 			=> $data_page['dasar'][0]['fb'],
-			'twitter'	=> (strpos($tw,'twitter.com/')) ? $tw : "twitter.com/".$tw,
-			'ig'			=> (strpos($ig,'instagram.com/')) ? $ig : "instagram.com/".$ig,
-			'blog'		=> $data_page['dasar'][0]['blog'],
-			'video'		=> $data_page['dasar'][0]['video_profile'],
+			'fb' 		=> $fb,
+			'twitter'	=> $tw,
+			'ig'		=> $ig,
+			'blog'		=> $blog,
+			'video'		=> $youtube,
 		);
 
 		$profpic = $data_page['dasar'][0]['profpic_path'];
@@ -471,6 +498,8 @@ class Kandidat extends CI_Controller {
 			redirect(site_url('auth'));
 		}
 
+		$this->load->library('form_validation');
+
 		$this->load->model('peserta_model');
 		$this->load->model('auth_model');
 		$this->load->model('provinsi_model');
@@ -486,7 +515,7 @@ class Kandidat extends CI_Controller {
 		if($_FILES['profpic_path']['size'] > 0){
 			$img = explode('.',$_FILES['profpic_path']['name']);
 			$extension_img = end($img);
-			$profpic_filename = $username.'.'.$extension_img;
+			$profpic_filename = $username.'.'.strtolower($extension_img);
 			// Upload image
 			$this->do_upload_profpic('profpic_path', $profpic_filename);
 			$_POST['profpic_path'] = $profpic_filename;
@@ -496,7 +525,7 @@ class Kandidat extends CI_Controller {
 		if($_FILES['ktp_path']['size'] > 0){
 			$img = explode('.', $_FILES['ktp_path']['name']);
 			$extension_img = end($img);
-			$ktp_filename = MD5('ktp_'.$username).'.'.$extension_img;
+			$ktp_filename = MD5('ktp_'.$username).'.'.strtolower($extension_img);
 			//uppload image
 			$this->do_upload_ktp('ktp_path', $ktp_filename);
 			$_POST['ktp_path'] = $ktp_filename;
@@ -507,9 +536,30 @@ class Kandidat extends CI_Controller {
 			$_POST['is_video_exist'] = 1;
 		}
 		$_POST['birthdate'] = date('Y-m-d', strtotime($_POST['birthdate']));
+
+		// check if change username
+		$is_change_username = false;
+		if($username != $_POST['username']) {
+			$_POST['username'] = trim($_POST['username']);
+			$this->form_validation->set_rules('username', 'Username', 'required|is_unique[user.username]|regex_match[/^[a-z0-9]+$/]', array( 'is_unique'	=> 'Username sudah  digunakan.', 'regex_match' => 'Username tidak boleh terdapat spasi didalamnya')
+			);
+			if( $this->form_validation->run() == false) {
+				# back to login
+				$this->session->set_flashdata('status', 'danger');
+				$this->session->set_flashdata('message', validation_errors());
+				redirect(site_url('kandidat/pengaturan/dasar'), 'refresh');
+			}
+			$is_change_username = true;
+		}
+
+		//Update
 		$success = $this->peserta_model->update_peserta($idpeserta, $this->input->post());
 
 		if($success) {
+			if($is_change_username){
+				$_SESSION['username'] = $_POST['username'];
+				$this->auth_model->update_username($this->session->userdata('email'), $_POST['username']);
+			}
 			if($_POST['provinsi'] != $ext_data['provinsi']) {
 				// Update Jumlah Provinsi
 				$this->provinsi_model->update_jumlah('nama_provinsi', $ext_data['provinsi'], false);

@@ -1,4 +1,4 @@
-Link CDNJS Penting
+Link CDN Penting
 
 Bootstrap tags-input: 
 	https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css
@@ -7,3 +7,7 @@ Bootstrap tags-input:
 Croppie Library:
 	https://cdnjs.cloudflare.com/ajax/libs/croppie/2.4.1/croppie.min.js
 	https://cdnjs.cloudflare.com/ajax/libs/croppie/2.4.1/croppie.min.css
+
+Datatables Library:
+	https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css
+	https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js

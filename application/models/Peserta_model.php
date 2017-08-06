@@ -11,6 +11,14 @@ class Peserta_model extends CI_Model {
 		return $query;
 	}
 
+	public function read_public_peserta($param, $limit=0, $offset=0) {
+		$this->db->select('username, fullname, biodata_singkat, profpic_path, fb, twitter, instagram, blog, institusi, kota, provinsi');
+		$this->db->or_like($param);
+		$this->db->where('is_deleted', 0);
+		$query = $this->db->get($this->table, $limit, $offset);
+		return $query;
+	}
+
 	public function read_peserta_by_email($email) {
 		$this->db->where('email', $email);
 		$query = $this->db->get($this->table, 1);

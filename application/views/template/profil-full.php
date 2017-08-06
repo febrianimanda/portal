@@ -80,14 +80,14 @@
 						<li><a href="<?= site_url('kandidat/profil/'.$this->session->userdata('username')) ?>">Profilku</a></li>
 					<?php endif; ?>
 					<?php if($this->session->userdata('logged_in')): ?> 
-						<li><a href="<?= site_url('kandidat/pengaturan')?>">Pengaturan Akun</a></li>
+						<li><a href="<?= site_url('kandidat/pengaturan')?>">Pendaftaran</a></li>
 					<?php endif; ?>
 					<!-- <li><a href="#">List Kandidat</a></li> -->
 					<!-- <li><a href="#">Pengumuman</a></li> -->
 					<?php if($this->session->userdata('logged_in')): ?> 
 						<li><a href="<?= site_url('auth/logout') ?>">Logout</a></li>
 					<?php else : ?>
-						<li><a href="<?= site_url('auth/logout') ?>">Sign In</a></li>
+						<li><a href="<?= site_url('auth') ?>">Sign In</a></li>
 					<?php endif; ?>
 				</ul>
 			</div>
@@ -105,11 +105,11 @@
 						<h4><i class="fa fa-map-marker" aria-hidden="true"></i> <?= $header_info['kota'] ?>, <?= $header_info['provinsi'] ?></h4>
 						<div class="profil-socmed">
 							<?php if($this->uri->segment(2) != "pengaturan"): ?>
-								<a href="<?= $socmed['fb'] ?>"><i class="fa fa-facebook-square" alt="facebook" aria-hidden="true"></i></a>
-								<a href="http://<?= $socmed['twitter'] ?>"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>
-								<a href="http://<?= $socmed['ig'] ?>"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-								<a href="http://<?= $socmed['blog'] ?>"><i class="fa fa-share-alt-square" aria-hidden="true"></i></a>
-								<a href="http://<?= $socmed['video'] ?>"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+							    <?= $socmed['fb'] ?>
+							    <?= $socmed['twitter'] ?>
+							    <?= $socmed['ig'] ?>
+							    <?= $socmed['blog'] ?>
+							    <?= $socmed['video'] ?>
 							<?php else: ?>
 								<a href="<?=site_url('kandidat')?>" class="btn btn-profil-flat">Kembali ke profil</a>
 							<?php endif; ?>

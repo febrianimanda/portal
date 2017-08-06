@@ -12,12 +12,12 @@
 				<div class="col-md-12">
 					<h3>Informasi Akun</h3><hr>
 					<div class="row">
-						<div class="col-md-1"><i class="fa fa-envelope"></i></div>
-						<div class="col-md-10"><?= $dasar[0]['email'] ?></div>
+						<div class="col-xs-1"><i class="fa fa-envelope"></i></div>
+						<div class="col-xs-10"><?= $dasar[0]['email'] ?></div>
 					</div>
 					<div class="row">
-						<div class="col-md-1"><i class="fa fa-whatsapp"></i></div>
-						<div class="col-md-10"><?= $dasar[0]['handphone'] ?></div>
+						<div class="col-xs-1"><i class="fa fa-whatsapp"></i></div>
+						<div class="col-xs-10"><?= $dasar[0]['handphone'] ?></div>
 					</div>
 				</div>
 			</div>
@@ -26,32 +26,32 @@
 				<div class="col-md-12">
 					<h3>Informasi Diri</h3><hr>
 					<div class="row">
-						<div class="col-md-1"><i class="fa fa-user-circle"></i></div>
-						<div class="col-md-10"><?= $dasar[0]['nickname'] ?></div>
+						<div class="col-xs-1"><i class="fa fa-user-circle"></i></div>
+						<div class="col-xs-10"><?= $dasar[0]['nickname'] ?></div>
 					</div>
 					<?php if($is_me): ?>
 						<div class="row">
-							<div class="col-md-1"><i class="fa fa-birthday-cake"></i></div>
-							<div class="col-md-10"><?= $dasar[0]['birthdate'] ?></div>
+							<div class="col-xs-1"><i class="fa fa-birthday-cake"></i></div>
+							<div class="col-xs-10"><?= $dasar[0]['birthdate'] ?></div>
 						</div>
 					<?php endif; ?>
 					<div class="row">
-						<div class="col-md-1"><i class="fa fa-male"></i></div>
-						<div class="col-md-10"><?= $dasar[0]['gender'] ?></div>
+						<div class="col-xs-1"><i class="fa fa-male"></i></div>
+						<div class="col-xs-10"><?= $dasar[0]['gender'] ?></div>
 					</div>
 					<?php if($is_me): ?>
 					<div class="row">
-						<div class="col-md-1"><i class="fa fa-tint"></i></div>
-						<div class="col-md-10"><?= $dasar[0]['golongan_darah'] ?></div>
+						<div class="col-xs-1"><i class="fa fa-tint"></i></div>
+						<div class="col-xs-10"><?= $dasar[0]['golongan_darah'] ?></div>
 					</div>
 					<?php endif; ?>
 					<div class="row">
-						<div class="col-md-1"><i class="fa fa-gratipay"></i></div>
-						<div class="col-md-10"><?= $dasar[0]['agama'] ?></div>
+						<div class="col-xs-1"><i class="fa fa-gratipay"></i></div>
+						<div class="col-xs-10"><?= $dasar[0]['agama'] ?></div>
 					</div>
 					<div class="row">
-						<div class="col-md-1"><i class="fa fa-graduation-cap"></i></div>
-						<div class="col-md-10"><?= $dasar[0]['institusi'] ?>, <?= $dasar[0]['angkatan'] ?></div>
+						<div class="col-xs-1"><i class="fa fa-graduation-cap"></i></div>
+						<div class="col-xs-10"><?= $dasar[0]['institusi'] ?>, <?= $dasar[0]['angkatan'] ?></div>
 					</div>
 				</div>
 			</div>
@@ -92,7 +92,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								<h4>Tema: <?= $theme ?></h4>
-								<p><?= (isset($essay[0])) ? $essay[0]['konten'] : "<em>Essay belum diisi</em>" ?></p>
+								<p><?= (isset($essay[0])) ? $essay[0]['konten'] : "<em>Esai belum diisi</em>" ?></p>
 							</div>
 						</div>
 					</div>
