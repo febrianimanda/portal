@@ -35,12 +35,25 @@ class Migration_Initial_schema extends CI_Migration {
 				'constraint'	=> 30,
 				'default'			=> NULL
 			),
+			'daftar_fim' => array(
+				'type'				=> 'int',
+				'constraint'	=> 2
+			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
 			),
 			'date_created' => array(
 				'type'					=> 'timestamp',
 				'default'				=> 'current_timestamp'
+			),
+			'hash' => array(
+				'type'				=> 'varchar',
+				'constraint'	=> 32
+			),
+			'is_verified' => array(
+				'type'				=> 'int',
+				'constraint'	=> 1,
+				'default'			=> 0
 			),
 			'is_deleted' => array(
 				'type'				=> 'int',
@@ -158,9 +171,17 @@ class Migration_Initial_schema extends CI_Migration {
 				'unsgined'				=> TRUE,
 				'auto_increment'	=> TRUE
 			),
-			'nama_komitmen' => array(
+			'peserta_id' => array(
+				'type'				=> 'int',
+				'constraint'	=> 5,
+			),
+			'pilihan' => array(
 				'type'				=> 'varchar',
-				'constraint'	=> 30,
+				'constraint'	=> 10,
+			),
+			'penempatan' => array(
+				'type'				=> 'varchar',
+				'constraint'	=> 200,
 			),
 			'jumlah' => array(
 				'type'				=> 'int',
@@ -191,15 +212,13 @@ class Migration_Initial_schema extends CI_Migration {
 				'unsgined'				=> TRUE,
 				'auto_increment'	=> TRUE
 			),
-			'nama_regional'	=> array(
+			'keyword'	=> array(
 				'type'				=> 'varchar',
-				'constraint'	=> 50,
-				'unique'			=> TRUE
+				'constraint'	=> 20,
 			),
-			'daerah_regional'	=> array(
+			'area'	=> array(
 				'type'				=> 'varchar',
 				'constraint'	=> 50,
-				'unique'			=> TRUE
 			),
 			'jumlah' => array(
 				'type'				=> 'int',
@@ -292,10 +311,6 @@ class Migration_Initial_schema extends CI_Migration {
 			'birthdate' => array(
 				'type'	=> 'date',
 			),
-			'birthplace' => array(
-				'type'				=> 'varchar',
-				'constraint'	=> 50,
-			),
 			'country' => array(
 				'type'				=> 'varchar',
 				'constraint'	=> 50,
@@ -384,12 +399,26 @@ class Migration_Initial_schema extends CI_Migration {
 				'type'				=> 'varchar',
 				'constraint'	=> 160
 			),
+			'video_profile'	=> array(
+				'type'				=> 'varchar',
+				'constraint'	=> 100,
+			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
 			),
 			'date_created' => array(
 				'type'					=> 'timestamp',
 				'default'				=> 'current_timestamp'
+			),
+			'is_ready' => array(
+				'type'				=> 'int',
+				'constraint'	=> 1,
+				'default'			=> 0
+			),
+			'is_completed' => array(
+				'type'				=> 'int',
+				'constraint'	=> 1,
+				'default'			=> 0
 			),
 			'is_deleted' => array(
 				'type'				=> 'int',
@@ -418,7 +447,7 @@ class Migration_Initial_schema extends CI_Migration {
 			),
 			'nama_pencapaian'	=> array(
 				'type'				=> 'varchar',
-				'constraint'	=> 50
+				'constraint'	=> 100
 			),
 			'waktu_durasi' => array(
 				'type'				=> 'varchar',
@@ -438,10 +467,26 @@ class Migration_Initial_schema extends CI_Migration {
 			),
 			'narahubung' => array(
 				'type'				=> 'varchar',
-				'constraint'		=> 30,
+				'constraint'	=> 30,
 			),
 			'alasan' => array(
 				'type'	=> 'text',
+			),
+			'platform' => array(
+				'type'				=> 'varchar',
+				'constraint'	=> 50,
+			),
+			'nama_akun' => array(
+				'type'					=> 'varchar',
+				'constraint'		=> 50,
+			),
+			'genre' => array(
+				'type'					=> 'varchar',
+				'constraint'		=> 50,
+			),
+			'portofolio' => array(
+				'type'					=> 'varchar',
+				'constraint'		=> 50,
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
@@ -449,6 +494,11 @@ class Migration_Initial_schema extends CI_Migration {
 			'date_created' => array(
 				'type'					=> 'timestamp',
 				'default'				=> 'current_timestamp'
+			),
+			'is_ready' => array(
+				'type'				=> 'int',
+				'constraint'	=> 1,
+				'default'			=> 0
 			),
 			'is_deleted' => array(
 				'type'				=> 'int',
@@ -486,6 +536,11 @@ class Migration_Initial_schema extends CI_Migration {
 				'type'					=> 'timestamp',
 				'default'				=> 'current_timestamp'
 			),
+			'is_ready' => array(
+				'type'				=> 'int',
+				'constraint'	=> 1,
+				'default'			=> 0
+			),
 			'is_deleted' => array(
 				'type'				=> 'int',
 				'constraint'	=> 1,
@@ -511,9 +566,9 @@ class Migration_Initial_schema extends CI_Migration {
 				'type'				=> 'varchar',
 				'constraint'	=> 50,
 			),
-			'penanggung_jawab' => array(
+			'sumberdaya' => array(
 				'type'				=> 'varchar',
-				'constraint'	=> 20,
+				'constraint'	=> 100,
 			),
 			'peran' => array(
 				'type'				=> 'varchar',
@@ -521,22 +576,23 @@ class Migration_Initial_schema extends CI_Migration {
 			),
 			'jenis' => array(
 				'type'				=> 'varchar',
-				'constraint'	=> 20,
+				'constraint'	=> 30,
 			),
 			'lokasi' => array(
 				'type'				=> 'varchar',
 				'constraint'	=> 50,
 			),
-			'alasan_penting' => array(
+			'hasil_magang' => array(
 				'type'				=> 'text',
 			),
 			'kegiatan' => array(
-				'type'				=> 'varchar',
-				'constraint'	=> 200,
+				'type'				=> 'text',
+			),
+			'timeline' => array(
+				'type'				=> 'text',
 			),
 			'supported_fim' => array(
-				'type'				=> 'varchar',
-				'constraint'	=> 200,
+				'type'				=> 'text',
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
@@ -544,6 +600,11 @@ class Migration_Initial_schema extends CI_Migration {
 			'date_created' => array(
 				'type'					=> 'timestamp',
 				'default'				=> 'current_timestamp'
+			),
+			'is_ready' => array(
+				'type'				=> 'int',
+				'constraint'	=> 1,
+				'default'			=> 0
 			),
 			'is_deleted' => array(
 				'type'				=> 'int',
@@ -576,6 +637,11 @@ class Migration_Initial_schema extends CI_Migration {
 				'type'					=> 'timestamp',
 				'default'				=> 'current_timestamp'
 			),
+			'is_ready' => array(
+				'type'				=> 'int',
+				'constraint'	=> 1,
+				'default'			=> 0
+			),
 			'is_deleted' => array(
 				'type'				=> 'int',
 				'constraint'	=> 1,
@@ -598,16 +664,12 @@ class Migration_Initial_schema extends CI_Migration {
 				'default'	=> FALSE
 			),
 			'email' => array(
+				'type'				=> 'varchar',
+				'constraint'	=> 50,
+			),
+			'jumlah_koreksi' => array(
 				'type'				=> 'int',
-				'constraint'	=> 50,
-			),
-			'email' => array(
-				'type'				=> 'varchar',
-				'constraint'	=> 50,
-			),
-			'domisili' => array(
-				'type'				=> 'varchar',
-				'constraint'	=> 50,
+				'constraint'	=> 4,
 			),
 			'koor_id' => array(
 				'type'				=> 'int',
@@ -754,9 +816,8 @@ class Migration_Initial_schema extends CI_Migration {
 		));
 		$this->dbforge->add_key('jalur_id', TRUE);
 		$this->dbforge->create_table('jalur');
-	}
-	# ==== ==== ==== ==== ==== ==== ==== ==== ====
-		# == Table Jalur == 
+		# ==== ==== ==== ==== ==== ==== ==== ==== ====
+		# == Table Country == 
 		$this->dbforge->add_field(array(
 			'country_id' => array(
 				'type'						=> 'int',

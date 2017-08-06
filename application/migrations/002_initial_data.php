@@ -29,7 +29,7 @@ class Migration_Initial_data extends CI_Migration {
 			array(
 				'key' => 'nextgen',
 				'details' => 'Next Generation',
-				'percentage' => 70
+				'percentage' => 72
 			),
 			array(
 				'key' => 'young',
@@ -39,7 +39,7 @@ class Migration_Initial_data extends CI_Migration {
 			array(
 				'key' => 'influencer',
 				'details' => 'Influencer',
-				'percentage' => 3
+				'percentage' => 2
 			),
 			array(
 				'key' => 'military',
@@ -52,9 +52,9 @@ class Migration_Initial_data extends CI_Migration {
 				'percentage' => 3
 			),
 			array(
-				'key' => 'talent',
-				'details' => 'Talent Scout',
-				'percentage' => 10
+				'key' => 'local',
+				'details' => 'Local Leader',
+				'percentage' => 7
 			),
 			array(
 				'key' => 'civil',
@@ -65,6 +65,11 @@ class Migration_Initial_data extends CI_Migration {
 				'key' => 'servant',
 				'details' => 'Public Servant',
 				'percentage' => 3
+			),
+			array(
+				'key' => 'expert',
+				'details' => 'Young Expert',
+				'percentage' => 7
 			),
 		);
 
@@ -105,18 +110,54 @@ class Migration_Initial_data extends CI_Migration {
 			array('key' => 'YO', 'nama_provinsi' => 'Yogyakarta'),
 		);
 
+		$dataRegional = array(
+			array('key' => 'Kece', 			'area' 	=> 'Bandung'),
+			array('key'	=> 'Sumbar', 		'area' 	=> 'Sumatera Barat'),
+			array('key'	=> 'Malang', 		'area' 	=> 'Malang'),
+			array('key' => 'Banua', 		'area'	=> 'Jember'),
+			array('key'	=> 'Sulteng',		'area'	=> 'Sulawesi Tengah'),
+			array('key'	=> 'Sandeq',		'area'	=> 'Sulawesi Barat'),
+			array('key'	=> 'Sumut',			'area'	=> 'Sumatera Utara'),
+			array('key'	=> 'Hore',			'area'	=> 'Bogor'),
+			array('key'	=> 'Oye',				'area'	=> 'Semarang'),
+			array('key'	=> 'Lampung',		'area'	=> 'Lampung'),
+			array('key'	=> 'Gorontalo', 'area'	=> 'Gorontalo'),
+			array('key'	=> 'Ewako',			'area'	=> 'Sulawesi Selatan'),
+			array('key' => 'Dejapu',		'area'	=> 'Jakarta'),
+			array('key'	=> 'Aceh',			'area'	=> 'Aceh'),
+			array('key'	=> 'Heroes',		'area'	=> 'Surabaya'),
+			array('key'	=> 'Bengawan',	'area'	=> 'Solo'),
+			array('key'	=> 'Musi',			'area'	=> 'Sumatera Selatan'),
+			array('key'	=> 'Babel',			'area'	=> 'Bangka Belitung'),
+			array('key'	=> 'Joss',			'area'	=> 'Yogyakarta'),
+			array('key'	=> 'Sasandu',		'area'	=> 'Nusa Tenggara Timur'),
+		);
+
+		$dataPusat = array(
+			array('key' => 'kesekretariatan', 'detail' => 'Kesekretariatan'),
+			array('key'	=> 'program',	'detail' => 'Program & Pelatihan'),
+			array('key'	=> 'alumni', 'detail' => 'Pengelolaan Alumni'),
+			array('key'	=> 'bisnis', 'detail' => 'Bisnis & Kemitraan'),
+			array('key'	=> 'pengembangan', 'detail' => 'Pengembangan Regional & Komunitas'),
+			array('key' => 'media', 'detail' => 'Media & Komunikasi'),
+		);
+
 		$this->db->insert_batch('info_fim', $dataInfoFIM);
 		$this->db->insert_batch('jalur', $dataJalur);
 		$this->db->insert_batch('agama', $dataAgama);
 		$this->db->insert_batch('provinsi', $dataProvinsi);
+		$this->db->insert_batch('regional', $dataRegional);
+		$this->db->insert_batch('pusat', $dataPusat);
 
 	}
 
 	public function down(){
-		$this->db->truncate('provinsi');
-		$this->db->truncate('agama');
-		$this->db->truncate('jalur');
 		$this->db->truncate('info_fim');
+		$this->db->truncate('jalur');
+		$this->db->truncate('agama');
+		$this->db->truncate('provinsi');
+		$this->db->truncate('regional');
+		$this->db->truncate('pusat');
 	}
 
 }
