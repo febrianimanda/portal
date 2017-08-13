@@ -703,26 +703,33 @@ class Migration_Initial_schema extends CI_Migration {
 				'constraint'	=> 3,
 			),
 			'nilai_cv'	=> array(
-				'type'	=> 'decimal(3,2)',
+				'type'		=> 'decimal(5,2)',
+				'default'	=> 0
 			),
-			'nilai_essay'	=> array(
-				'type'	=> 'decimal(3,2)',
+			'nilai_esai'	=> array(
+				'type'	=> 'decimal(5,2)',
+				'default'	=> 0
 			),
-			'nilai_dokumen'	=> array(
-				'type'	=> 'decimal(3,2)',
+			'nilai_rekomendasi'	=> array(
+				'type'	=> 'decimal(5,2)',
+				'default'	=> 0
 			),
 			'nilai_total'	=> array(
-				'type'	=> 'decimal(3,2)',
+				'type'	=> 'decimal(5,2)',
+				'default'	=> 0
 			),
+			'nilai_video' => array(
+				'type'	=> 'decimal(5,2)',
+				'default'	=> 0
+			)
 			'keterangan_rekruter' => array(
 				'type'	=> 'text',
 			),
 			'kepo_rekruter' => array(
 				'type'	=> 'text',
 			),
-			'updated_by' => array(
-				'type'				=> 'int',
-				'constraint'	=> 3
+			'kesesuaian_regional' => array(
+				'type'	=> 'text',
 			),
 			'date_updated' => array(
 				'type'			=> 'timestamp',
