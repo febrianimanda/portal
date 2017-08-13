@@ -512,7 +512,10 @@ class Kandidat extends CI_Controller {
 		$ext_data = $this->peserta_model->read_ext_data($username)->result_array()[0];
 
 		// Upload Profpic
-		if($_FILES['profpic_path']['size'] > 0){
+		if($_FILES['profpic_path']['name'] != ""){
+			if(!$this->do_check_image('profpic_path', 'profpic')) {
+				redirect('/kandidat/pengaturan/dasar');
+			}
 			$img = explode('.',$_FILES['profpic_path']['name']);
 			$extension_img = end($img);
 			$profpic_filename = $username.'.'.strtolower($extension_img);
@@ -522,7 +525,12 @@ class Kandidat extends CI_Controller {
 		}
 
 		// upload KTP
-		if($_FILES['ktp_path']['size'] > 0){
+		if($_FILES['ktp_path']['name'] != ""){
+			if(!$this->do_check_image('ktp_path', 'ktp')) {
+				redirect('/kandidat/pengaturan/dasar');
+			}
+			echo "upload success";
+			die();
 			$img = explode('.', $_FILES['ktp_path']['name']);
 			$extension_img = end($img);
 			$ktp_filename = MD5('ktp_'.$username).'.'.strtolower($extension_img);
@@ -591,7 +599,9 @@ class Kandidat extends CI_Controller {
 		} else {
 			$success = "Perintah tidak dikenali";
 		}
+
 		redirect(site_url('kandidat/pengaturan/dasar'), 'refresh');
+		
 	}
 
 	public function do_update_rekomendasi($status='update'){
@@ -635,6 +645,7 @@ class Kandidat extends CI_Controller {
 		} else {
 			$success = "Perintah tidak dikenali";
 		}
+
 		$this->alert_messages($success);
 		redirect(site_url('kandidat/pengaturan/rekomendasi'), 'refresh');
 	}
@@ -660,8 +671,10 @@ class Kandidat extends CI_Controller {
 		} else {
 			$success = "Perintah tidak dikenali";
 		}
+
 		$this->alert_messages($success);
 		redirect(site_url('kandidat/pengaturan/essay'), 'refresh');
+
 	}
 
 	public function do_update_project($status='update'){
@@ -686,8 +699,10 @@ class Kandidat extends CI_Controller {
 			$success = "Perintah tidak dikenali";
 			echo "Something is wrong";
 		}
+
 		$this->alert_messages($success);
 		redirect(site_url('kandidat/pengaturan/project'));
+
 	}
 
 	public function do_update_pencapaian($status='update'){
@@ -910,6 +925,41 @@ class Kandidat extends CI_Controller {
 				$this->session->set_flashdata('status', 'danger');
 				redirect(site_url('kandidat/pengaturan/dasar'));
 			}
+		}
+		return true;
+	}
+
+	public function do_check_image($userfile, $filename) {
+		try {
+			if($_FILES[$userfile]['error']) {
+				switch ($_FILES[$userfile]['error']) {
+	        case UPLOAD_ERR_OK:
+	        	break;
+	        case UPLOAD_ERR_NO_FILE:
+						throw new RuntimeException('Tidak terdeteksi gambar '.$filename.' yang terkirim.');
+	        case UPLOAD_ERR_INI_SIZE:
+	        case UPLOAD_ERR_FORM_SIZE:
+	        	throw new RuntimeException('Ukuran gambar '.$filename.' yang diupload terlalu besar.');
+	        default:
+	        throw new RuntimeException('Terdapat error ketika mengupload gambar '.$filename.', coba upload dengan gambar yang lain.');
+		    }
+			}
+			$finfo = new finfo(FILEINFO_MIME_TYPE);
+	    if (false === $ext = array_search(
+	        $finfo->file($_FILES[$userfile]['tmp_name']),
+	        array(
+	        	'jpg' => 'image/jpeg',
+	        	'png' => 'image/png',
+	        	'gif' => 'image/gif',
+	        ),
+	        true
+	    )){
+	        throw new RuntimeException('Format gambar yang diupload salah.');
+	    }
+		} catch (RuntimeException $e) {
+			$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('message', $e->getMessage());
+			return false;
 		}
 		return true;
 	}
