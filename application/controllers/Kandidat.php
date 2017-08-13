@@ -72,7 +72,6 @@ class Kandidat extends CI_Controller {
 		$youtube = $data_page['dasar'][0]['video_profile'];
 		
 		$fb = ($fb == '') ? '' : '<a href="'.$fb.'" target="blank"><i class="fa fa-facebook-square" alt="facebook" aria-hidden="true"></i></a>';
-		$blog = ($blog == '') ? '' : '<a href="'.$blog.'" target="blank"><i class="fa fa-share-alt-square" alt="blog" aria-hidden="true"></i></a>';
 		$youtube = ($youtube == '') ? '' : '<a href="'.$youtube.'" target="blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>';
 
 		if($data_page['dasar'][0]['twitter'] != ''){
@@ -93,6 +92,16 @@ class Kandidat extends CI_Controller {
 		    $ig = '<a href="'.$ig.'" target="blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>';
 		} else {
 		    $ig = '';
+		}
+
+		if($data_page['dasar'][0]['blog'] != ''){
+		    $blog = $data_page['dasar'][0]['blog'];
+		    if(!strpos($blog,'http://') || !strpos($blog,'https://')){
+		        $blog = "http://".$blog;
+		    }
+		    $blog = '<a href="'.$blog.'" target="blank"><i class="fa fa-share-alt-square" alt="blog" aria-hidden="true"></i></a>';
+		} else {
+		    $blog = '';
 		}
 
 		//setup template page variable
