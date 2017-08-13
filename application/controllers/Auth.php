@@ -136,8 +136,6 @@ class Auth extends CI_Controller {
 			$this->session->set_flashdata('message', validation_errors());
 			redirect(site_url('auth/registration'), 'refresh');
 		}
-		
-
 
 		// encrypt password
 		$unencrypt_pass = $this->input->post('password');
@@ -158,31 +156,19 @@ class Auth extends CI_Controller {
 		$_POST['hash'] = MD5($_POST['username'].rand(0,10000));
 
 		$result1 = $this->auth_model->insert_registration($this->input->post());
-		$result2 = $this->peserta_model->insert_peserta($data_peserta);
 
-		if($result1 and $result2) {
+		if($result1) {
+			$result2 = $this->peserta_model->insert_peserta($data_peserta);
+		} else {
+			$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('message', 'Ada kesalahan dalam menyimpan data Anda. Silahkan coba untuk mendaftar kembali.');
+			redirect(site_url('auth/registration'), 'refresh');
+		}
+
+		if($result2) {
 			# Update another records after successfull saving
 			# Update Jumlah Jalur
 			$this->jalur_model->update_jumlah($this->input->post('jalur'));
-			
-			# Update jumlah provinsi
-			// $prov = $this->provinsi_model->read_provinsi('nama_provinsi', $this->input->post('provinsi'))->result();
-			// $this->provinsi_model->update_jumlah($prov[0]->key);
-
-			# Add or Update Institusi table
-			// $ins_exist = $this->institusi_model->is_exist($this->input->post('institusi'));
-			// if(!$ins_exist) {
-			// 	# adding new institusi record
-			// 	$data_institusi = array('nama_institusi' => $this->input->post('institusi'), 'jumlah' => 1);
-			// 	$this->institusi_model->insert_institusi($data_institusi);
-			// } else {
-			// 	# increasing jumlah
-			// 	$ins_id = $this->institusi_model->read_institusi_id('nama_institusi', $this->input->post('institusi'));
-			// 	$this->institusi_model->update_jumlah($ins_id);
-			// }
-
-			# Update jumlah agama
-			// $this->agama_model->update_jumlah('agama', $_POST['agama']);
 
 			# Update jumlah informasi fim
 			foreach ($arr_info as $info) {
@@ -197,9 +183,10 @@ class Auth extends CI_Controller {
 			redirect(site_url('auth'), 'refresh');
 		} else {
 			# failed to register because email exist
+			$this->auth_model->delete_user($this->input->post('email'));
 			$this->session->set_flashdata('status', 'danger');
 			$this->session->set_flashdata('message', 'Ada kesalahan dalam menyimpan data Anda. Silahkan coba untuk mendaftar kembali.');
-			redirect(site_url('auth/registration'), 'refresh=3');
+			redirect(site_url('auth/registration'), 'refresh');
 		}
 
 	}

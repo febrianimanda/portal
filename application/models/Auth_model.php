@@ -118,6 +118,27 @@ class Auth_model extends CI_Model {
   	}
   }
 
+  public function delete_user($email) {
+  	$this->db->where('email', $email);
+  	$this->db->delete($this->table);
+  	if($this->db->affected_rows() == 1){
+  		return true;
+  	} else {
+  		return false;
+  	}
+  }
+
+  public function is_admin($email) {
+  	$this->db->where('email', $email);
+  	$this->db->where('role', 3);
+  	$this->db->get($this->table);
+  	if($this->db->affected_rows() == 1) {
+  		return true;
+  	} else {
+  		return false;
+  	}
+  }
+
 }
 
 ?>
