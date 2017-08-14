@@ -1,3 +1,10 @@
+<?php
+	// if (!$sock = @fsockopen('www.portal.forumindonesiamuda.org', 80, $num, $error, 5)){
+	// 	echo "<script>alert('Offline')</script>";
+	// } else {
+	// 	echo "<script>alert('Online')</script>";
+	// }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,7 +68,7 @@
 						<li><a href="<?= site_url('kandidat/profil/'.$this->session->userdata('username')) ?>">Profilku</a></li>
 					<?php endif; ?>
 					<?php if($this->session->userdata('logged_in')): ?> 
-						<li><a href="<?= site_url('kandidat/pengaturan')?>">Pengaturan Akun</a></li>
+						<li><a href="<?= site_url('kandidat/pengaturan')?>">Pendaftaran</a></li>
 					<?php endif; ?>
 					<!-- <li><a href="#">List Kandidat</a></li> -->
 					<!-- <li><a href="#">Pengumuman</a></li> -->
