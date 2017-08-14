@@ -523,7 +523,7 @@ class Kandidat extends CI_Controller {
 		// Upload Profpic
 		if($_FILES['profpic_path']['name'] != ""){
 			if(!$this->do_check_image('profpic_path', 'profpic')) {
-				redirect('/kandidat/pengaturan/dasar');
+				redirect(site_url('/kandidat/pengaturan/dasar'), 'refresh');
 			}
 			$img = explode('.',$_FILES['profpic_path']['name']);
 			$extension_img = end($img);
@@ -536,10 +536,8 @@ class Kandidat extends CI_Controller {
 		// upload KTP
 		if($_FILES['ktp_path']['name'] != ""){
 			if(!$this->do_check_image('ktp_path', 'ktp')) {
-				redirect('/kandidat/pengaturan/dasar');
+				redirect(site_url('/kandidat/pengaturan/dasar'), 'refresh');
 			}
-			echo "upload success";
-			die();
 			$img = explode('.', $_FILES['ktp_path']['name']);
 			$extension_img = end($img);
 			$ktp_filename = MD5('ktp_'.$username).'.'.strtolower($extension_img);
