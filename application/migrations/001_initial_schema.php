@@ -721,7 +721,7 @@ class Migration_Initial_schema extends CI_Migration {
 			'nilai_video' => array(
 				'type'	=> 'decimal(5,2)',
 				'default'	=> 0
-			)
+			),
 			'keterangan_rekruter' => array(
 				'type'	=> 'text',
 			),
