@@ -624,17 +624,15 @@ class Kandidat extends CI_Controller {
 
 		$idpeserta = $this->peserta_model->get_id('username', $this->session->userdata('username'));
 
-		if($_FILES['file_rekomendasi_path']['error'] != 1){
-			if($_FILES['file_rekomendasi_path']['type'] == 'application/pdf'){
+		if($_FILES['file_rekomendasi_path']['name'] != ''){
+			if($this->do_check_document('file_rekomendasi_path')){
 				$file = explode('.',$_FILES['file_rekomendasi_path']['name']);
 				$extension_file = end($file);
-				$filename = MD5('document_'.$this->session->userdata('username')).'.'.$extension_file;
+				$filename = MD5('document_'.$this->session->userdata('username')).'.'.strtolower($extension_file);
 				// Upload document
 				$this->do_upload_document('file_rekomendasi_path', $filename);
 				$_POST['file_rekomendasi_path'] = $filename;
 			} else {
-				$this->session->set_flashdata('status', 'danger');
-				$this->session->set_flashdata('message', 'File yang diterima harus berekstensi .pdf');
 				redirect(site_url('kandidat/pengaturan/rekomendasi'), 'refresh');
 			}
 		} else {
@@ -652,8 +650,6 @@ class Kandidat extends CI_Controller {
 		} else {
 			$success = "Perintah tidak dikenali";
 		}
-
-		$this->alert_messages($success);
 		redirect(site_url('kandidat/pengaturan/rekomendasi'), 'refresh');
 	}
 
@@ -961,8 +957,35 @@ class Kandidat extends CI_Controller {
 	        ),
 	        true
 	    )){
-	        throw new RuntimeException('Format gambar yang diupload salah.');
+        throw new RuntimeException('Format gambar yang diupload salah.');
 	    }
+		} catch (RuntimeException $e) {
+			$this->session->set_flashdata('status', 'danger');
+			$this->session->set_flashdata('message', $e->getMessage());
+			return false;
+		}
+		return true;
+	}
+
+	public function do_check_document($userfile) {
+		try {
+			$finfo = new finfo(FILEINFO_MIME_TYPE);
+			if($_FILES[$userfile]['error']) {
+				switch ($_FILES[$userfile]['error']) {
+	        case UPLOAD_ERR_OK:
+	        	break;
+	        case UPLOAD_ERR_NO_FILE:
+						throw new RuntimeException('Tidak terdeteksi file yang diupload.');
+	        case UPLOAD_ERR_INI_SIZE:
+	        case UPLOAD_ERR_FORM_SIZE:
+	        	throw new RuntimeException('Ukuran file rekomendasi yang diupload terlalu besar.');
+	        default:
+	        throw new RuntimeException('Terdapat error ketika mengupload file rekomendasi.');
+		    }
+			}
+			if($finfo->file($_FILES[$userfile]['tmp_name']) != 'application/pdf') {
+        throw new RuntimeException('Format gambar yang diupload salah.');
+			}
 		} catch (RuntimeException $e) {
 			$this->session->set_flashdata('status', 'danger');
 			$this->session->set_flashdata('message', $e->getMessage());
