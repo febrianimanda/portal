@@ -189,7 +189,7 @@
 							<?php foreach ($pencapaian as $data): ?>
 								<div class="col-md-12">
 									<?php if(!$completed): ?>
-										<button data-toggle="modal" data-target="#modalUpdate" data-index="<?= $data['indeks'] ?>" type="button" class="btnModalTrigger btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-plus"></i> Edit</button>
+										<button data-toggle="modal" data-target="#modalUpdate" data-index="<?= $data['pencapaian_id'] ?>" type="button" class="btnModalTrigger btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-plus"></i> Edit</button>
 									<?php endif; ?>
 									<h4><strong><?= $data['nama_pencapaian'] ?></strong></h4>
 									<?php $role = $this->session->userdata('role'); ?>
