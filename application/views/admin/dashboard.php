@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Admin | FIM 19</title>
+    <title>SB Admin - Start Bootstrap Template</title>
+
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="./asset/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- Custom fonts for this template -->
-    <link rel="stylesheet" href="<?= css_url('font-awesome.min') ?>">
+    <link href="./asset/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
     <!-- Plugin CSS -->
-    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="./asset/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
     <!-- Custom styles for this template -->
-    <link href="<?= css_url('sb-admin.css') ?>" rel="stylesheet">
+    <link href="./asset/css/sb-admin.css" rel="stylesheet">
 
   </head>
 
@@ -131,7 +138,7 @@
                   <tr>
                     <td>2</td>
                     <td><input type="checkbox"></td>
-                    <td><img src="https://cdns.klimg.com/merdeka.com/i/w/tokoh/2012/01/11/602/200x300/fadel-muhammad-rev-1.jpg"></td>
+                    <td><img src="https://cdns.klimg.com/merdeka.com/i/w/tokoh/2012/01/11/602/200x300/fadel-muhammad-rev-1.jpg"></img></td>
                     <td>Fadel</td>
                     <td>Edinburgh</td>
                     <td>Pengajar</td>
@@ -201,18 +208,18 @@
     </div>
 
     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/popper/popper.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="./asset/vendor/jquery/jquery.min.js"></script>
+    <script src="./asset/vendor/popper/popper.min.js"></script>
+    <script src="./asset/vendor/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- Plugin JavaScript -->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="vendor/chart.js/Chart.min.js"></script>
-    <script src="vendor/datatables/jquery.dataTables.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="./asset/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="./asset/vendor/chart.js/Chart.min.js"></script>
+    <script src="./asset/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="./asset/vendor/datatables/dataTables.bootstrap4.js"></script>
 
     <!-- Custom scripts for this template -->
-    <script src="<?= js_url('sb-admin.min.js') ?>"></script>
+    <script src="./asset/js/sb-admin.min.js"></script>
 
   </body>
 
