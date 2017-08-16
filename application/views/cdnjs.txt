@@ -11,3 +11,10 @@ Croppie Library:
 Datatables Library:
 	https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css
 	https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js
+
+Datatbles Bootstrap 4:
+	https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap4.min.css
+	https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js
+
+ChartJS:
+	https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js

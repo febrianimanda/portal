@@ -14,6 +14,121 @@ class Kandidat extends CI_Controller {
 		}
 	}
 
+		public function nilaiprofil($username='') {
+		// Load Model
+		$this->load->model('peserta_model');
+		$this->load->model('pencapaian_model');
+		$this->load->model('project_model');
+		$this->load->model('essay_model');
+		$this->load->model('perekomendasi_model');
+		$this->load->model('auth_model');
+		$this->load->model('jalur_model');
+
+		if($username == ''){
+			$username = $this->session->userdata('username');
+		}
+
+		// setup page variable, result array is faster than else
+		$data_page['dasar'] = $this->peserta_model->read_peserta_by_username($username)->result_array();
+		$idpeserta = $data_page['dasar'][0]['peserta_id'];
+		$data_page['pencapaian'] = $this->pencapaian_model->read_all_pencapaian($idpeserta)->result_array();
+		$data_page['project'] = $this->project_model->read_project($idpeserta)->result_array();
+		$data_page['essay'] = $this->essay_model->read_essay($idpeserta)->result_array();
+		$data_page['rekomendasi'] = $this->perekomendasi_model->read_perekomendasi($idpeserta)->result_array();
+		$data_page['is_me'] = ($this->session->userdata('username') == $username);
+
+		$jalur = $this->auth_model->get_jalur($username);
+
+		$data_page['jalur'] = $jalur;
+
+		if($jalur == 'nextgen' or $jalur == 'local') {
+			$data_page['section']['project'] = true;
+		} else {
+			$data_page['section']['project'] = false;
+		}
+
+		if($jalur == 'nextgen') {
+			$data_page['theme'] = 'Bagaimana keberadaan Anda di FIM bisa menambah nilai manfaat untuk FIM?';
+		} else if($jalur == 'campus') {
+			$data_page['theme'] = 'Rencana strategis Anda di kampus dan bagaimana FIM dapat membantu mewujudkannya?';
+		} else if($jalur == 'servant') {
+			$data_page['theme'] = 'Bagaimana FIM bisa membantu Anda untuk meningkatkan kualitas diri Anda secara personal sehingga mampu memberikan keuntungan untuk masyarakat?';
+	  } else if($jalur == 'expert') {
+	  	$data_page['theme'] = 'Tulisan Jurnal (boleh link)';
+	  } else {
+	  	$data_page['theme'] = '-';
+	  }
+
+		if($jalur == 'nextgen' or $jalur == 'campus' or $jalur == 'expert' or $jalur == 'servant') {
+			$data_page['section']['essay'] = true;
+		} else {
+			$data_page['section']['essay'] = false;
+		}
+
+		$fb = $data_page['dasar'][0]['fb'];
+		$tw = '';
+		$ig = $data_page['dasar'][0]['instagram'];
+		$blog = $data_page['dasar'][0]['blog'];
+		$youtube = $data_page['dasar'][0]['video_profile'];
+		
+		$fb = ($fb == '') ? '' : '<a href="'.$fb.'" target="blank"><i class="fa fa-facebook-square" alt="facebook" aria-hidden="true"></i></a>';
+		$youtube = ($youtube == '') ? '' : '<a href="'.$youtube.'" target="blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>';
+
+		if($data_page['dasar'][0]['twitter'] != ''){
+		    $tw = $data_page['dasar'][0]['twitter'];
+		    if(!strpos($tw,'twitter.com/')){
+		        $tw = "https://twitter.com/".$tw;
+		    }
+		    $tw = '<a href="'.$tw.'" target="blank"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>';
+		} else {
+		    $tw = '';
+		}
+		
+		if($data_page['dasar'][0]['instagram'] != ''){
+		    $ig = $data_page['dasar'][0]['instagram'];
+		    if(!strpos($ig,'instagram.com/')){
+		        $ig = "https://instagram.com/".$ig;
+		    }
+		    $ig = '<a href="'.$ig.'" target="blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>';
+		} else {
+		    $ig = '';
+		}
+
+		if($data_page['dasar'][0]['blog'] != ''){
+		    $blog = $data_page['dasar'][0]['blog'];
+		    if(!strpos($blog,'http://') || !strpos($blog,'https://')){
+		        $blog = "http://".$blog;
+		    }
+		    $blog = '<a href="'.$blog.'" target="blank"><i class="fa fa-share-alt-square" alt="blog" aria-hidden="true"></i></a>';
+		} else {
+		    $blog = '';
+		}
+
+		//setup template page variable
+		$data['socmed'] = array(
+			'fb' 		=> $fb,
+			'twitter'	=> $tw,
+			'ig'		=> $ig,
+			'blog'		=> $blog,
+			'video'		=> $youtube,
+		);
+
+		$profpic = $data_page['dasar'][0]['profpic_path'];
+		$data['header_info'] = array(
+			'name' 			=> $data_page['dasar'][0]['fullname'],
+			'kota'			=> $data_page['dasar'][0]['kota'],
+			'provinsi'	=> $data_page['dasar'][0]['provinsi'],
+			'profpic'		=> ($profpic != '') ? $profpic : 'ava-'.$data_page['dasar'][0]['gender'].'.png',
+			'jalur'		=> $this->jalur_model->read_jalur($jalur)
+		);
+
+		// Setup page content
+		$data['title'] = 'Profil Kandidat';
+		$data['content'] = $this->load->view('kandidat/profil-nilai', $data_page, true);
+
+		$this->load->view('template/nilai-profil', $data);
+	}
+
 	public function profil($username='') {
 		// Load Model
 		$this->load->model('peserta_model');
