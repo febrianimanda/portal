@@ -12,16 +12,16 @@
     <title>SB Admin - Start Bootstrap Template</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="./asset/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <!-- Custom fonts for this template -->
-    <link href="./asset/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="<?= css_url('font-awesome.min') ?>">
 
     <!-- Plugin CSS -->
-    <link href="./asset/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="./asset/css/sb-admin.css" rel="stylesheet">
+    <link href="<?= css_url('sb-admin') ?>" rel="stylesheet">
 
   </head>
 
@@ -208,18 +208,18 @@
     </div>
 
     <!-- Bootstrap core JavaScript -->
-    <script src="./asset/vendor/jquery/jquery.min.js"></script>
-    <script src="./asset/vendor/popper/popper.min.js"></script>
-    <script src="./asset/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Jquery Latest Compiled and Minified JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="<?= js_url('popper.min') ?>"></script>
 
     <!-- Plugin JavaScript -->
-    <script src="./asset/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="./asset/vendor/chart.js/Chart.min.js"></script>
-    <script src="./asset/vendor/datatables/jquery.dataTables.js"></script>
-    <script src="./asset/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
 
     <!-- Custom scripts for this template -->
-    <script src="./asset/js/sb-admin.min.js"></script>
+    <script src="<?= js_url('sb-admin.min') ?>"></script>
 
   </body>
 
