@@ -68,13 +68,8 @@
         </ul>
       </div>
     </nav>
-
     <div class="content-wrapper py-3">
-
       <div class="container-fluid">
-
-        
-        
         <!-- Example Tables Card -->
         <div class="card mb-3">
           <div class="card-header">
@@ -89,29 +84,32 @@
                     <th>No</th>
                     <th>.</th>                    
                     <th>Foto</th>
+                    <th>Jalur</th>
                     <th>Nama</th>
                     <th>Institusi</th>
                     <th>Biodata Singkat</th>
-                    <th>Rekomendasi</th>
                     <th>Video</th>
+                    <th>Rekomendasi</th>
                     <th>CV</th>
                     <th>Esai</th>
                     <th>Project</th>                    
                     <th>Kelengkapan Berkas</th>
                     <th>Jumlah</th>
-                    
                   </tr>
                 </thead>
+                <tbody>
+                </tbody>
                 <tfoot>
                   <tr>
                     <th>No</th>
                     <th>.</th>                    
                     <th>Foto</th>
+                    <th>Jalur</th>
                     <th>Nama</th>
                     <th>Institusi</th>
                     <th>Biodata Singkat</th>
-                    <th>Rekomendasi</th>
                     <th>Video</th>
+                    <th>Rekomendasi</th>
                     <th>CV</th>
                     <th>Esai</th>
                     <th>Project</th>                    
@@ -119,54 +117,6 @@
                     <th>Jumlah</th>                    
                   </tr>
                 </tfoot>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td><input type="checkbox"></td>
-                    <td><img src="https://cdns.klimg.com/merdeka.com/i/w/tokoh/2012/01/11/602/200x300/fadel-muhammad-rev-1.jpg"></td>
-                    <td>Fadel</td>
-                    <td>Edinburgh</td>
-                    <td>Pengajar</td>
-                    <td>blablabla.com</td>
-                    <td>blablabla.com</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>400</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td><input type="checkbox"></td>
-                    <td><img src="https://cdns.klimg.com/merdeka.com/i/w/tokoh/2012/01/11/602/200x300/fadel-muhammad-rev-1.jpg"></img></td>
-                    <td>Fadel</td>
-                    <td>Edinburgh</td>
-                    <td>Pengajar</td>
-                    <td>blablabla.com</td>
-                    <td>blablabla.com</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>400</td>                  
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td><input type="checkbox"></td>
-                    <td><img src="https://cdns.klimg.com/merdeka.com/i/w/tokoh/2012/01/11/602/200x300/fadel-muhammad-rev-1.jpg"></td>
-                    <td>Fadel</td>
-                    <td>Edinburgh</td>
-                    <td>Pengajar</td>
-                    <td>blablabla.com</td>
-                    <td>blablabla.com</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>400</td>
-                  </tr>
-                  
-                </tbody>
               </table>
             </div>
           </div>
@@ -174,10 +124,8 @@
             Jangan lupa bismillah sebelum menilai
           </div>
         </div>
-
       </div>
       <!-- /.container-fluid -->
-
     </div>
     <!-- /.content-wrapper -->
 
@@ -219,8 +167,85 @@
     <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js"></script>
 
     <!-- Custom scripts for this template -->
-    <script src="<?= js_url('sb-admin.min') ?>"></script>
+    <script src="<?= js_url('sb-admin') ?>"></script>
 
+    <script type="text/javascript">
+      var table;
+      $(document).ready(function(){
+        table = $('#dataTable').DataTable({
+          "processing": true,
+          "serverSide": true,
+          "order": [],
+          "ajax": {
+            "url": "<?= site_url('rekruter/peserta_list') ?>",
+            "type": "POST"
+          },
+          "columnDefs": [
+            {
+              "targets": [0,6,7,8],
+              "orderable": false,
+            },
+            {
+              "targets": [2],
+              "orderable": false,
+              "render": function(data) {
+                if(data != "") 
+                  return "<img height='100' src='<?= site_url("profpics_upload/") ?>"+data+"' />"; 
+                else
+                  return "Tidak Terdapat Foto";
+              }
+            },
+            {
+              "targets": [7],
+              "render": function(data){
+                if(data != "") 
+                  return "<a target='blank' href='"+data+"'>Link Video</a>";
+                else 
+                  return "Tidak ada Video Profile";
+              }
+            },
+            {
+              "targets": [8],
+              "render": function(data){
+                if(data != "")
+                  return "<a target='blank' class='btn btn-xs btn-profil-flat' href='<?= site_url('documents_upload/')?>"+data+"'>Download File Rekomendasi</a>";
+                else
+                  return "Tidak ada File Rekomendasi";
+              }
+            },
+            {
+              "targets": [9],
+              "render": function(data) {
+                if(data == null) return "0";
+              }
+            },
+            {
+              "targets": [10],
+              "render": function(data) {
+                if(data == null) return "0";
+              }
+            },
+            {
+              "targets": [11],
+              "render": function(data) {
+                if(data == null) return "0";
+              }
+            },
+            {
+              "targets": [12],
+              "render": function(data) {
+                if(data == null) return "0";
+              }
+            },
+            {
+              "targets": [13],
+              "render": function(data) {
+                if(data == null) return "0";
+              }
+            }
+          ]
+        });
+      });
+    </script>
   </body>
-
 </html>

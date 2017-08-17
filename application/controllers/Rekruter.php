@@ -8,7 +8,7 @@ class Rekruter extends CI_Controller {
 	}
 
 	public function index() {
-		$this->load->view('rekruter/index');
+		$this->load->view('admin/dashboard');
 	}
 
 	public function peserta_list() {
@@ -26,6 +26,7 @@ class Rekruter extends CI_Controller {
 				$pesertas['jalur'],
 				$pesertas['fullname'],
 				$pesertas['institusi'],
+				$pesertas['biodata_singkat'],
 				$pesertas['video_profile'],
 				$pesertas['file_rekomendasi_path'],
 				$pesertas['nilai_cv'],
@@ -34,7 +35,6 @@ class Rekruter extends CI_Controller {
 				$pesertas['nilai_kelengkapan'],
 				$pesertas['nilai_total']
 			);
-
 			$data[] = $row;
 		}
 
