@@ -40,8 +40,9 @@ class Rekruter_model extends CI_Model {
 		return ($this->db->affected_rows() != 1) ? $this->db->error() : True;
 	}
 
-	public $datatable_column = array('peserta.peserta_id as peserta_id', 'peserta.profpic_path as profpic_path', 'user.jalur as jalur', 'peserta.fullname as fullname', 'peserta.institusi as institusi', 'peserta.video_profile as video_profile', 'perekomendasi.file_rekomendasi_path as file_rekomendasi_path', 'penilaian.nilai_cv as nilai_cv', 'penilaian.nilai_esai as nilai_esai', 'penilaian.nilai_project as nilai_project', 'penilaian.nilai_kelengkapan as nilai_kelengkapan', 'penilaian.nilai_total as nilai_total');
-	public $datatable_column_order = array(null, 'peserta_id', 'profpic_path', 'jalur', 'fullname', 'institusi', 'video_profile', ' ile_rekomendasi_path', 'nilai_cv', 'nilai_esai', 'nilai_project', 'nilai_kelengkapan', 'nilai_total');
+	public $datatable_column = array('peserta.peserta_id as peserta_id', 'peserta.profpic_path as profpic_path', 'user.jalur as jalur', 'peserta.fullname as fullname', 'peserta.institusi as institusi', 'peserta.biodata_singkat as biodata_singkat', 'peserta.video_profile as video_profile', 'perekomendasi.file_rekomendasi_path as file_rekomendasi_path', 'penilaian.nilai_cv as nilai_cv', 'penilaian.nilai_esai as nilai_esai', 'penilaian.nilai_project as nilai_project', 'penilaian.nilai_kelengkapan as nilai_kelengkapan', 'penilaian.nilai_total as nilai_total');
+	
+	public $datatable_column_order = array(null, 'peserta_id', 'profpic_path', 'jalur', 'fullname', 'institusi', 'biodata_singkat', 'video_profile', ' ile_rekomendasi_path', 'nilai_cv', 'nilai_esai', 'nilai_project', 'nilai_kelengkapan', 'nilai_total');
 
 	public $datatable_column_search = array('jalur', 'fullname', 'institusi');
 	public $datatable_order = array('fullname' => 'asc');

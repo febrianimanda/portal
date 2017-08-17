@@ -9,7 +9,7 @@
 
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>SB Admin - Start Bootstrap Template</title>
+    <title>List Capes | FIM 19</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -172,6 +172,7 @@
     <script type="text/javascript">
       var table;
       $(document).ready(function(){
+        i = 0;
         table = $('#dataTable').DataTable({
           "processing": true,
           "serverSide": true,
@@ -184,6 +185,18 @@
             {
               "targets": [0,6,7,8],
               "orderable": false,
+            },
+            {
+              "targets": [1],
+              "render": function(data) {
+                html = '<div class="form-check">';
+                html += ' <label class="form-check-label">';
+                html += '   <input type="checkbox" class="form-check-input" name="capes['+data+']">';
+                html += ' </label>';
+                html += '</div>';
+                i++;
+                return html;
+              }
             },
             {
               "targets": [2],
