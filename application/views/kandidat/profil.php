@@ -109,15 +109,30 @@
 					<hr>
 					<div class="row profil-pencapaian">
 						<?php if(sizeof($pencapaian) > 0): ?>
-							<?php foreach ($pencapaian as $achieve): ?>
-								<div class="col-md-12">
-									<span class="floating-label label label-info"><?= $achieve['cakupan'] ?></span>
-									<h4><strong><?= $achieve['nama_pencapaian'] ?></strong></h4>
-									<?php $role = $this->session->userdata('role'); ?> 
-									<h5>Peran: <?= $achieve['peran'] ?> | Penyelenggara: <?= $achieve['penyelenggara'] ?> | <?= $achieve['waktu_durasi'] ?> <?= ($role >= 1 and $role <= 3) ?> | Narahubung: <?= $achieve['narahubung'] ?> </h5>
-									<p><?= $achieve['alasan'] ?></p>
-								</div>
-							<?php endforeach; ?>
+							<?php if($this->session->userdata('jalur') == 'influencer'): ?>
+								<?php foreach ($pencapaian as $data): ?>
+									<div class="col-md-12">
+										<?php if(!$completed): ?>
+											<button data-toggle="modal" data-target="#modalUpdate" data-index="<?= $data['pencapaian_id'] ?>" type="button" class="btnModalTrigger btn btn-xs btn-profil-flat floating-btn"><i class="fa fa-plus"></i> Edit</button>
+										<?php endif; ?>
+										<h4><strong><?= $data['nama_pencapaian'] ?></strong></h4>
+										<?php $role = $this->session->userdata('role'); ?>
+										<h5>Link Portofolio: <?= $data['portofolio'] ?></h5>
+										<h5>Nama Akun: <?= $data['nama_akun'] ?> | Genre: <?= $data['genre'] ?> | Platform: <?= $data['platform'] ?>
+										<p><?= $data['alasan'] ?></p>
+									</div>
+								<?php endforeach; ?>
+							<?php else: ?>
+								<?php foreach ($pencapaian as $achieve): ?>
+									<div class="col-md-12">
+										<span class="floating-label label label-info"><?= $achieve['cakupan'] ?></span>
+										<h4><strong><?= $achieve['nama_pencapaian'] ?></strong></h4>
+										<?php $role = $this->session->userdata('role'); ?> 
+										<h5>Peran: <?= $achieve['peran'] ?> | Penyelenggara: <?= $achieve['penyelenggara'] ?> | <?= $achieve['waktu_durasi'] ?> <?= ($role >= 1 and $role <= 3) ?> | Narahubung: <?= $achieve['narahubung'] ?> </h5>
+										<p><?= $achieve['alasan'] ?></p>
+									</div>
+								<?php endforeach; ?>
+							<?php endif; ?>
 						<?php else: ?>
 							<div class="col-md-12">
 								<p><em>Belum ada pencapaian yang diisi</em></p>

@@ -170,7 +170,7 @@
 									<?php endif; ?>
 									<h4><strong><?= $data['nama_pencapaian'] ?></strong></h4>
 									<?php $role = $this->session->userdata('role'); ?>
-									<h5>Link Portofolio: <?= $data['cakupan'] ?></h5>
+									<h5>Link Portofolio: <?= $data['portofolio'] ?></h5>
 									<h5>Nama Akun: <?= $data['nama_akun'] ?> | Genre: <?= $data['genre'] ?> | Platform: <?= $data['platform'] ?>
 									<p><?= $data['alasan'] ?></p>
 								</div>
