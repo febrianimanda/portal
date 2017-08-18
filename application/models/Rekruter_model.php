@@ -30,6 +30,55 @@ class Rekruter_model extends CI_Model {
 		return ($this->db->affected_rows() != 1) ? $this->db->error() : True;
 	}
 
+	public function update_average($rekruter_id, $data) {
+		$this->db->set($data);
+		$this->db->where('rekruter_id', $rekruter_id);
+		return ($this->db->affected_rows() < 1) ? $this->db->error() : True;
+	}
+
+	public function update_jumlah_ditugaskan($rekruter_id, $inc=true) {
+		$this->db->where('rekruter_id', $rekruter_id);
+		if($inc == true) {
+			$this->db->set('jumlah_ditugaskan','`jumlah`+1', FALSE);
+		} else {
+			$this->db->set('jumlah_ditugaskan','`jumlah`-1', FALSE);
+		}
+		$query = $this->db->update($this->table);
+		return ($this->db->affected_rows() != 1) ? False : True;
+	}
+
+	public function update_jumlah_menilai($rekruter_id, $inc=true) {
+		$this->db->where('rekruter_id', $rekruter_id);
+		if($inc == true) {
+			$this->db->set('jumlah_menilai','`jumlah`+1', FALSE);
+		} else {
+			$this->db->set('jumlah_menilai','`jumlah`-1', FALSE);
+		}
+		$query = $this->db->update($this->table);
+		return ($this->db->affected_rows() != 1) ? False : True;
+	}
+
+	public function get_jumlah_menilai($rekruter_id) {
+		$this->db->select('jumlah_menilai');
+		$this->db->where('rekruter_id', $rekruter_id);
+		$query = $this->db->get($this->table);
+		return $query->result_array()[0]['jumlah_menilai'];
+	}
+
+	public function get_avg($nilai, $rekruter_id) {
+		$this->db->select('avg_'.$nilai);
+		$this->db->where('rekruter_id', $rekruter_id);
+		$query = $this->db->get($this->table);
+		return $query->result_array()[0]['jumlah_menilai'];
+	}
+
+	public function get_all_avg($rekruter_id) {
+		$this->db->select(array('avg_cv', 'avg_esai', 'avg_pencapaian', 'avg_berkas', 'avg_total'));
+		$this->db->where('rekruter_id', $rekruter_id);
+		$query = $this->db->get($this->table);
+		return $query;
+	}
+
 	public function upgrade_as_koordinator($rekruter_id) {
 		$data = array(
 			'koor_id' 		=> 0,
@@ -40,9 +89,8 @@ class Rekruter_model extends CI_Model {
 		return ($this->db->affected_rows() != 1) ? $this->db->error() : True;
 	}
 
-	public $rekruter_table = 'rekruter';
-	public $rekruter_column = array('nama_rekruter', 'email', 'avg_cv', 'avg_esai', 'avg_berkas', 'avg_total', 'jumlah_menilai', 'is_koor');
-	public $rekruter_column_order = array(null, 'rekruter_id', 'nama_rekruter', 'email', 'avg_cv', 'avg_esai', 'avg_berkas', 'avg_total', 'jumlah_menilai', 'is_koor');
+	public $rekruter_column = array('rekruter_id', 'nama_rekruter', 'email', 'jumlah_ditugaskan', 'jumlah_menilai', 'avg_cv', 'avg_esai', 'avg_pencapaian', 'avg_berkas', 'avg_total', 'is_koor');
+	public $rekruter_column_order = array(null, 'rekruter_id', 'nama_rekruter', 'email', 'jumlah_ditugaskan', 'jumlah_menilai', 'avg_cv', 'avg_esai', 'avg_pencapaian', 'avg_berkas', 'avg_total', 'is_koor');
 	public $rekruter_column_search = array('email', 'nama_rekruter');
 	public $rekruter_order = array('nama_rekruter' => 'asc');
 
@@ -65,7 +113,7 @@ class Rekruter_model extends CI_Model {
 			$this->db->where(array('peserta.is_completed' => 1, 'peserta.is_deleted' => 0));
 		} else {
 			$this->db->select($this->rekruter_column);
-			$this->db->from($this->rekruter_table);
+			$this->db->from($this->table);
 			$this->db->where('is_deleted', 0);
 		}
 

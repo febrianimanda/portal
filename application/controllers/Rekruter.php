@@ -7,14 +7,25 @@ class Rekruter extends CI_Controller {
 		parent::__construct();
 	}
 
+	public function allowed() {
+		if($this->session->userdata('role') < 2) {
+			redirect(site_url('404'), 'refresh');
+		}
+		return true;
+	}
+
 	public function index() {
-		$data['title'] = "List Calon Peserta";
-		$data['content'] = $this->load->view('rekruter/dashboard', '', true);
-		$this->load->view('template/dashboard-template', $data);
+		if($this->allowed()){
+			$data['title'] = "List Calon Peserta";
+			$data['content'] = $this->load->view('rekruter/dashboard', '', true);
+			$this->load->view('template/dashboard-template', $data);
+		}
 	}
 
 	public function all() {
-		$this->load->view('rekruter/rekruter_list');
+		$data['title'] = "List Rekruter";
+		$data['content'] = $this->load->view('rekruter/rekruter-list', '', true);
+		$this->load->view('template/dashboard-template', $data);
 	}
 
 	public function peserta_list() {
@@ -73,11 +84,13 @@ class Rekruter extends CI_Controller {
 				$rekruters['rekruter_id'],
 				$rekruters['nama_rekruter'],
 				$rekruters['email'],
+				$rekruters['jumlah_ditugaskan'],
+				$rekruters['jumlah_menilai'],
 				$rekruters['avg_cv'],
 				$rekruters['avg_esai'],
+				$rekruters['avg_pencapaian'],
 				$rekruters['avg_berkas'],
 				$rekruters['avg_total'],
-				$rekruters['jumlah_menilai'],
 				$rekruters['is_koor']
 			);
 			$data[] = $row;
