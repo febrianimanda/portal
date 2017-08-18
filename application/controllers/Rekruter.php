@@ -8,13 +8,21 @@ class Rekruter extends CI_Controller {
 	}
 
 	public function index() {
-		$this->load->view('admin/dashboard');
+		$data['title'] = "List Calon Peserta";
+		$data['content'] = $this->load->view('rekruter/dashboard', '', true);
+		$this->load->view('template/dashboard-template', $data);
+	}
+
+	public function all() {
+		$this->load->view('rekruter/rekruter_list');
 	}
 
 	public function peserta_list() {
+		$table = 'peserta';
+
 		$this->load->model('rekruter_model');
 
-		$list = $this->rekruter_model->get_datatable_peserta();
+		$list = $this->rekruter_model->get_datatable($table);
 		$data = array();
 		$no = $_POST['start'];
 		foreach($list as $pesertas) {
@@ -40,8 +48,45 @@ class Rekruter extends CI_Controller {
 
 		$output = array(
 			'draw' => $_POST['draw'],
-			'recordsTotal' => $this->rekruter_model->count_all(),
-			'recordsFiltered' => $this->rekruter_model->count_filtered(),
+			'recordsTotal' => $this->rekruter_model->count_all($table),
+			'recordsFiltered' => $this->rekruter_model->count_filtered($table),
+			'data' => $data
+		);
+
+		echo json_encode($output);
+	}
+
+	public function rekruter_list() {
+		$table = 'rekruter';
+		if($this->session->userdata('email') == null || $this->session->userdata('email') == "") {
+			return null;
+		}
+		$this->load->model('rekruter_model');
+
+		$list = $this->rekruter_model->get_datatable($table);
+		$data = array();
+		$no = $_POST['start'];
+		foreach($list as $rekruters) {
+			$no++;
+			$row = array(
+				$no,
+				$rekruters['rekruter_id'],
+				$rekruters['nama_rekruter'],
+				$rekruters['email'],
+				$rekruters['avg_cv'],
+				$rekruters['avg_esai'],
+				$rekruters['avg_berkas'],
+				$rekruters['avg_total'],
+				$rekruters['jumlah_menilai'],
+				$rekruters['is_koor']
+			);
+			$data[] = $row;
+		}
+
+		$output = array(
+			'draw' => $_POST['draw'],
+			'recordsTotal' => $this->rekruter_model->count_all($table),
+			'recordsFiltered' => $this->rekruter_model->count_filtered($table),
 			'data' => $data
 		);
 

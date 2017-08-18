@@ -44,7 +44,6 @@
 	<script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript">
 		var table;
-
 		$(document).ready(function(){
 			table = $('#data-table').DataTable({
 				"processing": true,
