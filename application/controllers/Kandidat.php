@@ -642,7 +642,7 @@ class Kandidat extends CI_Controller {
 			}
 			$img = explode('.',$_FILES['profpic_path']['name']);
 			$extension_img = end($img);
-			$profpic_filename = $username.'.'.strtolower($extension_img);
+			$profpic_filename = trim($username).'.'.strtolower($extension_img);
 			// Upload image
 			$this->do_upload_profpic('profpic_path', $profpic_filename);
 			$_POST['profpic_path'] = $profpic_filename;
@@ -1011,7 +1011,7 @@ class Kandidat extends CI_Controller {
 	public function do_upload_document($userfile, $filename){
 		$config['upload_path'] 		= "documents_upload";
 		$config['allowed_types']	= "pdf";
-		$config2['max_size']			= '2048';
+		$config['max_size']				= '0';
 		$config['file_name']			= $filename;
 		$config['overwrite']			= TRUE;
 
