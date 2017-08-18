@@ -146,14 +146,14 @@ class Auth extends CI_Controller {
 		// data for peserta table
 		$data_peserta = array(
 			'fullname'	=> $_POST['fullname'],
-			'username' 	=> $_POST['username'],
+			'username' 	=> trim($_POST['username']),
 			'email' 		=> $_POST['email'],
 			'info_fim' 	=> $data_info
 		);
 
 		unset($_POST['passconf'], $_POST['info_fim'], $_POST['fullname']);
 
-		$_POST['hash'] = MD5($_POST['username'].rand(0,10000));
+		$_POST['hash'] = MD5(trim($_POST['username']).rand(0,10000));
 
 		$result1 = $this->auth_model->insert_registration($this->input->post());
 
