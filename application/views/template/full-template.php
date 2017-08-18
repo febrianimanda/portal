@@ -1,10 +1,3 @@
-<?php
-	// if (!$sock = @fsockopen('www.portal.forumindonesiamuda.org', 80, $num, $error, 5)){
-	// 	echo "<script>alert('Offline')</script>";
-	// } else {
-	// 	echo "<script>alert('Online')</script>";
-	// }
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -84,6 +77,9 @@
 	<div class="fluid-container">
 		<?php echo $content; ?>
 	</div>
+	<footer>
+		<p class="text-center">Server Supported By <a target="blank" href="https://idcloudhost.com">IDCloudHost</a></p>
+	</footer>
 	<!-- Bootstrap Latest Compiled and Minified JS -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<!-- Dynamic JS load from external -->

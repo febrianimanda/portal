@@ -120,6 +120,9 @@
 		</div>
 		<?php echo $content; ?>
 	</div>
+	<footer>
+		<p class="text-center">Server Supported By <a target="blank" href="https://idcloudhost.com">IDCloudHost</a></p>
+	</footer>
 	<script src="<?= js_url('script') ?>"></script>
 	<!-- Dynamic JS load from external -->
 	<?php if(isset($footer_js_url)): ?>
