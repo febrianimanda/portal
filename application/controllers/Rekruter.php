@@ -102,6 +102,150 @@ class Rekruter extends CI_Controller {
 		}
 	}
 
+	public function nilai($username) {
+		if($this->allowed()) {
+			// Load Model
+			$this->load->model('peserta_model');
+			$this->load->model('pencapaian_model');
+			$this->load->model('project_model');
+			$this->load->model('essay_model');
+			$this->load->model('perekomendasi_model');
+			$this->load->model('auth_model');
+			$this->load->model('jalur_model');
+
+			// setup page variable, result array is faster than else
+			$data_page['dasar'] = $this->peserta_model->read_peserta_by_username($username)->result_array();
+			$idpeserta = $data_page['dasar'][0]['peserta_id'];
+			$data_page['pencapaian'] = $this->pencapaian_model->read_all_pencapaian($idpeserta)->result_array();
+			$data_page['project'] = $this->project_model->read_project($idpeserta)->result_array();
+			$data_page['essay'] = $this->essay_model->read_essay($idpeserta)->result_array();
+			$data_page['rekomendasi'] = $this->perekomendasi_model->read_perekomendasi($idpeserta)->result_array();
+			$data_page['capes_username'] = $username;
+
+			$jalur = $this->auth_model->get_jalur($username);
+
+			$data_page['jalur'] = $jalur;
+
+			if($jalur == 'nextgen' or $jalur == 'local') {
+				$data_page['section']['project'] = true;
+			} else {
+				$data_page['section']['project'] = false;
+			}
+
+			if($jalur == 'nextgen') {
+				$data_page['theme'] = 'Bagaimana keberadaan Anda di FIM bisa menambah nilai manfaat untuk FIM?';
+			} else if($jalur == 'campus') {
+				$data_page['theme'] = 'Rencana strategis Anda di kampus dan bagaimana FIM dapat membantu mewujudkannya?';
+			} else if($jalur == 'servant') {
+				$data_page['theme'] = 'Bagaimana FIM bisa membantu Anda untuk meningkatkan kualitas diri Anda secara personal sehingga mampu memberikan keuntungan untuk masyarakat?';
+		  } else if($jalur == 'expert') {
+		  	$data_page['theme'] = 'Tulisan Jurnal (boleh link)';
+		  } else {
+		  	$data_page['theme'] = '-';
+		  }
+
+			if($jalur == 'nextgen' or $jalur == 'campus' or $jalur == 'expert' or $jalur == 'servant') {
+				$data_page['section']['essay'] = true;
+			} else {
+				$data_page['section']['essay'] = false;
+			}
+
+			$fb = $data_page['dasar'][0]['fb'];
+			$tw = '';
+			$ig = $data_page['dasar'][0]['instagram'];
+			$blog = $data_page['dasar'][0]['blog'];
+			$youtube = $data_page['dasar'][0]['video_profile'];
+			
+			$fb = ($fb == '') ? '' : '<a href="'.$fb.'" target="blank"><i class="fa fa-facebook-square" alt="facebook" aria-hidden="true"></i></a>';
+			$youtube = ($youtube == '') ? '' : '<a href="'.$youtube.'" target="blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>';
+
+			if($data_page['dasar'][0]['twitter'] != ''){
+			    $tw = $data_page['dasar'][0]['twitter'];
+			    if(!strpos($tw,'twitter.com/')){
+			        $tw = "https://twitter.com/".$tw;
+			    }
+			    $tw = '<a href="'.$tw.'" target="blank"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>';
+			} else {
+			    $tw = '';
+			}
+			
+			if($data_page['dasar'][0]['instagram'] != ''){
+			    $ig = $data_page['dasar'][0]['instagram'];
+			    if(!strpos($ig,'instagram.com/')){
+			        $ig = "https://instagram.com/".$ig;
+			    }
+			    $ig = '<a href="'.$ig.'" target="blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>';
+			} else {
+			    $ig = '';
+			}
+
+			if($data_page['dasar'][0]['blog'] != ''){
+			    $blog = $data_page['dasar'][0]['blog'];
+			    if(!strpos($blog,'http://') || !strpos($blog,'https://')){
+			        $blog = "http://".$blog;
+			    }
+			    $blog = '<a href="'.$blog.'" target="blank"><i class="fa fa-share-alt-square" alt="blog" aria-hidden="true"></i></a>';
+			} else {
+			    $blog = '';
+			}
+
+			//setup template page variable
+			$data['socmed'] = array(
+				'fb' 		=> $fb,
+				'twitter'	=> $tw,
+				'ig'		=> $ig,
+				'blog'		=> $blog,
+				'video'		=> $youtube,
+			);
+
+			$profpic = $data_page['dasar'][0]['profpic_path'];
+			$data['header_info'] = array(
+				'name' 			=> $data_page['dasar'][0]['fullname'],
+				'kota'			=> $data_page['dasar'][0]['kota'],
+				'provinsi'	=> $data_page['dasar'][0]['provinsi'],
+				'profpic'		=> ($profpic != '') ? $profpic : 'ava-'.$data_page['dasar'][0]['gender'].'.png',
+				'jalur'		=> $this->jalur_model->read_jalur($jalur)
+			);
+
+			$data['title'] = 'Form Penilaian Capes';
+			$data['content'] = $this->load->view('kandidat/profil-nilai', $data_page, true);
+			$this->load->view('template/profil-full', $data);
+		}
+	}
+
+	public function do_nilai($username) {
+		if($this->allowed()) {
+			$this->load->model('penilaian_model');
+			$this->load->model('rekruter_model');
+			$this->load->model('peserta_model');
+
+			$peserta_id = $this->peserta_model->get_id('username', $username);
+			$rekruter_id = $this->rekruter_model->get_id($this->session->userdata('email'));
+
+			$updated = $this->penilaian_model->udpate_nilai($peserta_id, $rekruter_id, $this->input->post());
+
+			if($updated) {
+				// inc jumlah menilai
+				$avg = $this->rekruter_model->get_all_avg($rekruter_id);
+				$jumlah_menilai = $this->rekruter_model->get_jumlah_menilai($rekruter_id);
+				$avg['avg_cv'] = (float($avg['avg_cv']) * float($jumlah_menilai)) + float($_POST['avg_cv']);
+				$avg['avg_esai'] = (float($avg['avg_esai']) * float($jumlah_menilai)) + float($_POST['avg_esai']);
+				$avg['avg_pencapaian'] = (float($avg['avg_pencapaian']) * float($jumlah_menilai)) + float($_POST['avg_pencapaian']);
+				$avg['avg_kelengkapan'] = (float($avg['avg_kelengkapan']) * float($jumlah_menilai)) + float($_POST['avg_kelengkapan']);
+
+				$new_avg['avg_cv'] = $avg['avg_cv'] / (float($jumlah_menilai) + 1);
+				$new_avg['avg_esai'] = $avg['avg_esai'] / (float($jumlah_menilai) + 1);
+				$new_avg['avg_pencapaian'] = $avg['avg_pencapaian'] / (float($jumlah_menilai) + 1);
+				$new_avg['avg_kelengkapan'] = $avg['avg_kelengkapan'] / (float($jumlah_menilai) + 1);
+
+				$this->rekruter_model->update_avg($rekruter_id, $new_avg);
+				$this->rekruter_model->update_jumlah_menilai($rekruter_id);
+
+			}
+			redirect('rekruter/nilai/'.$username, 'refresh');
+		}
+	}
+
 	public function peserta_list() {
 		$table = 'peserta';
 
@@ -124,9 +268,11 @@ class Rekruter extends CI_Controller {
 				$pesertas['file_rekomendasi_path'],
 				$pesertas['nilai_cv'],
 				$pesertas['nilai_esai'],
-				$pesertas['nilai_project'],
+				$pesertas['nilai_pencapaian'],
 				$pesertas['nilai_kelengkapan'],
-				$pesertas['nilai_total']
+				$pesertas['nilai_total'],
+				$pesertas['nama_rekruter'],
+				$pesertas['username']
 			);
 			$data[] = $row;
 		}

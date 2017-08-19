@@ -335,7 +335,7 @@ class Auth extends CI_Controller {
 				redirect('/rekruter');
 			} else if ($session_data['role'] == 3) {
 				#redirect admin
-				redirect('/dashboard');
+				redirect('/admin');
 			} else {
 				#something is wrong in here
 				redirect('/auth');
