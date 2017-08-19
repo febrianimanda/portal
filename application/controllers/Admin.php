@@ -8,7 +8,11 @@ class Admin extends CI_Controller {
 	}
 
 	public function index() {
-		$this->load->view('admin/index');
+		if($this->allowed()){
+			$data['title'] = "List User";
+			$data['content'] = $this->load->view('admin/dashboard', '', true);
+			$this->load->view('template/dashboard-template', $data);
+		}
 	}
 
 	public function list($page = 'users') {
@@ -17,74 +21,46 @@ class Admin extends CI_Controller {
 		}
 	}
 
-	public function form($page = 'user') {
-		if($page == 'user') {
-			$this->load->view('admin/form-'.$page);
+	public function form($page = 'rekruter') {
+		if($page == 'rekruter') {
+			$this->load->view($page.'/form');
 		}
 	}
 
-	public function do_insert_rekruter() {
-		$this->load->library('form_validation');
-
-		$this->load->model('rekruter_model');
-		$this->load->model('auth_model');
-
-		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[user.email]', array(
-				'valid_email'		=> 'Email yang anda masukkan tidak valid.',
-				'is_unique'			=> 'Email sudah pernah mendaftar.',
-			)
-		);
-		$this->form_validation->set_rules('password', 'Password', 'required');
-		$this->form_validation->set_rules('passconf', 'Password Confirmation', 'required|matches[password]', array('matches' => 'Password dan Konfirmasi Password yang anda masukkan tidak sama'));
-
-		if( $this->form_validation->run() == false) {
-			# back to login
-			$this->session->set_flashdata('status', 'danger');
-			$this->session->set_flashdata('message', validation_errors());
-			redirect(site_url('admin/form/user'), 'refresh');
+	public function allowed() {
+		if($this->session->userdata('role') != 3) {
+			redirect(site_url('404'), 'refresh');
 		}
-
-		// encrypt password
-		$unencrypt_pass = $this->input->post('password');
-		$_POST['password'] = MD5($this->input->post('password'));
-		
-		$data_rekruter = array(
-			'email' => $_POST['email'],
-			'nama'	=> $_POST['nama'],
-			'is_koor' => ($_POST['role'] == 1) ? 1 : 0
-		);
-
-		unset($_POST['passconf'], $_POST['nama']);
-
-		$result_user = $this->auth_model->insert_registration($this->input->post());
-		if($result_user) {
-			$result_rekruter = $this->rekruter_model->insert_rekruter($data_rekruter);
-			if($result_rekruter) {
-				$this->session->set_flashdata('status', 'success');
-				$this->session->set_flashdata('message', 'Penambahan user berhasil dilakukan');
-				redirect(site_url('admin/list/users'), 'refresh');
-			}
-		}
-		$this->auth_model->delete_user($this->input->post('email'));
-		$this->session->set_flashdata('status', 'danger');
-		$this->session->set_flashdata('message', 'Terjadi kesalahan ketika menyimpan data');
-		redirect(site_url('admin/form/user'), 'refresh');
+		return true;
 	}
 
-	public function do_update_rekruter() {
-		$this->load->model('rekruter_model');
+	public function user_list() {
+		$this->load->model('admin_model');
 
-		$result = $this->auth_model->update_rekruter($this->input->post());
-		if($result) {
-			$this->session->set_flashdata('status', 'success');
-			$this->session->set_flashdata('message', 'Perubahan user berhasil dilakukan');
-			redirect(site_url('admin/list/users'), 'refresh');
-		} else {
-			$this->session->set_flashdata('status', 'danger');
-			$this->session->set_flashdata('message', 'Terjadi kesalahan ketika menyimpan data');
-			redirect(site_url('admin/form/user'), 'refresh');
+		$list = $this->admin_model->get_datatable();
+		$data = array();
+		$no = $_POST['start'];
+		foreach($list as $user) {
+			$no++;
+			$row = array(
+				$no,
+				$user['email'],
+				$user['username'],
+				$user['role'],
+				$user['date_updated'],
+				$user['user_id']
+			);
+			$data[] = $row;
 		}
 
+		$output = array(
+			'draw' => $_POST['draw'],
+			'recordsTotal' => $this->admin_model->count_all(),
+			'recordsFiltered' => $this->admin_model->count_filtered(),
+			'data' => $data
+		);
+
+		echo json_encode($output);
 	}
 }
 ?>

@@ -330,7 +330,10 @@ class Auth extends CI_Controller {
 				} else {
 					redirect(site_url('kandidat/pengaturan/dasar'));
 				}
-			} else if ($session_data['role'] >= 1 && $session_data['role'] <= 3) {
+			} else if ($session_data['role'] == 1 || $session_data['role'] == 2) {
+				#redirect admin
+				redirect('/rekruter');
+			} else if ($session_data['role'] == 3) {
 				#redirect admin
 				redirect('/dashboard');
 			} else {

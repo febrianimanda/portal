@@ -129,12 +129,25 @@
           <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
               <ul class="nav" id="side-menu">
-                <li>
-                  <a href="<?= site_url('rekruter') ?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                </li>
-                <li>
-                  <a href="<?= site_url('rekruter/all') ?>"><i class="fa fa-users fa-fw"></i> Rekruter</a>
-                </li>
+              	<?php $role = $this->session->userdata('role') ?>
+              	<?php if($role == 3): ?>
+              		<li>
+	                  <a href="<?= site_url('admin') ?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+	                </li>
+	                <li>
+	                  <a href="<?= site_url('rekruter') ?>"><i class="fa fa-users fa-fw"></i> Capes</a>
+	                </li>
+                <?php endif; ?>
+              	<?php if($role == 1 || $role == 2): ?>
+	                <li>
+	                  <a href="<?= site_url('rekruter') ?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+	                </li>
+                <?php endif; ?>
+                <?php if($role == 2 || $role == 3): ?>
+	                <li>
+	                  <a href="<?= site_url('rekruter/all') ?>"><i class="fa fa-users fa-fw"></i> Rekruter</a>
+	                </li>
+              	<?php endif; ?>
                 <li>
                   <a href=""><i class="fa fa-file-text-o fa-fw"></i> Penilaian</a>
                 </li>
