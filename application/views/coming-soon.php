@@ -13,7 +13,8 @@
 		<div class="row">
 			<div class="col-md-6 leftside maxheight">
 				<div class="leftcontent">
-					<h2>Stay tuned <br> We're launching soon.</h2>
+					<h2>Maaf Kami sudah Tutup :(</h2>
+					<h4>Terimakasih atas antusiasnya. Tunggu kabar kami selanjutnya ya.</h4>
 					<h1 style="color: #ff0000;">Forum Indonesia Muda 19</h1>
 					<h4>Keep in touch with us on&nbsp;
 						<a href="https://facebook.com/ForumIndonesiaMuda/"><i class="fa fa-facebook-square" alt="facebook" aria-hidden="true"></i></a>&nbsp;&nbsp;<a href="https://twitter.com/fimnews"><i class="fa fa-twitter-square" aria-hidden="true"></i></a>&nbsp;&nbsp;<a href="https://instagram.com/fimnews"><i class="fa fa-instagram" aria-hidden="true"></i></a>

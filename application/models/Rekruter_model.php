@@ -114,7 +114,7 @@ class Rekruter_model extends CI_Model {
 	public $peserta_column_search = array('jalur', 'fullname', 'institusi');
 	public $peserta_order = array('fullname' => 'asc');
 
-	public function get_datatable_query($table='rekruter', $condition = '') {
+	public function get_datatable_query($table='rekruter') {
 		if($table == 'peserta') {
 			$this->db->select($this->peserta_column);
 			$this->db->from($this->peserta_table);
@@ -161,13 +161,38 @@ class Rekruter_model extends CI_Model {
 		}
 	}
 
-	public function get_datatable($table = 'rekruter', $condition = '') {
-		$this->get_datatable_query($table, $condition);
+	public function get_datatable($table = 'rekruter') {
+		$this->get_datatable_query($table);
 		if($_POST['length'] != -1) {
 			$this->db->limit($_POST['length'], $_POST['start']);
 			$query = $this->db->get();
 			return $query->result_array();
 		}
+	}
+
+	public function get_datatable_for_rekruter($rekruter_id) {
+		$this->get_datatable_query('peserta');
+		if($_POST['length'] != -1) {
+			$this->db->where('rekruter.rekruter_id', $rekruter_id);
+			$this->db->limit($_POST['length'], $_POST['start']);
+			$query = $this->db->get();
+			return $query->result_array();
+		}
+	}
+
+	public function count_filtered_for_rekruter($rekruter_id) {
+		$this->get_datatable_query('rekruter');
+		if($_POST['length'] != -1) {
+			$this->db->where('rekruter.rekruter_id', $rekruter_id);
+			$this->db->limit($_POST['length'], $_POST['start']);
+			$query = $this->db->get();
+			return $query->result_array();
+		}
+	}
+
+	public function count_all_for_rekruter($rekruter_id) {
+		$this->db->from('rekruter');
+		return $this->db->count_all_results();
 	}
 
 	public function count_filtered($table = 'rekruter') {
@@ -181,6 +206,8 @@ class Rekruter_model extends CI_Model {
 			$this->db->from('peserta');
 			$this->db->join('penilaian', 'peserta.peserta_id = penilaian.peserta_id', 'inner');
 			$this->db->join('perekomendasi', 'peserta.peserta_id = perekomendasi.peserta_id', 'inner');
+			$this->db->join('rekruter', 'penilaian.rekruter_id = rekruter.rekruter_id', 'left');
+			$this->db->where(array('peserta.is_completed' => 1, 'peserta.is_deleted' => 0));
 			return $this->db->count_all_results();
 		} else {
 			$this->db->from('rekruter');

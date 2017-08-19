@@ -264,10 +264,13 @@ class Rekruter extends CI_Controller {
 
 	public function peserta_list() {
 		$table = 'peserta';
-
 		$this->load->model('rekruter_model');
-
-		$list = $this->rekruter_model->get_datatable($table);
+		if($this->input->post('email') != null){
+			$rekruter_id = $this->rekruter_model->get_id($this->input->post('email'));
+			$list = $this->rekruter_model->get_datatable_for_rekruter($rekruter_id);
+		} else {
+			$list = $this->rekruter_model->get_datatable($table);
+		}
 		$data = array();
 		$no = $_POST['start'];
 		foreach($list as $pesertas) {
