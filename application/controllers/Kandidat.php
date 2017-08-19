@@ -642,7 +642,11 @@ class Kandidat extends CI_Controller {
 			}
 			$img = explode('.',$_FILES['profpic_path']['name']);
 			$extension_img = end($img);
-			$profpic_filename = trim($username).'.'.strtolower($extension_img);
+			if(strpos($username, ".")) {
+				$profpic_filename = str_replace(".", "_", $username).'.'.strtolower($extension_img);
+			} else {
+				$profpic_filename = trim($username).'.'.strtolower($extension_img);
+			}
 			// Upload image
 			$this->do_upload_profpic('profpic_path', $profpic_filename);
 			$_POST['profpic_path'] = $profpic_filename;
@@ -669,16 +673,14 @@ class Kandidat extends CI_Controller {
 
 		// check if change username
 		$is_change_username = false;
-		if($username != $_POST['username']) {
-			$_POST['username'] = trim($_POST['username']);
-			$this->form_validation->set_rules('username', 'Username', 'required|is_unique[user.username]|regex_match[/^[a-z0-9]+$/]', array( 'is_unique'	=> 'Username sudah  digunakan.', 'regex_match' => 'Username tidak boleh terdapat spasi didalamnya')
-			);
-			if( $this->form_validation->run() == false) {
-				# back to login
+		if($username != trim($_POST['username'])) {
+			$arr_username = explode(" ", $_POST['username']);
+			if(sizeof($arr_username) > 1){
 				$this->session->set_flashdata('status', 'danger');
-				$this->session->set_flashdata('message', validation_errors());
+				$this->session->set_flashdata('message', "Username tidak boleh ada spasi didalamnya");
 				redirect(site_url('kandidat/pengaturan/dasar'), 'refresh');
 			}
+			$_POST['username'] = trim($_POST['username']);
 			$is_change_username = true;
 		}
 
