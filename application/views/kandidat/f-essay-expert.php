@@ -80,7 +80,7 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<label>Sertakan portofolio tulisan/artikel/jurnal yang telah Anda buat. Silahkan untuk menyalin tulisan Anda atau tuliskan link nya di bawah ini.<span class="text-danger">*</span></label>
-									<textarea <?= ($completed) ? 'disabled' : '' ?> name="konten" rows="5" class="form-control" placeholder="Tulis essay anda disini"><?= $data['konten'] ?></textarea>
+									<textarea required <?= ($completed) ? 'disabled' : '' ?> name="konten" rows="5" class="form-control" placeholder="Tulis essay anda disini"><?= $data['konten'] ?></textarea>
 								</div>
 							</div>
 							<?php if(!$completed): ?>

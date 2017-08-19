@@ -57,18 +57,24 @@
 			<div class="collapse navbar-collapse" id="kandidat-menu">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="<?= site_url('welcome/home')?>">Home</a></li>
-					<?php if($this->session->userdata('logged_in')): ?> 
-						<li><a href="<?= site_url('kandidat/profil/'.$this->session->userdata('username')) ?>">Profilku</a></li>
+					<?php if($this->session->userdata('role') < 1): ?>
+						<?php if($this->session->userdata('logged_in')): ?> 
+							<li><a href="<?= site_url('kandidat/profil/'.$this->session->userdata('username')) ?>">Profilku</a></li>
+						<?php endif; ?>
+						<?php if($this->session->userdata('logged_in')): ?> 
+							<li><a href="<?= site_url('kandidat/pengaturan')?>">Pendaftaran</a></li>
+						<?php endif; ?>
+						<!-- <li><a href="#">List Kandidat</a></li> -->
+						<!-- <li><a href="#">Pengumuman</a></li> -->
+					<?php elseif($this->session->userdata('role') < 3): ?>
+						<li><a href="<?= site_url('rekruter') ?>">Dashboard</a></li>
+					<?php elseif($this->session->userdata('role') == 3): ?>
+						<li><a href="<?= site_url('admin') ?>">Dashboard</a></li>
 					<?php endif; ?>
-					<?php if($this->session->userdata('logged_in')): ?> 
-						<li><a href="<?= site_url('kandidat/pengaturan')?>">Pendaftaran</a></li>
-					<?php endif; ?>
-					<!-- <li><a href="#">List Kandidat</a></li> -->
-					<!-- <li><a href="#">Pengumuman</a></li> -->
 					<?php if($this->session->userdata('logged_in')): ?> 
 						<li><a href="<?= site_url('auth/logout') ?>">Logout</a></li>
 					<?php else : ?>
-						<li><a href="<?= site_url('auth/logout') ?>">Sign In</a></li>
+						<li><a href="<?= site_url('auth') ?>">Sign In</a></li>
 					<?php endif; ?>
 				</ul>
 			</div>

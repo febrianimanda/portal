@@ -8,7 +8,7 @@ class Rekruter extends CI_Controller {
 	}
 
 	public function allowed() {
-		if($this->session->userdata('role') < 2) {
+		if($this->session->userdata('role') < 1) {
 			redirect(site_url('404'), 'refresh');
 		}
 		return true;
@@ -16,8 +16,10 @@ class Rekruter extends CI_Controller {
 
 	public function index() {
 		if($this->allowed()){
+			$this->load->model('rekruter_model');
+			$data_page['rekruters'] = $this->rekruter_model->read_all_basic_rekruter()->result_array();
 			$data['title'] = "List Calon Peserta";
-			$data['content'] = $this->load->view('rekruter/dashboard', '', true);
+			$data['content'] = $this->load->view('rekruter/dashboard', $data_page, true);
 			$this->load->view('template/dashboard-template', $data);
 		}
 	}
@@ -244,6 +246,20 @@ class Rekruter extends CI_Controller {
 			}
 			redirect('rekruter/nilai/'.$username, 'refresh');
 		}
+	}
+
+	public function do_assign() {
+		$this->load->model('penilaian_model');
+		$this->load->model('rekruter_model');
+
+		$rekruter_id = $this->rekruter_model->get_id($this->input->post('rekruter'));
+		$capes = $this->input->post('capes');
+
+		foreach ($capes as $user) {
+			$this->penilaian_model->create_penugasan($rekruter_id, $user);
+		}
+
+		echo json_encode([true]);
 	}
 
 	public function peserta_list() {

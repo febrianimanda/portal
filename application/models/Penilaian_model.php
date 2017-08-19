@@ -19,6 +19,22 @@ class Penilaian_model extends CI_Model {
 		$this->db->insert($this->table, $data);
 		return ($this->db->affected_rows() != 1) ? $this->db->error() : True;
 	}
+
+	public function ubah_penugasan($peserta_id, $rekruter_id, $new_rekruter_id) {
+		$this->db->where('peserta_id', $peserta_id);
+		$this->db->where('rekruter_id', $rekruter_id);
+		$this->db->set(array('rekruter_id' => $new_rekruter_id));
+		$this->db->update($this->table);
+		return ($this->db->affected_rows() != 1) ? $this->db->error() : True;
+	}
+
+	public function update_nilai($peserta_id, $rekruter_id, $data) {
+		$this->db->where('peserta_id', $peserta_id);
+		$this->db->where('rekruter_id', $rekruter_id);
+		$this->db->set($data);
+		$this->db->update($this->table);
+		return ($this->db->affected_rows() != 1) ? $this->db->error() : True;
+	}
 }
 
 ?>

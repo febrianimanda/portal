@@ -5,15 +5,27 @@ class Rekruter_model extends CI_Model {
 	
 	public $table = 'rekruter';
 
+	public function get_id($email) {
+		$this->db->select('rekruter_id');
+		$this->db->where('email', $email);
+		$query = $this->db->get($this->table);
+		return $query->result_array()[0]['rekruter_id'];
+	}
+
+	public function read_all_basic_rekruter() {
+		$this->db->select('rekruter_id, nama_rekruter, email, is_koor');
+		$this->db->where('is_deleted',0);
+		$query = $this->db->get($this->table);
+		return $query;
+	}
+
 	public function read_all_rekruter() {
-		$this->db->select('rekruter_id, email, domisili, koor_id');
 		$this->db->where('is_deleted',0);
 		$query = $this->db->get($this->table);
 		return $query;
 	}
 
 	public function read_rekruter($id) {
-		$this->db->select('rekruter_id, email, domisili, koor_id');
 		$this->db->where('rekruter_id', $id);
 		$query = $this->db->get($this->table, 1);
 		return $query;
@@ -76,7 +88,7 @@ class Rekruter_model extends CI_Model {
 		$this->db->select(array('avg_cv', 'avg_esai', 'avg_pencapaian', 'avg_berkas', 'avg_total'));
 		$this->db->where('rekruter_id', $rekruter_id);
 		$query = $this->db->get($this->table);
-		return $query;
+		return $query->result_array()[0];
 	}
 
 	public function upgrade_as_koordinator($rekruter_id) {
@@ -95,14 +107,14 @@ class Rekruter_model extends CI_Model {
 	public $rekruter_order = array('nama_rekruter' => 'asc');
 
 	public $peserta_table = 'peserta';
-	public $peserta_column = array('peserta.peserta_id as peserta_id', 'peserta.profpic_path as profpic_path', 'user.jalur as jalur', 'peserta.fullname as fullname', 'peserta.institusi as institusi', 'peserta.biodata_singkat as biodata_singkat', 'peserta.video_profile as video_profile', 'perekomendasi.file_rekomendasi_path as file_rekomendasi_path', 'penilaian.nilai_cv as nilai_cv', 'penilaian.nilai_esai as nilai_esai', 'penilaian.nilai_project as nilai_project', 'penilaian.nilai_kelengkapan as nilai_kelengkapan', 'penilaian.nilai_total as nilai_total', 'rekruter.nama_rekruter');
+	public $peserta_column = array('peserta.peserta_id as peserta_id', 'peserta.profpic_path as profpic_path', 'user.jalur as jalur', 'peserta.fullname as fullname', 'peserta.institusi as institusi', 'peserta.biodata_singkat as biodata_singkat', 'peserta.video_profile as video_profile', 'perekomendasi.file_rekomendasi_path as file_rekomendasi_path', 'penilaian.nilai_cv as nilai_cv', 'penilaian.nilai_esai as nilai_esai', 'penilaian.nilai_pencapaian as nilai_pencapaian', 'penilaian.nilai_kelengkapan as nilai_kelengkapan', 'penilaian.nilai_total as nilai_total', 'rekruter.nama_rekruter', 'peserta.username');
 
-	public $peserta_column_order = array(null, 'peserta_id', 'profpic_path', 'jalur', 'fullname', 'institusi', 'biodata_singkat', 'video_profile', ' file_rekomendasi_path', 'nilai_cv', 'nilai_esai', 'nilai_project', 'nilai_kelengkapan', 'nilai_total', 'nama_rekruter');
+	public $peserta_column_order = array(null, 'peserta_id', 'profpic_path', 'jalur', 'fullname', 'institusi', 'biodata_singkat', 'video_profile', ' file_rekomendasi_path', 'nilai_cv', 'nilai_esai', 'nilai_pencapaian', 'nilai_kelengkapan', 'nilai_total', 'nama_rekruter', 'username');
 
 	public $peserta_column_search = array('jalur', 'fullname', 'institusi');
 	public $peserta_order = array('fullname' => 'asc');
 
-	public function get_datatable_query($table='rekruter') {
+	public function get_datatable_query($table='rekruter', $condition = '') {
 		if($table == 'peserta') {
 			$this->db->select($this->peserta_column);
 			$this->db->from($this->peserta_table);
@@ -149,8 +161,8 @@ class Rekruter_model extends CI_Model {
 		}
 	}
 
-	public function get_datatable($table = 'rekruter') {
-		$this->get_datatable_query($table);
+	public function get_datatable($table = 'rekruter', $condition = '') {
+		$this->get_datatable_query($table, $condition);
 		if($_POST['length'] != -1) {
 			$this->db->limit($_POST['length'], $_POST['start']);
 			$query = $this->db->get();
