@@ -114,6 +114,7 @@ class Rekruter extends CI_Controller {
 			$this->load->model('perekomendasi_model');
 			$this->load->model('auth_model');
 			$this->load->model('jalur_model');
+			$this->load->model('penilaian_model');
 
 			// setup page variable, result array is faster than else
 			$data_page['dasar'] = $this->peserta_model->read_peserta_by_username($username)->result_array();
@@ -209,6 +210,9 @@ class Rekruter extends CI_Controller {
 				'jalur'		=> $this->jalur_model->read_jalur($jalur)
 			);
 
+			// get nilai
+			$data_page['nilai'] = $this->penilaian_model->get_all_nilai($idpeserta);
+
 			$data['title'] = 'Form Penilaian Capes';
 			$data['content'] = $this->load->view('kandidat/profil-nilai', $data_page, true);
 			$this->load->view('template/profil-full', $data);
@@ -224,14 +228,16 @@ class Rekruter extends CI_Controller {
 			$peserta_id = $this->peserta_model->get_id('username', $username);
 			$rekruter_id = $this->rekruter_model->get_id($this->session->userdata('email'));
 
-			$_POST['update_by'] = $rekruter_id;
+			$_POST['updated_by'] = $rekruter_id;
+			$_POST['nilai_total'] = (floatval($_POST['nilai_cv']) + floatval($_POST['nilai_esai']) + floatval($_POST['nilai_pencapaian']) + floatval($_POST['nilai_kelengkapan'])) / 4;
+
+			$is_new_updated = $this->penilaian_model->is_new_updated($rekruter_id);
+			$new_update = ($is_new_updated == 0) ? true : false;
 
 			$updated = $this->penilaian_model->update_nilai($peserta_id, $rekruter_id, $this->input->post());
 
-			if($updated) {
+			if($updated && $new_update) {
 				// inc jumlah menilai
-				$avg = $this->rekruter_model->get_all_avg($rekruter_id);
-				$jumlah_menilai = $this->rekruter_model->get_jumlah_menilai($rekruter_id);
 				$this->rekruter_model->update_jumlah_menilai($rekruter_id);
 			}
 			redirect(site_url('rekruter/nilai/'.$username), 'refresh');

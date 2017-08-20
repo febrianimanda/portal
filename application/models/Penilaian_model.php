@@ -47,6 +47,20 @@ class Penilaian_model extends CI_Model {
 		$this->db->update($this->table);
 		return ($this->db->affected_rows() != 1) ? $this->db->error() : True;
 	}
+
+	public function get_all_nilai($peserta_id) {
+		$this->db->select('nilai_cv, nilai_esai, nilai_pencapaian, nilai_kelengkapan, ket_potensi, ket_khusus, ket_rekomendasi');
+		$this->db->where('peserta_id', $peserta_id);
+		$query = $this->db->get($this->table);
+		return $query->result_array()[0];
+	}
+
+	public function is_new_updated($peserta_id) {
+		$this->db->select('updated_by');
+		$this->db->where('peserta_id', $peserta_id);
+		$query = $this->db->get($this->table);
+		return $query->result_array()[0]['updated_by'];
+	}
 }
 
 ?>

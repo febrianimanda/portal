@@ -50,34 +50,34 @@
 						<h3>Nilai</h3><hr>
 						<div class="col-md-12 form-group">
 							<label>CV</label>
-							<input type="number" name="nilai_cv" class="form-control" placeholder="0 - 100">	
+							<input type="number" name="nilai_cv" class="form-control" placeholder="0 - 100" min="1" max="100" value="<?= $nilai['nilai_cv'] ?>" required>
 						</div>
 						<div class="col-md-12 form-group">
 							<label>Esai</label>
-							<input type="number" name="nilai_esai" class="form-control" placeholder="0 - 100">
+							<input type="number" name="nilai_esai" class="form-control" placeholder="0 - 100" min="1" max="100" value="<?= $nilai['nilai_esai'] ?>" required>
 						</div>
 						<div class="col-md-12 form-group">
 							<label>Pencapaian</label>
-							<input type="number" name="nilai_pencapaian" class="form-control" placeholder="0 - 100">
+							<input type="number" name="nilai_pencapaian" class="form-control" placeholder="0 - 100" min="1" max="100" value="<?= $nilai['nilai_pencapaian'] ?>" required>
 						</div>
 						<div class="col-md-12 form-group">
 							<label>Kelengkapan Berkas</label>
-							<input type="number" name="nilai_kelengkapan" class="form-control" placeholder="0 - 100">
+							<input type="number" name="nilai_kelengkapan" class="form-control" placeholder="0 - 100" min="1" max="100" value="<?= $nilai['nilai_kelengkapan'] ?>" required>
 						</div>
 						<div class="col-md-12 form-group">
 							<label>Potensi Capes</label>
-							<textarea name="ket_potensi" rows="3" class="form-control" placeholder="Bagaimana potensi capes untuk FIM"></textarea>
+							<textarea name="ket_potensi" rows="3" class="form-control" placeholder="Bagaimana potensi capes untuk FIM" required><?= $nilai['ket_potensi'] ?></textarea>
 						</div>
 						<div class="col-md-12 form-group">
 							<label>Catatan Khusus</label>
-							<textarea type="text" name="ket_khusus" rows="3" class="form-control" placeholder="Catatan Khusus Mengenai Capes"></textarea>
+							<textarea type="text" name="ket_khusus" rows="3" class="form-control" placeholder="Catatan Khusus Mengenai Capes" required><?= $nilai['ket_khusus'] ?></textarea>
 						</div>
 						<div class="col-md-12 form-group">
 							<label>Direkomendasikan atau Tidak</label>
-							<textarea type="text" name="ket_rekomendasi" rows="4" class="form-control" placeholder="Rekomendasi untuk tahap selanjutnya"></textarea>
+							<textarea type="text" name="ket_rekomendasi" rows="4" class="form-control" placeholder="Rekomendasi untuk tahap selanjutnya" required><?= $nilai['ket_rekomendasi'] ?></textarea>
 						</div>
 						<div class="col-md-12 form-group">
-							<input type="submit" class="form-control btn btn-profil-flat" value="Simpan">
+							<input type="submit" class="form-control btn btn-profil-flat" value="Simpan" required>
 						</div>
 					</div>
 				</form>
