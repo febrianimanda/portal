@@ -51,9 +51,9 @@ class Rekruter_model extends CI_Model {
 	public function update_jumlah_ditugaskan($rekruter_id, $inc=true) {
 		$this->db->where('rekruter_id', $rekruter_id);
 		if($inc == true) {
-			$this->db->set('jumlah_ditugaskan','`jumlah`+1', FALSE);
+			$this->db->set('jumlah_ditugaskan','`jumlah_ditugaskan`+1', FALSE);
 		} else {
-			$this->db->set('jumlah_ditugaskan','`jumlah`-1', FALSE);
+			$this->db->set('jumlah_ditugaskan','`jumlah_ditugaskan`-1', FALSE);
 		}
 		$query = $this->db->update($this->table);
 		return ($this->db->affected_rows() != 1) ? False : True;
@@ -62,9 +62,9 @@ class Rekruter_model extends CI_Model {
 	public function update_jumlah_menilai($rekruter_id, $inc=true) {
 		$this->db->where('rekruter_id', $rekruter_id);
 		if($inc == true) {
-			$this->db->set('jumlah_menilai','`jumlah`+1', FALSE);
+			$this->db->set('jumlah_menilai','`jumlah_menilai`+1', FALSE);
 		} else {
-			$this->db->set('jumlah_menilai','`jumlah`-1', FALSE);
+			$this->db->set('jumlah_menilai','`jumlah_menilai`-1', FALSE);
 		}
 		$query = $this->db->update($this->table);
 		return ($this->db->affected_rows() != 1) ? False : True;
@@ -84,13 +84,6 @@ class Rekruter_model extends CI_Model {
 		return $query->result_array()[0]['jumlah_menilai'];
 	}
 
-	public function get_all_avg($rekruter_id) {
-		$this->db->select(array('avg_cv', 'avg_esai', 'avg_pencapaian', 'avg_berkas', 'avg_total'));
-		$this->db->where('rekruter_id', $rekruter_id);
-		$query = $this->db->get($this->table);
-		return $query->result_array()[0];
-	}
-
 	public function upgrade_as_koordinator($rekruter_id) {
 		$data = array(
 			'koor_id' 		=> 0,
@@ -101,8 +94,8 @@ class Rekruter_model extends CI_Model {
 		return ($this->db->affected_rows() != 1) ? $this->db->error() : True;
 	}
 
-	public $rekruter_column = array('rekruter_id', 'nama_rekruter', 'email', 'jumlah_ditugaskan', 'jumlah_menilai', 'avg_cv', 'avg_esai', 'avg_pencapaian', 'avg_berkas', 'avg_total', 'is_koor');
-	public $rekruter_column_order = array(null, 'rekruter_id', 'nama_rekruter', 'email', 'jumlah_ditugaskan', 'jumlah_menilai', 'avg_cv', 'avg_esai', 'avg_pencapaian', 'avg_berkas', 'avg_total', 'is_koor');
+	public $rekruter_column = array('rekruter_id', 'nama_rekruter', 'email', 'jumlah_ditugaskan', 'jumlah_menilai', 'is_koor');
+	public $rekruter_column_order = array(null, 'rekruter_id', 'nama_rekruter', 'email', 'jumlah_ditugaskan', 'jumlah_menilai', 'is_koor');
 	public $rekruter_column_search = array('email', 'nama_rekruter');
 	public $rekruter_order = array('nama_rekruter' => 'asc');
 

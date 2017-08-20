@@ -10,12 +10,7 @@
             <th>Nama</th>
             <th>Email</th>
             <th>Ditugaskan</th>
-            <th>Menilai</th>                    
-            <th>Avg. CV</th>
-            <th>Avg. Esai</th>
-            <th>Avg. Pencapaian</th>
-            <th>Avg. Berkas</th>
-            <th>Avg. Total</th>
+            <th>Menilai</th>
             <th>Koor</th>
           </tr>
         </thead>
@@ -28,12 +23,7 @@
             <th>Nama</th>
             <th>Email</th>
             <th>Ditugaskan</th>
-            <th>Menilai</th>                    
-            <th>Avg. CV</th>
-            <th>Avg. Esai</th>
-            <th>Avg. Pencapaian</th>
-            <th>Avg. Berkas</th>
-            <th>Avg. Total</th>
+            <th>Menilai</th>
             <th>Koor</th>                 
           </tr>
         </tfoot>
@@ -70,7 +60,7 @@
           }
         },
         {
-          "targets": [11],
+          "targets": [6],
           "render": function(data) {
             console.log(data);
             if(data == 0) return "No";

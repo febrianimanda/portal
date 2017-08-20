@@ -11,6 +11,12 @@ class Penilaian_model extends CI_Model {
 		return $query;
 	}
 
+	public function is_exist_penugasan($peserta_id) {
+		$this->db->where('peserta_id', $peserta_id);
+		$this->db->from($this->table);
+		return ($this->db->count_all_results() > 0) ? true : false;
+	}
+
 	public function create_penugasan($rekruter_id, $peserta_id) {
 		$data = array(
 			'peserta_id' 	=> $peserta_id,
@@ -20,10 +26,16 @@ class Penilaian_model extends CI_Model {
 		return ($this->db->affected_rows() != 1) ? $this->db->error() : True;
 	}
 
-	public function ubah_penugasan($peserta_id, $rekruter_id, $new_rekruter_id) {
+	public function get_rekruter_ditugaskan($peserta_id) {
+		$this->db->select('rekruter_id');
 		$this->db->where('peserta_id', $peserta_id);
-		$this->db->where('rekruter_id', $rekruter_id);
-		$this->db->set(array('rekruter_id' => $new_rekruter_id));
+		$query = $this->db->get($this->table);
+		return $query->result_array()[0]['rekruter_id'];
+	}
+
+	public function ubah_penugasan($rekruter_id, $peserta_id) {
+		$this->db->where('peserta_id', $peserta_id);
+		$this->db->set(array('rekruter_id' => $rekruter_id));
 		$this->db->update($this->table);
 		return ($this->db->affected_rows() != 1) ? $this->db->error() : True;
 	}

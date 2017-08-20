@@ -69,7 +69,7 @@ class Rekruter extends CI_Controller {
 		$data_rekruter = array(
 			'email' 				=> $_POST['email'],
 			'nama_rekruter'	=> $_POST['nama'],
-			'is_koor' 			=> ($_POST['role'] == 1) ? 1 : 0
+			'is_koor' 			=> ($_POST['role'] == 1) ? 0 : 1
 		);
 
 		unset($_POST['passconf'], $_POST['nama']);
@@ -224,27 +224,17 @@ class Rekruter extends CI_Controller {
 			$peserta_id = $this->peserta_model->get_id('username', $username);
 			$rekruter_id = $this->rekruter_model->get_id($this->session->userdata('email'));
 
-			$updated = $this->penilaian_model->udpate_nilai($peserta_id, $rekruter_id, $this->input->post());
+			$_POST['update_by'] = $rekruter_id;
+
+			$updated = $this->penilaian_model->update_nilai($peserta_id, $rekruter_id, $this->input->post());
 
 			if($updated) {
 				// inc jumlah menilai
 				$avg = $this->rekruter_model->get_all_avg($rekruter_id);
 				$jumlah_menilai = $this->rekruter_model->get_jumlah_menilai($rekruter_id);
-				$avg['avg_cv'] = (float($avg['avg_cv']) * float($jumlah_menilai)) + float($_POST['avg_cv']);
-				$avg['avg_esai'] = (float($avg['avg_esai']) * float($jumlah_menilai)) + float($_POST['avg_esai']);
-				$avg['avg_pencapaian'] = (float($avg['avg_pencapaian']) * float($jumlah_menilai)) + float($_POST['avg_pencapaian']);
-				$avg['avg_kelengkapan'] = (float($avg['avg_kelengkapan']) * float($jumlah_menilai)) + float($_POST['avg_kelengkapan']);
-
-				$new_avg['avg_cv'] = $avg['avg_cv'] / (float($jumlah_menilai) + 1);
-				$new_avg['avg_esai'] = $avg['avg_esai'] / (float($jumlah_menilai) + 1);
-				$new_avg['avg_pencapaian'] = $avg['avg_pencapaian'] / (float($jumlah_menilai) + 1);
-				$new_avg['avg_kelengkapan'] = $avg['avg_kelengkapan'] / (float($jumlah_menilai) + 1);
-
-				$this->rekruter_model->update_avg($rekruter_id, $new_avg);
 				$this->rekruter_model->update_jumlah_menilai($rekruter_id);
-
 			}
-			redirect('rekruter/nilai/'.$username, 'refresh');
+			redirect(site_url('rekruter/nilai/'.$username), 'refresh');
 		}
 	}
 
@@ -256,10 +246,24 @@ class Rekruter extends CI_Controller {
 		$capes = $this->input->post('capes');
 
 		foreach ($capes as $user) {
-			$this->penilaian_model->create_penugasan($rekruter_id, $user);
+			$exist = $this->penilaian_model->is_exist_penugasan($user);
+			if($exist) {
+				// get existed rekruter id
+				$existed_rekruter_id = $this->penilaian_model->get_rekruter_ditugaskan($user);
+				// decrease jumlah ditugaskan
+				$this->rekruter_model->update_jumlah_ditugaskan($existed_rekruter_id, false);
+
+				// update rekruter id in penugasan
+				$this->penilaian_model->ubah_penugasan($rekruter_id, $user);
+				$this->rekruter_model->update_jumlah_ditugaskan($rekruter_id);
+			} else {
+				// create penugasan
+				$this->penilaian_model->create_penugasan($rekruter_id, $user);
+				$this->rekruter_model->update_jumlah_ditugaskan($rekruter_id);
+			}
 		}
 
-		echo json_encode([true]);
+		echo json_encode(true);
 	}
 
 	public function peserta_list() {
@@ -325,11 +329,6 @@ class Rekruter extends CI_Controller {
 				$rekruters['email'],
 				$rekruters['jumlah_ditugaskan'],
 				$rekruters['jumlah_menilai'],
-				$rekruters['avg_cv'],
-				$rekruters['avg_esai'],
-				$rekruters['avg_pencapaian'],
-				$rekruters['avg_berkas'],
-				$rekruters['avg_total'],
 				$rekruters['is_koor']
 			);
 			$data[] = $row;
